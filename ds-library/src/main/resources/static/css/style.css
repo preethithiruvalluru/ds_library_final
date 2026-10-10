@@ -1,0 +1,182 @@
+/* ===== Theme (change colours here only) ===== */
+:root {
+  --primary: #1f4fd8;
+  --primary-dark: #163a9e;
+  --accent: #f59e0b;
+  --bg: #f4f6fb;
+  --surface: #ffffff;
+  --text: #1c2437;
+  --muted: #6b7794;
+  --border: #e1e6f0;
+  --radius: 14px;
+  --header-h: 64px;
+  --sidebar-w: 240px;
+  --shadow: 0 2px 10px rgba(25, 45, 100, .07);
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Segoe UI", system-ui, -apple-system, Roboto, Arial, sans-serif;
+  line-height: 1.55;
+}
+
+/* ===== Header ===== */
+.app-header {
+  position: fixed; inset: 0 0 auto 0; height: var(--header-h); z-index: 1030;
+  display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: center;
+  padding: 0 1rem; background: var(--surface); border-bottom: 1px solid var(--border);
+}
+.header-left { display: flex; align-items: center; gap: .6rem; }
+.header-right { display: flex; justify-content: flex-end; }
+.brand-logo { height: 42px; width: 42px; object-fit: contain; border-radius: 8px; }
+.site-title { margin: 0; font-size: 1.15rem; font-weight: 700; color: var(--primary-dark); text-align: center; letter-spacing: .3px; }
+.site-title small { display: block; font-size: .72rem; font-weight: 500; color: var(--muted); letter-spacing: 1px; }
+.menu-toggle { display: none; border: 0; background: none; font-size: 1.6rem; color: var(--text); padding: 0 .25rem; }
+
+/* ===== Sidebar ===== */
+.app-sidebar {
+  position: fixed; top: var(--header-h); bottom: 0; left: 0; width: var(--sidebar-w);
+  background: var(--surface); border-right: 1px solid var(--border);
+  padding: 1rem .75rem; overflow-y: auto; z-index: 1020;
+  transition: transform .25s ease;
+}
+.nav-item-link {
+  display: flex; align-items: center; gap: .75rem; padding: .7rem .9rem; margin-bottom: .25rem;
+  border-radius: 10px; color: var(--text); text-decoration: none; font-weight: 500;
+}
+.nav-item-link i { font-size: 1.15rem; color: var(--muted); }
+.nav-item-link:hover { background: #eef2fc; color: var(--primary); }
+.nav-item-link.active { background: var(--primary); color: #fff; }
+.nav-item-link.active i { color: #fff; }
+.sidebar-backdrop { display: none; }
+
+/* ===== Main content ===== */
+.app-main { margin-left: var(--sidebar-w); padding: calc(var(--header-h) + 1.5rem) 1.5rem 2rem; min-height: 100vh; }
+.page-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .75rem; margin-bottom: 1.25rem; }
+.page-head h2 { margin: 0; font-size: 1.5rem; font-weight: 700; }
+.page-head p { margin: 0; color: var(--muted); }
+
+/* ===== Cards ===== */
+.card-ds { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); padding: 1.1rem 1.25rem; height: 100%; }
+.card-ds h5 { font-size: 1rem; font-weight: 700; margin-bottom: .75rem; }
+.stat-card { display: flex; align-items: center; gap: 1rem; }
+.stat-icon { width: 50px; height: 50px; border-radius: 12px; display: grid; place-items: center; font-size: 1.5rem; background: #e8eefc; color: var(--primary); flex: none; }
+.stat-value { font-size: 1.7rem; font-weight: 700; line-height: 1.1; }
+.stat-label { color: var(--muted); font-size: .85rem; }
+.welcome-banner { background: linear-gradient(120deg, var(--primary), #4a7cf0); color: #fff; border-radius: var(--radius); padding: 1.5rem; }
+.welcome-banner h3 { margin: 0 0 .25rem; font-weight: 700; }
+.welcome-banner p { margin: 0; opacity: .9; }
+
+/* ===== Empty / loading states ===== */
+.empty-state { text-align: center; color: var(--muted); padding: 1.5rem 1rem; }
+.empty-state i { font-size: 2.2rem; display: block; margin-bottom: .4rem; opacity: .7; }
+.empty-state.big { padding: 3.5rem 1rem; }
+.toast-area { position: fixed; right: 1rem; bottom: 1rem; z-index: 2000; display: flex; flex-direction: column; gap: .5rem; }
+
+.btn-primary { --bs-btn-bg: var(--primary); --bs-btn-border-color: var(--primary); --bs-btn-hover-bg: var(--primary-dark); --bs-btn-hover-border-color: var(--primary-dark); }
+a:focus-visible, button:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+
+/* ===== Profile page ===== */
+.id-card { max-width: 560px; margin: 0 auto; background: var(--surface); border-radius: 18px; overflow: hidden; box-shadow: var(--shadow); border: 1px solid var(--border); }
+.id-card-top { background: linear-gradient(120deg, var(--primary), #4a7cf0); color: #fff; padding: 1.25rem; display: flex; align-items: center; gap: .75rem; }
+.id-photo { width: 110px; height: 130px; border-radius: 12px; object-fit: cover; background: #e9eef7; border: 3px solid #fff; margin: -2.5rem 1.25rem 0; position: relative; }
+.id-body { padding: 0 1.25rem 1.25rem; }
+.id-row { display: flex; justify-content: space-between; gap: 1rem; padding: .45rem 0; border-bottom: 1px dashed var(--border); }
+.id-row span:first-child { color: var(--muted); }
+
+/* ===== Responsive ===== */
+@media (max-width: 991.98px) {
+  .menu-toggle { display: block; }
+  .app-sidebar { transform: translateX(-100%); box-shadow: 4px 0 18px rgba(0,0,0,.12); }
+  .app-sidebar.open { transform: translateX(0); }
+  .sidebar-backdrop.show { display: block; position: fixed; inset: var(--header-h) 0 0 0; background: rgba(0,0,0,.35); z-index: 1010; }
+  .app-main { margin-left: 0; padding: calc(var(--header-h) + 1rem) 1rem 2rem; }
+}
+@media (max-width: 575.98px) {
+  .site-title { font-size: .9rem; }
+  .site-title small { display: none; }
+  .profile-btn .label { display: none; }
+}
+
+/* ===== Modules ===== */
+.subject-title { font-size: 1.1rem; font-weight: 700; color: var(--primary-dark); margin: .5rem 0 .75rem; padding-bottom: .35rem; border-bottom: 2px solid var(--border); }
+.section-label { font-size: .72rem; font-weight: 700; text-transform: uppercase; letter-spacing: .6px; color: var(--muted); margin: .6rem 0 .25rem; }
+.file-row { display: flex; align-items: center; justify-content: space-between; gap: .5rem; padding: .2rem 0; }
+.file-row .btn-link { text-decoration: none; min-width: 0; }
+
+/* ===== PDF reader ===== */
+body.pdf-open { overflow: hidden; }
+.pdf-viewer { position: fixed; inset: 0; z-index: 3000; display: flex; flex-direction: column; background: #20242e; }
+.pdf-bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .5rem; padding: .5rem .75rem; background: #12151c; color: #fff; }
+.pdf-title { font-weight: 600; flex: 1 1 140px; min-width: 0; }
+.pdf-controls { display: flex; align-items: center; gap: .35rem; flex-wrap: wrap; }
+.pdf-page { color: #fff; min-width: 5.5rem; text-align: center; font-size: .9rem; }
+.pdf-stage { position: relative; flex: 1; overflow: auto; display: flex; align-items: center; justify-content: center; padding: .75rem; }
+.pdf-zoom { width: 100%; height: 100%; max-width: 1200px; transform-origin: center center; transition: transform .15s; }
+.flipbook { margin: 0 auto; }
+.pdf-status { position: absolute; inset: 0; display: flex; flex-direction: column; gap: .75rem; align-items: center; justify-content: center; color: #fff; z-index: 2; }
+
+/* ===== Admin-only controls (hidden until logged in) ===== */
+body:not(.is-admin) .admin-only { display: none !important; }
+
+/* ===== Notes & dashboard lists ===== */
+.note-card { display: flex; flex-direction: column; }
+.note-title { cursor: pointer; font-size: 1.05rem; font-weight: 700; color: var(--primary-dark); }
+.note-title:hover { text-decoration: underline; }
+.note-preview { color: var(--text); white-space: pre-wrap; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 4; line-clamp: 4; -webkit-box-orient: vertical; margin-bottom: .5rem; }
+.note-full { white-space: pre-wrap; word-wrap: break-word; }
+.recent-list { list-style: none; padding: 0; margin: 0; }
+.recent-list li { padding: .4rem 0; border-bottom: 1px dashed var(--border); display: flex; flex-wrap: wrap; justify-content: space-between; gap: .25rem .75rem; }
+.recent-list li:last-child { border-bottom: 0; }
+
+/* ===== Experiments: code and output ===== */
+.code-block, .output-block { margin: 0 0 1rem; border: 1px solid var(--border); border-radius: 10px; overflow: auto; max-height: 420px; }
+.code-block code { display: block; padding: 1rem; font-family: Consolas, "Courier New", monospace; font-size: .88rem; white-space: pre; background: #f6f8fa; }
+.output-block { background: #111827; color: #e5e7eb; padding: 1rem; font-size: .88rem; white-space: pre-wrap; }
+.code-input { font-family: Consolas, "Courier New", monospace; font-size: .88rem; white-space: pre; tab-size: 4; }
+
+/* ===== Profile ===== */
+.profile-main { margin-left: 0; }
+.id-photo-empty { display: grid; place-items: center; font-size: 3.5rem; color: #9aa7c2; }
+.id-row a { word-break: break-all; }
+
+/* ===== Code editor ===== */
+.monaco-box { height: 55vh; min-height: 320px; overflow: hidden; }
+.console-box { min-height: 150px; max-height: 320px; margin-bottom: 0; }
+
+/* ===== GitHub repository cards ===== */
+.repo-card { border: 1px solid var(--border); border-radius: 10px; padding: .75rem .9rem; margin-bottom: .6rem; background: var(--surface); }
+.repo-card a { text-decoration: none; word-break: break-all; }
+.repo-section { max-width: 560px; margin: 1.5rem auto 0; }
+.repo-section h5 { font-size: 1rem; font-weight: 700; margin-bottom: .75rem; }
+
+/* ===== Long words, URLs and file names must wrap instead of stretching the page ===== */
+.app-main, .modal-body, .repo-card { overflow-wrap: anywhere; }
+.card-ds .d-flex > :first-child, .file-row > :first-child, .recent-list li > * { min-width: 0; }
+.btn-group, .btn-group-sm { flex-shrink: 0; }
+.id-row > span:last-child { min-width: 0; }
+.site-title { min-width: 0; }
+
+/* ===== Header on tablets and phones: logo and buttons keep their size, the title wraps in the space left ===== */
+@media (max-width: 991.98px) {
+  .app-header { grid-template-columns: auto minmax(0, 1fr) auto; gap: .5rem; }
+  .site-title { font-size: .95rem; line-height: 1.15; padding: 0 .25rem; }
+  .header-right { flex-wrap: nowrap; }
+}
+@media (max-width: 575.98px) {
+  .site-title { font-size: .78rem; letter-spacing: 0; }
+  .app-header { padding: 0 .5rem; }
+  .brand-logo { height: 34px; width: 34px; }
+}
+
+/* Dashboard number cards: keep words whole, shrink the icon a little on phones */
+.stat-label { overflow-wrap: normal; }
+@media (max-width: 575.98px) {
+  .stat-card { gap: .6rem; padding: .8rem; }
+  .stat-icon { width: 38px; height: 38px; font-size: 1.15rem; border-radius: 10px; }
+  .stat-label { font-size: .78rem; }
+  .stat-value { font-size: 1.4rem; }
+}
