@@ -7,7 +7,7 @@
   --primary-dark: #8f0f16;
   --primary-deep: #5e090e;
   --accent: #f0a020;
-  --bg: #ffffff;
+  --bg: #fffaf9;
   --surface: #ffffff;
   --text: #1d1b20;
   --muted: #6c6a75;
@@ -33,12 +33,12 @@ body {
   color: var(--text);
   font-family: "Plus Jakarta Sans", "Segoe UI", system-ui, -apple-system, Roboto, Arial, sans-serif;
   line-height: 1.55;
-  /* The illustration sits behind every page, centred, and stays put while the page scrolls. */
-  background-color: #ffffff;
-  background-image: url("../img/page-bg.jpg");
+  /* The artwork sits behind every page, fills the screen, and stays put while the page scrolls. */
+  background-color: #fffaf9;
+  background-image: url("../img/page-bg.svg");
   background-repeat: no-repeat;
   background-position: center center;
-  background-size: contain;
+  background-size: cover;
   background-attachment: fixed;
 }
 
