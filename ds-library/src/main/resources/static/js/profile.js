@@ -11,7 +11,6 @@
     const photo = p.photo
       ? `<img class="id-photo" src="/api/files/${encodeURIComponent(p.photo.fileId)}" alt="Profile photo of ${UI.escape(p.name || "student")}">`
       : `<div class="id-photo id-photo-empty" role="img" aria-label="No profile photo"><i class="bi bi-person-fill"></i></div>`;
-    const mentor = [p.mentorName, p.mentorDesignation].filter(Boolean).join(", ");
     const resume = p.resume
       ? `<button class="btn btn-sm btn-primary" data-resume><i class="bi bi-book"></i> View</button>
          <a class="btn btn-sm btn-outline-secondary" href="/api/files/${encodeURIComponent(p.resume.fileId)}?download=true"><i class="bi bi-download"></i></a>`
@@ -38,8 +37,7 @@
         <div class="id-body mt-3">
           ${row("Branch / Department", val(p.department))}
           ${row("Section", val(p.section))}
-          ${row("Mentor", mentor ? UI.escape(mentor) : val(""))}
-          ${row("Mentor email", p.mentorEmail ? link("mailto:" + p.mentorEmail, p.mentorEmail) : val(""))}
+          ${row("Mentor", val(p.mentorName))}
           ${row("Email", p.email ? link("mailto:" + p.email, p.email) : val(""))}
           ${row("GitHub", link(p.githubUrl))}
           ${row("LinkedIn", link(p.linkedinUrl))}
@@ -80,8 +78,6 @@
           <div class="col-12"><label class="form-label" for="p_college">College name</label>
             <input class="form-control" id="p_college" name="college" maxlength="150" value="${UI.escape(p.college)}"></div>
           ${text("mentorName", "Faculty / mentor name", p.mentorName, 'maxlength="100"')}
-          ${text("mentorDesignation", "Mentor designation", p.mentorDesignation, 'maxlength="100"')}
-          ${text("mentorEmail", "Mentor email", p.mentorEmail, 'type="email" maxlength="120"')}
           ${text("email", "Your email", p.email, 'type="email" maxlength="120"')}
           ${text("githubUrl", "GitHub profile URL", p.githubUrl, 'type="url" placeholder="https://github.com/username" pattern="^$|^https://github\\.com/[A-Za-z0-9_.\\-]+/?$"')}
           ${text("linkedinUrl", "LinkedIn profile URL", p.linkedinUrl, 'type="url" placeholder="https://www.linkedin.com/in/username" maxlength="200"')}
@@ -101,7 +97,7 @@
         if (photo && photo.size > 5 * 1048576) throw new Error("Photo is larger than 5 MB.");
         if (resume && resume.size > 25 * 1048576) throw new Error("Resume is larger than 25 MB.");
         const data = {};
-        ["name", "rollNumber", "department", "section", "college", "mentorName", "mentorDesignation", "mentorEmail", "email", "githubUrl", "linkedinUrl"]
+        ["name", "rollNumber", "department", "section", "college", "mentorName", "email", "githubUrl", "linkedinUrl"]
           .forEach(k => { data[k] = f[k].value; });
         data.skills = f.skills.value.split(",").map(s => s.trim()).filter(Boolean);
         await API.put("/api/profile", data);

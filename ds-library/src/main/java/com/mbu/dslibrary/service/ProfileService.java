@@ -34,8 +34,6 @@ public class ProfileService {
         p.setSection(clean(req.getSection()));
         p.setCollege(clean(req.getCollege()));
         p.setMentorName(clean(req.getMentorName()));
-        p.setMentorEmail(clean(req.getMentorEmail()));
-        p.setMentorDesignation(clean(req.getMentorDesignation()));
         p.setEmail(clean(req.getEmail()));
         p.setGithubUrl(clean(req.getGithubUrl()));
         p.setLinkedinUrl(clean(req.getLinkedinUrl()));

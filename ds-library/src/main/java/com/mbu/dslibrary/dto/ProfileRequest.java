@@ -26,13 +26,6 @@ public class ProfileRequest {
     @Size(max = 100, message = "Mentor name is too long (max 100)")
     private String mentorName;
 
-    @Pattern(regexp = "^$|^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$", message = "Mentor email is not valid")
-    @Size(max = 120, message = "Mentor email is too long")
-    private String mentorEmail;
-
-    @Size(max = 100, message = "Mentor designation is too long (max 100)")
-    private String mentorDesignation;
-
     @Pattern(regexp = "^$|^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$", message = "Email is not valid")
     @Size(max = 120, message = "Email is too long")
     private String email;
@@ -59,10 +52,6 @@ public class ProfileRequest {
     public void setCollege(String college) { this.college = college; }
     public String getMentorName() { return mentorName; }
     public void setMentorName(String mentorName) { this.mentorName = mentorName; }
-    public String getMentorEmail() { return mentorEmail; }
-    public void setMentorEmail(String mentorEmail) { this.mentorEmail = mentorEmail; }
-    public String getMentorDesignation() { return mentorDesignation; }
-    public void setMentorDesignation(String mentorDesignation) { this.mentorDesignation = mentorDesignation; }
     public String getEmail() { return email; }
     public void setEmail(String email) { this.email = email; }
     public String getGithubUrl() { return githubUrl; }

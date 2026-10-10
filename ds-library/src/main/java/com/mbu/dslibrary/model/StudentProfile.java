@@ -22,8 +22,6 @@ public class StudentProfile {
     private String section = "";
     private String college = "";
     private String mentorName = "";
-    private String mentorEmail = "";
-    private String mentorDesignation = "";
     private String email = "";
     private String githubUrl = "";
     private String linkedinUrl = "";
@@ -49,10 +47,6 @@ public class StudentProfile {
     public void setCollege(String college) { this.college = college; }
     public String getMentorName() { return mentorName; }
     public void setMentorName(String mentorName) { this.mentorName = mentorName; }
-    public String getMentorEmail() { return mentorEmail; }
-    public void setMentorEmail(String mentorEmail) { this.mentorEmail = mentorEmail; }
-    public String getMentorDesignation() { return mentorDesignation; }
-    public void setMentorDesignation(String mentorDesignation) { this.mentorDesignation = mentorDesignation; }
     public String getEmail() { return email; }
     public void setEmail(String email) { this.email = email; }
     public String getGithubUrl() { return githubUrl; }

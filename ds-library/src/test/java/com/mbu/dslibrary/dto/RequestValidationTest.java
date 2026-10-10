@@ -109,12 +109,10 @@ class RequestValidationTest {
         ProfileRequest p = new ProfileRequest();
         assertTrue(badFields(p).isEmpty(), "an empty profile is allowed (nothing invented)");
         p.setEmail("not-an-email");
-        p.setMentorEmail("also bad");
         p.setGithubUrl("https://evil.com/me");
         p.setLinkedinUrl("https://evil.com/in/me");
-        assertEquals(Set.of("email", "mentorEmail", "githubUrl", "linkedinUrl"), badFields(p));
+        assertEquals(Set.of("email", "githubUrl", "linkedinUrl"), badFields(p));
         p.setEmail("a@b.co");
-        p.setMentorEmail("m@b.co");
         p.setGithubUrl("https://github.com/octocat");
         p.setLinkedinUrl("https://www.linkedin.com/in/octo-cat");
         assertTrue(badFields(p).isEmpty());
