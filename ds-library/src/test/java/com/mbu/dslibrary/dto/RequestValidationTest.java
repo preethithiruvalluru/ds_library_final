@@ -119,6 +119,26 @@ class RequestValidationTest {
     }
 
     @Test
+    void toolPlaylistMustBeAYoutubePlaylistLink() {
+        ToolRequest t = new ToolRequest();
+        t.setName("Tool");
+        t.setCategory("Dev");
+        t.setOfficialUrl("https://example.com");
+        assertTrue(badFields(t).isEmpty(), "the playlist is optional");
+        for (String ok : List.of("", "https://www.youtube.com/playlist?list=PL-osiE80TeTt2d9bfVyTiXJA-UTHn6WwU", "https://youtube.com/playlist?list=PLqzoL9-eJTNDw71zWePXyHx3_cm_fMP8S")) {
+            t.setPlaylistUrl(ok);
+            assertTrue(badFields(t).isEmpty(), "should accept: " + ok);
+        }
+        for (String bad : List.of("https://www.youtube.com/watch?v=dQw4w9WgXcQ", "https://youtu.be/dQw4w9WgXcQ",
+                "https://evil.com/playlist?list=PLqzoL9-eJTNDw71zWePXyHx3_cm_fMP8S", "https://youtube.com.evil.com/playlist?list=PLqzoL9-eJTNDw71zWePXyHx3_cm_fMP8S",
+                "http://www.youtube.com/playlist?list=PLqzoL9-eJTNDw71zWePXyHx3_cm_fMP8S", "javascript:alert(1)",
+                "https://www.youtube.com/playlist?list=short", "https://www.youtube.com/playlist?list=PLqzoL9-eJTNDw71zWePXyHx3_cm_fMP8S&x=\"onclick=1")) {
+            t.setPlaylistUrl(bad);
+            assertEquals(Set.of("playlistUrl"), badFields(t), "should refuse: " + bad);
+        }
+    }
+
+    @Test
     void savedCodeRejectsUnknownLanguages() {
         SavedCodeRequest s = new SavedCodeRequest();
         s.setTitle("t");

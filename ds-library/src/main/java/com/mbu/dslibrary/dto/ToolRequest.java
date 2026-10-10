@@ -22,6 +22,10 @@ public class ToolRequest {
     @Size(max = 500, message = "Website link is too long")
     private String officialUrl;
 
+    @Pattern(regexp = "^$|^https://(www\\.)?youtube\\.com/playlist\\?list=[A-Za-z0-9_-]{10,60}$",
+            message = "Playlist must be a YouTube playlist link like https://www.youtube.com/playlist?list=...")
+    private String playlistUrl = "";
+
     @Pattern(regexp = "^$|^bi-[a-z0-9-]+$", message = "Icon must be a Bootstrap icon class like bi-database")
     private String icon;
 
@@ -33,6 +37,8 @@ public class ToolRequest {
     public void setDescription(String description) { this.description = description; }
     public String getOfficialUrl() { return officialUrl; }
     public void setOfficialUrl(String officialUrl) { this.officialUrl = officialUrl; }
+    public String getPlaylistUrl() { return playlistUrl; }
+    public void setPlaylistUrl(String playlistUrl) { this.playlistUrl = playlistUrl; }
     public String getIcon() { return icon; }
     public void setIcon(String icon) { this.icon = icon; }
 }

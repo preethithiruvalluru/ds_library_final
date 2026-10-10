@@ -16,6 +16,8 @@ public class Tool {
     private String category;
     private String description;
     private String officialUrl;
+    /** A YouTube playlist for learning the tool, like https://www.youtube.com/playlist?list=... (optional). */
+    private String playlistUrl = "";
     /** Optional Bootstrap Icons class such as "bi-database". Empty means "use the category icon". */
     private String icon;
     @CreatedDate
@@ -25,11 +27,12 @@ public class Tool {
 
     public Tool() {}
 
-    public Tool(String name, String category, String description, String officialUrl, String icon) {
+    public Tool(String name, String category, String description, String officialUrl, String playlistUrl, String icon) {
         this.name = name;
         this.category = category;
         this.description = description;
         this.officialUrl = officialUrl;
+        this.playlistUrl = playlistUrl;
         this.icon = icon;
     }
 
@@ -43,6 +46,8 @@ public class Tool {
     public void setDescription(String description) { this.description = description; }
     public String getOfficialUrl() { return officialUrl; }
     public void setOfficialUrl(String officialUrl) { this.officialUrl = officialUrl; }
+    public String getPlaylistUrl() { return playlistUrl; }
+    public void setPlaylistUrl(String playlistUrl) { this.playlistUrl = playlistUrl; }
     public String getIcon() { return icon; }
     public void setIcon(String icon) { this.icon = icon; }
     public Instant getCreatedAt() { return createdAt; }

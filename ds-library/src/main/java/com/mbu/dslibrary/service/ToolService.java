@@ -63,6 +63,7 @@ public class ToolService {
         t.setCategory(req.getCategory().trim());
         t.setDescription(req.getDescription() == null ? "" : req.getDescription().trim());
         t.setOfficialUrl(req.getOfficialUrl().trim());
+        t.setPlaylistUrl(req.getPlaylistUrl() == null ? "" : req.getPlaylistUrl().trim());
         t.setIcon(req.getIcon() == null ? "" : req.getIcon().trim());
     }
 }

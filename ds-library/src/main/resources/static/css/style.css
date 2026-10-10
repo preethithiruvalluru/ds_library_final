@@ -289,3 +289,11 @@ body.sidebar-collapsed .app-main { margin-left: 0; padding-left: 2rem; }
 /* ===== Keep headings crisp over the background illustration ===== */
 .page-head { background: rgba(255, 255, 255, .78); backdrop-filter: blur(6px); border-radius: 20px; padding: .85rem 1.2rem; }
 .subject-title { display: inline-block; background: rgba(255, 255, 255, .85); border-bottom: 0; border-radius: 999px; padding: .3rem 1rem; box-shadow: 0 2px 8px rgba(120, 20, 25, .08); }
+
+/* ===== YouTube playlist button on tool cards ===== */
+.btn-youtube {
+  --bs-btn-color: #fff; --bs-btn-bg: #e62117; --bs-btn-border-color: #e62117;
+  --bs-btn-hover-color: #fff; --bs-btn-hover-bg: #b81a12; --bs-btn-hover-border-color: #b81a12;
+  --bs-btn-active-color: #fff; --bs-btn-active-bg: #9c150f; --bs-btn-active-border-color: #9c150f;
+}
+.tool-card { display: flex; flex-direction: column; }
