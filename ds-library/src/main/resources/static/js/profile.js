@@ -27,8 +27,8 @@
       </div>
       <div class="id-card">
         <div class="id-card-top">
-          <img src="img/logo-placeholder.svg" alt="" width="40" height="40" class="rounded">
-          <div><strong>${UI.escape(p.college || "College name not set")}</strong><br><small>Student ID Card</small></div>
+          <img src="img/mbu-logo.png" alt="Mohan Babu University logo" class="id-logo">
+          <div><strong>${UI.escape(p.college || "Mohan Babu University")}</strong><br><small>Student ID Card</small></div>
         </div>
         <div class="d-flex align-items-start">
           ${photo}

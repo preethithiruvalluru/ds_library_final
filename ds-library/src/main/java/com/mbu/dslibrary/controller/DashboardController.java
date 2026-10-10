@@ -19,6 +19,7 @@ import com.mbu.dslibrary.model.StoredFile;
 import com.mbu.dslibrary.repository.ModuleRepository;
 import com.mbu.dslibrary.repository.NoteRepository;
 import com.mbu.dslibrary.repository.ResourceRepository;
+import com.mbu.dslibrary.repository.ToolRepository;
 
 /** Numbers and "recent" lists for the Home page, straight from the database. */
 @RestController
@@ -28,9 +29,11 @@ public class DashboardController {
     private final ModuleRepository modules;
     private final NoteRepository notes;
     private final ResourceRepository resources;
+    private final ToolRepository tools;
     private final MongoTemplate mongo;
 
-    public DashboardController(ModuleRepository modules, NoteRepository notes, ResourceRepository resources, MongoTemplate mongo) {
+    public DashboardController(ModuleRepository modules, NoteRepository notes, ResourceRepository resources, ToolRepository tools, MongoTemplate mongo) {
+        this.tools = tools;
         this.resources = resources;
         this.modules = modules;
         this.notes = notes;
@@ -44,6 +47,7 @@ public class DashboardController {
         counts.put("notes", notes.count());
         counts.put("experiments", mongo.getCollection("experiments").countDocuments());
         counts.put("resources", resources.count());
+        counts.put("tools", tools.count());
 
         List<Map<String, Object>> recentPdfs = new ArrayList<>();
         for (Module m : modules.findAll()) {

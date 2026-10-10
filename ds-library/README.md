@@ -90,6 +90,6 @@ size limits, SVG refusal), YouTube link parsing and GitHub link safety. They nev
 
 ## Replace the placeholders
 
-- College logo: replace `src/main/resources/static/img/logo-placeholder.svg` (keep the file name, or edit the two `<img>` tags in `index.html` and `profile.html`).
+- College logo: `src/main/resources/static/img/mbu-logo.png` was cut from a screenshot, so it is small. Replace it with the official high-resolution logo (a PNG, keeping the same file name) for a sharper result.
 - Your details: open **Profile**, then **Edit**. Nothing is pre-filled.
 - Your syllabus: log in and use **Modules**, then **Add Module**.
