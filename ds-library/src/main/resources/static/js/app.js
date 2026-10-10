@@ -1,29 +1,23 @@
 /* Menu routing: shows the section that matches the URL hash (#home, #notes, ...).
    Sections with real data (Views.xxx) load from the API; the others still show a placeholder layout.
-   The menu button in the header closes and opens the menu; the choice is remembered. */
+   The menu starts CLOSED every time the site is opened; the button in the header opens and closes it. */
 (function () {
-  const STORAGE_KEY = "dsl-menu";
   const toggle = document.getElementById("menuToggle");
 
-  function setCollapsed(collapsed, remember) {
+  function setCollapsed(collapsed) {
     document.body.classList.toggle("sidebar-collapsed", collapsed);
     toggle.setAttribute("aria-expanded", String(!collapsed));
     const label = collapsed ? "Open menu" : "Close menu";
     toggle.setAttribute("aria-label", label);
     toggle.title = label;
-    if (remember) {
-      try { localStorage.setItem(STORAGE_KEY, collapsed ? "closed" : "open"); } catch (e) { /* storage may be blocked */ }
-    }
   }
 
-  // Restore the last choice without playing the slide animation on page load.
-  let saved = null;
-  try { saved = localStorage.getItem(STORAGE_KEY); } catch (e) { /* storage may be blocked */ }
+  // Start closed, without playing the slide animation on page load.
   document.body.classList.add("no-anim");
-  setCollapsed(saved === "closed", false);
+  setCollapsed(true);
   requestAnimationFrame(() => requestAnimationFrame(() => document.body.classList.remove("no-anim")));
 
-  toggle.addEventListener("click", () => setCollapsed(!document.body.classList.contains("sidebar-collapsed"), true));
+  toggle.addEventListener("click", () => setCollapsed(!document.body.classList.contains("sidebar-collapsed")));
 
   /* Live totals shown as small badges in the menu (from /api/dashboard). A failure just leaves the badges as they were. */
   let countTimer;
