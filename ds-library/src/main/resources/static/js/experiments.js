@@ -31,7 +31,7 @@ Views.experiments = async function (el, isCurrent) {
 
   function shell() {
     el.innerHTML = UI.pageHead("Lab Experiments", "Aim, code, output and result for every experiment.",
-        `<button class="btn btn-primary admin-only" id="addExp"><i class="bi bi-plus-lg"></i> Add Experiment</button>`) + `
+        `<button class="btn btn-primary" id="addExp"><i class="bi bi-plus-lg"></i> Add Experiment</button>`) + `
       <div class="row g-2 mb-3">
         <div class="col-lg-6"><input class="form-control" id="fq" type="search" placeholder="Search number, title, aim or code..." aria-label="Search experiments" value="${UI.escape(filters.q)}"></div>
         <div class="col-6 col-lg-3"><select class="form-select" id="fmod" aria-label="Filter by module">${opts(modules.map(m => [m.id, `Module ${m.moduleNumber}: ${m.name}`]), filters.moduleId, "All modules")}</select></div>
@@ -55,7 +55,7 @@ Views.experiments = async function (el, isCurrent) {
           <div><span class="badge bg-primary mb-1">Exp ${UI.escape(x.experimentNumber)}</span>
             <span class="badge text-bg-light border mb-1">${UI.escape(LANGS[x.language] || x.language)}</span>
             <h5 class="mb-1 note-title" role="button" tabindex="0" data-view="${x.id}">${UI.escape(x.title)}</h5></div>
-          <div class="btn-group btn-group-sm admin-only">
+          <div class="btn-group btn-group-sm">
             <button class="btn btn-outline-primary" data-edit="${x.id}" aria-label="Edit experiment"><i class="bi bi-pencil"></i></button>
             <button class="btn btn-outline-danger" data-del="${x.id}" aria-label="Delete experiment"><i class="bi bi-trash"></i></button>
           </div></div>

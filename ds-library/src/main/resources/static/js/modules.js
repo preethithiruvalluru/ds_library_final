@@ -7,7 +7,7 @@ Views.modules = async function (el, isCurrent) {
     return `<div class="file-row">
       <button class="btn btn-link p-0 text-start text-truncate" data-open="${UI.escape(file.fileId)}" data-title="${UI.escape(file.title)}">
         <i class="bi bi-file-earmark-pdf text-danger"></i> ${UI.escape(file.title)} <small class="text-muted">(${mb} MB)</small></button>
-      <button class="btn btn-sm btn-outline-danger admin-only" data-del-file="${UI.escape(file.fileId)}" data-module="${UI.escape(moduleId)}" data-kind="${kind}"
+      <button class="btn btn-sm btn-outline-danger" data-del-file="${UI.escape(file.fileId)}" data-module="${UI.escape(moduleId)}" data-kind="${kind}"
         aria-label="Delete ${UI.escape(file.title)}"><i class="bi bi-trash"></i></button></div>`;
   }
 
@@ -20,22 +20,22 @@ Views.modules = async function (el, isCurrent) {
     return `<div class="col-md-6 col-xl-4"><div class="card-ds module-card">
       <div class="d-flex justify-content-between align-items-start gap-2 mb-2">
         <div><span class="badge bg-primary mb-1">Module ${m.moduleNumber}</span><h5 class="mb-0">${UI.escape(m.name)}</h5></div>
-        <div class="btn-group btn-group-sm admin-only">
+        <div class="btn-group btn-group-sm">
           <button class="btn btn-outline-primary" data-edit="${m.id}" aria-label="Edit module"><i class="bi bi-pencil"></i></button>
           <button class="btn btn-outline-danger" data-del="${m.id}" aria-label="Delete module"><i class="bi bi-trash"></i></button>
         </div></div>
       <p class="text-muted small mb-2">${UI.escape(m.description) || "No description."}</p>
       <div class="section-label">Syllabus</div>${syllabus}
-      <button class="btn btn-sm btn-outline-primary mt-1 mb-2 admin-only" data-up-syllabus="${m.id}"><i class="bi bi-upload"></i> ${m.syllabus ? "Replace" : "Upload"} syllabus</button>
+      <button class="btn btn-sm btn-outline-primary mt-1 mb-2" data-up-syllabus="${m.id}"><i class="bi bi-upload"></i> ${m.syllabus ? "Replace" : "Upload"} syllabus</button>
       <div class="section-label">Study material</div>${materials}
-      <button class="btn btn-sm btn-outline-primary mt-1 admin-only" data-up-material="${m.id}"><i class="bi bi-plus-lg"></i> Add material</button>
+      <button class="btn btn-sm btn-outline-primary mt-1" data-up-material="${m.id}"><i class="bi bi-plus-lg"></i> Add material</button>
     </div></div>`;
   }
 
   function draw() {
     if (!isCurrent()) return;
     const head = UI.pageHead("Modules", "Syllabus and study material, module by module.",
-      `<button class="btn btn-primary admin-only" id="addModule"><i class="bi bi-plus-lg"></i> Add Module</button>`);
+      `<button class="btn btn-primary" id="addModule"><i class="bi bi-plus-lg"></i> Add Module</button>`);
     let body;
     if (!modules.length) {
       body = `<div class="card-ds">${UI.empty("bi-collection", "No modules yet. Click “Add Module” to create your first one.", true)}</div>`;

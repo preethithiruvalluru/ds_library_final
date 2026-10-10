@@ -18,7 +18,7 @@ Views.tools = async function (el, isCurrent) {
 
   function shell(allCats) {
     el.innerHTML = UI.pageHead("Tools", "A directory of useful Data Science tools.",
-        `<button class="btn btn-primary admin-only" id="addTool"><i class="bi bi-plus-lg"></i> Add Tool</button>`) + `
+        `<button class="btn btn-primary" id="addTool"><i class="bi bi-plus-lg"></i> Add Tool</button>`) + `
       <div class="row g-2 mb-3">
         <div class="col-md-8"><input class="form-control" id="fq" type="search" placeholder="Search tools..." aria-label="Search tools" value="${UI.escape(filters.q)}"></div>
         <div class="col-md-4"><select class="form-select" id="fcat" aria-label="Filter by category"><option value="">All categories</option>
@@ -50,7 +50,7 @@ Views.tools = async function (el, isCurrent) {
             <div class="stat-icon"><i class="bi ${UI.escape(t.icon || CATEGORY_ICON[cat] || "bi-tools")}"></i></div>
             <div class="flex-grow-1"><h5 class="mb-1">${UI.escape(t.name)}</h5>
               <p class="text-muted small mb-2">${UI.escape(t.description) || "No description."}</p></div>
-            <div class="btn-group btn-group-sm admin-only">
+            <div class="btn-group btn-group-sm">
               <button class="btn btn-outline-primary" data-edit="${t.id}" aria-label="Edit ${UI.escape(t.name)}"><i class="bi bi-pencil"></i></button>
               <button class="btn btn-outline-danger" data-del="${t.id}" aria-label="Delete ${UI.escape(t.name)}"><i class="bi bi-trash"></i></button>
             </div></div>

@@ -30,7 +30,6 @@
 
   document.getElementById("menuToggle").addEventListener("click", () => setMenu(!sidebar.classList.contains("open")));
   backdrop.addEventListener("click", () => setMenu(false));
-  document.getElementById("authBtn").addEventListener("click", () => Auth.toggle());
   window.addEventListener("hashchange", render);
-  window.addEventListener("DOMContentLoaded", () => { Auth.apply(); render(); Auth.refresh(); });
+  window.addEventListener("DOMContentLoaded", render);
 })();

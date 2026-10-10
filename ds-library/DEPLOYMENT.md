@@ -2,6 +2,12 @@
 
 Three ways to run the portal, from simplest to "on the internet".
 
+> **There is no login.** Anyone who can open the site can add, change and delete modules, notes, experiments, resources,
+> the profile and uploaded files. That is fine on your own computer or a private network.
+> **If you put it on the internet, strangers can edit or wipe your content.** Only do that if you are comfortable with it
+> (for example a throw-away demo), keep regular backups, and never connect the code runner to a public site
+> (anyone could then run programs on that machine). If you later need a public read-only site, ask for a "view only" mode.
+
 ## 1. On your own computer (development)
 
 See `README.md`. You need JDK 17+, Maven and a MongoDB.
@@ -11,7 +17,6 @@ See `README.md`. You need JDK 17+, Maven and a MongoDB.
 Needs Docker Desktop running.
 
 ```powershell
-$env:ADMIN_PASSWORD = "choose-a-long-password"
 cd ds-library
 docker compose up --build
 ```
@@ -46,13 +51,10 @@ Because the `Dockerfile` is inside `ds-library`, tell the host to use **`ds-libr
 | Name | Value |
 |---|---|
 | `MONGODB_URI` | the Atlas connection string from step B |
-| `ADMIN_PASSWORD` | a long password only you know |
-| `COOKIE_SECURE` | `true` (the site is served over HTTPS) |
-| `FORWARD_HEADERS` | `native` |
 | `GITHUB_TOKEN` | optional, a read-only token |
 
 3. Deploy. When the log shows `Started DsLibraryApplication`, open the address Render gives you.
-4. Log in with **Admin login** (username `admin`) and add your content.
+4. Add your content.
 
 ### What to expect on a free host
 - The service goes to sleep after a period without visitors, so the first page after a break can take about a minute to load.
@@ -63,9 +65,8 @@ Because the `Dockerfile` is inside `ds-library`, tell the host to use **`ds-libr
 
 ## Before you share the link: checklist
 
-- [ ] `ADMIN_PASSWORD` is long (12+ characters) and not used anywhere else.
-- [ ] `COOKIE_SECURE=true` and the address starts with `https://`.
-- [ ] `FORWARD_HEADERS=native` on a proxied host, so the login attempt limit counts each visitor separately.
+- [ ] You understand that **anyone with the link can add, change and delete content** (there is no login). Share the link only with people you trust, or keep the site on your own computer.
+- [ ] The code runner is **not** connected to a public site.
 - [ ] The Atlas database user has a long random password; no secrets are in your GitHub repository.
 - [ ] You looked at the Profile page: everything on it (including emails) is **public**. Leave out anything you do not want strangers to read.
 - [ ] Atlas backups are on, or you run `mongodump` now and then (uploaded files live in the same database, in GridFS).
@@ -79,8 +80,6 @@ Push your changes to GitHub; the host rebuilds and redeploys. Data stays in Atla
 |---|---|
 | App starts but pages show "Cannot reach the server" or data errors | `MONGODB_URI` is wrong, or Atlas Network Access blocks the host. Check `/api/health` |
 | `/api/health` says database DOWN | Same as above. Check the password encoding and the cluster address |
-| Login works locally but not online | `COOKIE_SECURE=true` needs HTTPS. Open the `https://` address, not `http://` |
-| "Too many failed attempts" for everyone | Behind a proxy without `FORWARD_HEADERS=native` all visitors look like one address. Set it |
 | Upload fails with "too large" | PDFs are limited to 25 MB, images to 5 MB |
 | GitHub cards say "rate limit reached" | Set `GITHUB_TOKEN`, or wait. Results are cached for 10 minutes |
 | Editor will not load | The editor, PDF reader and Python load libraries from CDNs, so the visitor needs internet access |

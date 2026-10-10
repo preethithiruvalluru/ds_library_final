@@ -119,8 +119,6 @@ body.pdf-open { overflow: hidden; }
 .flipbook { margin: 0 auto; }
 .pdf-status { position: absolute; inset: 0; display: flex; flex-direction: column; gap: .75rem; align-items: center; justify-content: center; color: #fff; z-index: 2; }
 
-/* ===== Admin-only controls (hidden until logged in) ===== */
-body:not(.is-admin) .admin-only { display: none !important; }
 
 /* ===== Notes & dashboard lists ===== */
 .note-card { display: flex; flex-direction: column; }

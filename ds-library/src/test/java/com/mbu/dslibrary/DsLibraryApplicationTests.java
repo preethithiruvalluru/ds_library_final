@@ -9,10 +9,7 @@ import org.springframework.test.context.TestPropertySource;
  * so running the tests can never read or change your real data.
  */
 @SpringBootTest
-@TestPropertySource(properties = {
-        "spring.data.mongodb.uri=mongodb://localhost:1/test_unreachable?serverSelectionTimeoutMS=300",
-        "app.admin.password=test-only-password-123"
-})
+@TestPropertySource(properties = "spring.data.mongodb.uri=mongodb://localhost:1/test_unreachable?serverSelectionTimeoutMS=300")
 class DsLibraryApplicationTests {
     @Test
     void contextLoads() {

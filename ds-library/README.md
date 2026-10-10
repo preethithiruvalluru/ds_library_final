@@ -11,13 +11,11 @@ Libraries loaded from CDNs: PDF.js, StPageFlip, Monaco Editor, highlight.js, Pyo
 You need: JDK 17+, Maven, and MongoDB running on `localhost:27017` (or an Atlas address in `MONGODB_URI`).
 
 ```powershell
-$env:ADMIN_PASSWORD = "choose-a-long-password"
 cd ds-library
 mvn spring-boot:run
 ```
 
-Open http://localhost:8085. Anyone can read. To add, edit or delete, click **Admin login** (username `admin`).
-If you do not set `ADMIN_PASSWORD`, a random temporary password is printed in the console when the app starts.
+Open http://localhost:8085. **There is no login**: everyone who can open the site can add, change and delete content, so keep it on your own computer or a private network (see `DEPLOYMENT.md`).
 
 Prefer Docker? `docker compose up --build` starts the app together with its own MongoDB (see `DEPLOYMENT.md`).
 
@@ -26,12 +24,8 @@ Prefer Docker? `docker compose up --build` starts the app together with its own 
 | Variable | Needed? | Meaning |
 |---|---|---|
 | `MONGODB_URI` | for cloud | Database address. Default `mongodb://localhost:27017/dslibrary` |
-| `ADMIN_PASSWORD` | **yes** | Admin login password (use 10+ characters). Never commit it |
-| `ADMIN_USERNAME` | no | Default `admin` |
 | `PORT` | no | Default `8085` (hosts like Render set it for you) |
 | `GITHUB_TOKEN` | no | Read-only token; raises the GitHub rate limit from 60 to 5000 requests per hour |
-| `COOKIE_SECURE` | on HTTPS | Set `true` once the site is served over HTTPS |
-| `FORWARD_HEADERS` | behind a proxy | Set `native` on Render, nginx and similar, so each visitor is counted separately |
 | `RUNNER_URL`, `RUNNER_TOKEN` | optional | Connect the Docker code runner (see `../code-runner/README.md`) |
 
 `.env.example` lists them. Real secrets live only in your environment, never in the code.
@@ -43,7 +37,7 @@ ds-library/
 ├── pom.xml                       Maven dependencies
 ├── Dockerfile, docker-compose.yml
 ├── src/main/java/com/mbu/dslibrary/
-│   ├── config/                   SecurityConfig (login, CSRF, headers), MongoConfig, DataSeeder (starter tools)
+│   ├── config/                   MongoConfig, DataSeeder (starter tools), SecurityHeadersFilter (browser security headers)
 │   ├── model/                    MongoDB documents: Module, Note, Experiment, Tool, Resource, StudentProfile, SavedCode
 │   ├── dto/                      Request objects with validation rules
 │   ├── repository/               Spring Data interfaces
@@ -60,7 +54,7 @@ Uploaded PDFs, photos and images are stored in MongoDB GridFS, so they survive r
 
 ## Main API (all under `/api`)
 
-Reading (GET) is public. POST, PUT and DELETE need the admin login and a CSRF token (the website handles both).
+There is no login: every endpoint is open to anyone who can reach the site.
 
 | Area | Endpoints |
 |---|---|
@@ -72,10 +66,9 @@ Reading (GET) is public. POST, PUT and DELETE need the admin login and a CSRF to
 | Resources | `/resources?q=&type=&subject=&moduleId=&tag=`, `/resources/{id}/file` |
 | Profile | `/profile`, `/profile/photo`, `/profile/resume` |
 | Saved code | `/code` |
-| Run code | `GET /execute/languages`, `POST /execute` (Java, C, C++ via the code runner; admin only) |
+| Run code | `GET /execute/languages`, `POST /execute` (Java, C, C++ via the code runner) |
 | GitHub | `GET /github/repo?url=`, `GET /github/profile-repos` |
 | Files | `GET /files/{id}` and `?download=true` |
-| Auth | `POST /auth/login`, `POST /auth/logout`, `GET /auth/me` |
 | Health | `GET /health` |
 
 ## Tests
@@ -85,18 +78,18 @@ cd ds-library
 mvn test
 ```
 
-43 tests cover the login and CSRF rules, the login attempt limit, form validation, upload checks (PDF and image headers,
+38 tests cover open access and the browser security headers, form validation, upload checks (PDF and image headers,
 size limits, SVG refusal), YouTube link parsing and GitHub link safety. They never touch your real database.
 
 ## Code execution in short
 
 - **JavaScript and Python** run inside your own browser in an isolated worker (10 second limit, no network).
-- **Java, C and C++** run in a separate service (`../code-runner`) inside locked-down Docker containers. Admin login required.
+- **Java, C and C++** run in a separate service (`../code-runner`) inside locked-down Docker containers.
 - **R and SQL** can be written and saved but not run (no sandbox exists for them yet).
 - User code is never executed inside the Spring Boot application itself.
 
 ## Replace the placeholders
 
 - College logo: replace `src/main/resources/static/img/logo-placeholder.svg` (keep the file name, or edit the two `<img>` tags in `index.html` and `profile.html`).
-- Your details: log in as admin and open **Profile**, then **Edit**. Nothing is pre-filled.
+- Your details: open **Profile**, then **Edit**. Nothing is pre-filled.
 - Your syllabus: log in and use **Modules**, then **Add Module**.

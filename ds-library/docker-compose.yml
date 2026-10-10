@@ -1,5 +1,4 @@
 # Runs the whole portal (app + its own MongoDB) with one command:
-#   $env:ADMIN_PASSWORD = "a-long-password"
 #   docker compose up --build
 # Then open http://localhost:8085
 #
@@ -21,11 +20,7 @@ services:
       - "8085:8085"
     environment:
       MONGODB_URI: mongodb://mongo:27017/dslibrary
-      ADMIN_USERNAME: ${ADMIN_USERNAME:-admin}
-      ADMIN_PASSWORD: ${ADMIN_PASSWORD:?Set the ADMIN_PASSWORD environment variable first}
       GITHUB_TOKEN: ${GITHUB_TOKEN:-}
-      # Set to true when the site is served over HTTPS:
-      COOKIE_SECURE: ${COOKIE_SECURE:-false}
 
 volumes:
   mongo-data:

@@ -10,7 +10,7 @@ Views.notes = async function (el, isCurrent) {
 
   function shell() {
     el.innerHTML = UI.pageHead("Running Notes", "Write, search and organise your class notes.",
-        `<button class="btn btn-primary admin-only" id="addNote"><i class="bi bi-plus-lg"></i> New Note</button>`) + `
+        `<button class="btn btn-primary" id="addNote"><i class="bi bi-plus-lg"></i> New Note</button>`) + `
       <div class="row g-2 mb-3">
         <div class="col-lg-5"><input class="form-control" id="fq" type="search" placeholder="Search title, content or tags..." aria-label="Search notes" value="${UI.escape(filters.q)}"></div>
         <div class="col-6 col-lg-3"><select class="form-select" id="fmod" aria-label="Filter by module">${opts(modules.map(m => [m.id, `Module ${m.moduleNumber}: ${m.name}`]), filters.moduleId, "All modules")}</select></div>
@@ -33,7 +33,7 @@ Views.notes = async function (el, isCurrent) {
       <div class="col-md-6 col-xl-4"><div class="card-ds note-card">
         <div class="d-flex justify-content-between align-items-start gap-2">
           <h5 class="mb-1 note-title" role="button" tabindex="0" data-view="${n.id}">${UI.escape(n.title)}</h5>
-          <div class="btn-group btn-group-sm admin-only">
+          <div class="btn-group btn-group-sm">
             <button class="btn btn-outline-primary" data-edit="${n.id}" aria-label="Edit note"><i class="bi bi-pencil"></i></button>
             <button class="btn btn-outline-danger" data-del="${n.id}" aria-label="Delete note"><i class="bi bi-trash"></i></button>
           </div></div>

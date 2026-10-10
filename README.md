@@ -10,7 +10,6 @@ Two projects live here:
 Quick start (needs JDK 17+, Maven and MongoDB):
 
 ```powershell
-$env:ADMIN_PASSWORD = "choose-a-long-password"
 cd ds-library
 mvn spring-boot:run
 ```

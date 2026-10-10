@@ -1,4 +1,4 @@
-/* Student profile page: shows the ID card from /api/profile and lets the admin edit it. */
+/* Student profile page: shows the ID card from /api/profile and lets you edit it. */
 (function () {
   const content = document.getElementById("content");
   let p = null;
@@ -22,8 +22,8 @@
 
     content.innerHTML = `
       <div class="page-head" style="max-width:560px;margin-inline:auto">
-        <div><h2>Student Profile</h2><p>${p.name ? "Your student ID card." : "Nothing added yet. Log in as admin and click Edit to fill it in."}</p></div>
-        <button class="btn btn-primary admin-only" id="editProfile"><i class="bi bi-pencil"></i> Edit</button>
+        <div><h2>Student Profile</h2><p>${p.name ? "Your student ID card." : "Nothing added yet. Click Edit to fill it in."}</p></div>
+        <button class="btn btn-primary" id="editProfile"><i class="bi bi-pencil"></i> Edit</button>
       </div>
       <div class="id-card">
         <div class="id-card-top">
@@ -127,10 +127,8 @@
     if (e.target.closest("#editProfile")) edit();
     else if (e.target.closest("[data-resume]")) PdfViewer.open(p.resume.fileId, "Resume");
   });
-  document.getElementById("authBtn").addEventListener("click", () => Auth.toggle());
 
   async function init() {
-    Auth.apply();
     content.innerHTML = UI.loading();
     try {
       p = await API.get("/api/profile");
@@ -138,7 +136,6 @@
     } catch (err) {
       content.innerHTML = `<div class="alert alert-danger">${UI.escape(err.message)}</div>`;
     }
-    Auth.refresh();
   }
   init();
 })();

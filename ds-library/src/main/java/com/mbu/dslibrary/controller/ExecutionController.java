@@ -24,7 +24,7 @@ import jakarta.validation.constraints.Size;
 
 /**
  * Runs code through the separate code-runner service. This app never executes user code itself.
- * Only the languages the runner reports as ready can run. Running requires the admin login.
+ * Only the languages the runner reports as ready can run.
  */
 @RestController
 @RequestMapping("/api/execute")

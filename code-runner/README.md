@@ -38,12 +38,11 @@ In the terminal where you start `ds-library`, set the SAME token:
 ```powershell
 $env:RUNNER_URL = "http://localhost:8090"
 $env:RUNNER_TOKEN = "choose-a-long-random-secret-at-least-24-chars"
-$env:ADMIN_PASSWORD = "your-admin-password"
 cd ds-library
 mvn spring-boot:run
 ```
 
-Running code on the server requires the admin login. JavaScript and Python run in the browser and do not use this service.
+Anyone who can open the portal can run code through this service, so only connect it to a portal that is not public.
 
 ## Adding a language
 

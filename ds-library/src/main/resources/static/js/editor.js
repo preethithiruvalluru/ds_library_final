@@ -145,7 +145,7 @@
           <select class="form-select w-auto" id="lang">${Object.entries(LANGS).map(([k, v]) => `<option value="${k}">${v.label}</option>`).join("")}</select>
           <button class="btn btn-success" id="runBtn"><i class="bi bi-play-fill"></i> Run</button>
           <button class="btn btn-outline-secondary" id="stopBtn" disabled><i class="bi bi-stop-fill"></i> Stop</button>
-          <button class="btn btn-outline-primary admin-only" id="saveBtn"><i class="bi bi-save"></i> Save</button>
+          <button class="btn btn-outline-primary" id="saveBtn"><i class="bi bi-save"></i> Save</button>
           <button class="btn btn-outline-primary" id="loadBtn"><i class="bi bi-folder2-open"></i> Load</button>
           <button class="btn btn-outline-danger" id="clearBtn"><i class="bi bi-eraser"></i> Clear</button>
           <span class="text-muted small ms-auto" id="current"></span>
@@ -193,7 +193,7 @@
       if (mode === "browser") {
         $("runNote").innerHTML = `<i class="bi bi-shield-check"></i> ${l.label} runs <strong>inside your browser</strong> in an isolated worker (${RUN_LIMIT_MS / 1000}s limit, no network). Nothing is run on the server.`;
       } else if (mode === "server") {
-        $("runNote").innerHTML = `<i class="bi bi-shield-lock"></i> ${l.label} runs on the server inside a locked-down Docker container (no network, memory and time limits). <strong>Admin login is required.</strong>`;
+        $("runNote").innerHTML = `<i class="bi bi-shield-lock"></i> ${l.label} runs on the server inside a locked-down Docker container (no network, memory and time limits).`;
       } else {
         $("runNote").innerHTML = `<i class="bi bi-info-circle"></i> ${l.label} can be written and saved here, but <strong>cannot be run yet</strong>. ${UI.escape(serverMessage)}`;
       }
@@ -275,7 +275,6 @@
     async function runOnServer(code, stdin) {
       out.textContent = "";
       showError("");
-      if (!Auth.admin) { showError("Log in as admin to run this on the server."); return; }
       setRunning(true);
       try {
         const r = await API.post("/api/execute", { language: langKey, code, stdin });
@@ -334,7 +333,7 @@
               <div class="list-group-item d-flex justify-content-between align-items-center gap-2">
                 <button class="btn btn-link text-start p-0 flex-grow-1" data-load="${s.id}">
                   <strong>${UI.escape(s.title)}</strong><br><small class="text-muted">${UI.escape((LANGS[s.language] || {}).label || s.language)} · ${new Date(s.updatedAt).toLocaleString()}</small></button>
-                <button class="btn btn-sm btn-outline-danger admin-only" data-del="${s.id}" aria-label="Delete ${UI.escape(s.title)}"><i class="bi bi-trash"></i></button>
+                <button class="btn btn-sm btn-outline-danger" data-del="${s.id}" aria-label="Delete ${UI.escape(s.title)}"><i class="bi bi-trash"></i></button>
               </div>`).join("")}</div>`
           : UI.empty("bi-folder2-open", "No saved code yet.");
       };
