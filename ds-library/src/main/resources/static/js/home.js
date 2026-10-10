@@ -1,4 +1,5 @@
-/* Home dashboard: every number and list comes from the backend (/api/dashboard and /api/profile). */
+/* Home: welcome banner and the "recently added" lists. Everything comes from the backend.
+   Section links and the totals live in the menu (see app.js), not on this page. */
 Views.home = async function (el, isCurrent) {
   el.innerHTML = UI.loading();
   let d, profile = null;
@@ -9,23 +10,6 @@ Views.home = async function (el, isCurrent) {
     return;
   }
   if (!isCurrent()) return;
-
-  const n = (count, one, many) => `${count} ${count === 1 ? one : many}`;
-  const tiles = [
-    ["#modules", "bi-collection", "t-red", "Modules", n(d.counts.modules, "module", "modules"), "Syllabus and study PDFs"],
-    ["#notes", "bi-journal-text", "t-purple", "Running Notes", n(d.counts.notes, "note", "notes"), "Write and search your notes"],
-    ["#experiments", "bi-clipboard-data", "t-blue", "Lab Experiments", n(d.counts.experiments, "experiment", "experiments"), "Aim, code, output and result"],
-    ["#resources", "bi-link-45deg", "t-green", "Resources", n(d.counts.resources, "resource", "resources"), "PDFs, links and videos"],
-    ["#tools", "bi-tools", "t-amber", "Tools", n(d.counts.tools, "tool", "tools"), "Data Science tool directory"],
-    ["#editor", "bi-code-slash", "t-teal", "Code Editor", "", "Practice coding"]
-  ].map(([href, icon, color, title, count, sub]) => `
-    <div class="col-6 col-md-4"><a class="tile" href="${href}">
-      <i class="bi bi-arrow-right tile-arrow"></i>
-      <div class="tile-icon ${color}"><i class="bi ${icon}"></i></div>
-      <div class="tile-title">${title}</div>
-      ${count ? `<div class="tile-count">${count}</div>` : ""}
-      <div class="tile-sub">${sub}</div>
-    </a></div>`).join("");
 
   const date = (iso) => iso ? new Date(iso).toLocaleDateString() : "";
   const panel = (title, items, emptyIcon, emptyMsg) => `<div class="col-lg-4"><div class="card-ds"><h5>${title}</h5>
@@ -41,9 +25,8 @@ Views.home = async function (el, isCurrent) {
   el.innerHTML = `
     <div class="welcome-banner mb-4">
       <h3>${who}</h3>
-      <p>Everything for your DS lab and course is here: modules, notes, lab experiments, tools and resources.</p>
+      <p>Everything for your DS lab and course is here. Pick a section from the menu to get started.</p>
     </div>
-    <div class="row g-3 mb-4">${tiles}</div>
     <div class="row g-3">
       ${panel("Recently added notes", notes, "bi-journal", "No notes yet.")}
       ${panel("Recently added experiments", exps, "bi-clipboard-data", "No experiments yet.")}

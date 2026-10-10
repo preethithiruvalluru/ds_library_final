@@ -25,6 +25,21 @@
 
   toggle.addEventListener("click", () => setCollapsed(!document.body.classList.contains("sidebar-collapsed"), true));
 
+  /* Live totals shown as small badges in the menu (from /api/dashboard). A failure just leaves the badges as they were. */
+  let countTimer;
+  function refreshCounts() {
+    clearTimeout(countTimer);
+    countTimer = setTimeout(async () => {
+      try {
+        const d = await API.get("/api/dashboard");
+        document.querySelectorAll("[data-count]").forEach(b => {
+          const n = d.counts[b.dataset.count];
+          b.textContent = typeof n === "number" ? String(n) : "";
+        });
+      } catch (e) { /* ignore: the menu still works without the numbers */ }
+    }, 150);
+  }
+
   function render() {
     PdfViewer.close();
     const route = (location.hash || "#home").slice(1);
@@ -46,6 +61,7 @@
     window.scrollTo(0, 0);
   }
 
-  window.addEventListener("hashchange", render);
-  window.addEventListener("DOMContentLoaded", render);
+  window.addEventListener("hashchange", () => { render(); refreshCounts(); });
+  window.addEventListener("data-changed", refreshCounts);
+  window.addEventListener("DOMContentLoaded", () => { render(); refreshCounts(); });
 })();

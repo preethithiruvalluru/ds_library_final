@@ -15,7 +15,7 @@
   --radius: 22px;
   --header-h: 80px;
   --nav-h: 58px;
-  --sidebar-w: 232px;
+  --sidebar-w: 256px;
   --shadow: 0 8px 24px rgba(120, 20, 25, .08);
 
   /* Make Bootstrap's own "primary" colour crimson too (badges, links, spinners) */
@@ -111,7 +111,7 @@ a:focus-visible, button:focus-visible { outline: 3px solid var(--accent); outlin
 .card-ds h5 { font-size: 1.02rem; font-weight: 800; margin-bottom: .75rem; }
 .stat-icon { width: 50px; height: 50px; border-radius: 14px; display: grid; place-items: center; font-size: 1.5rem; background: #fde9eb; color: var(--primary); flex: none; }
 
-/* ===== Home: welcome banner and big tiles ===== */
+/* ===== Home: welcome banner ===== */
 .welcome-banner {
   position: relative; overflow: hidden; color: #fff; border-radius: 26px; padding: 1.8rem 1.7rem;
   background:
@@ -122,23 +122,10 @@ a:focus-visible, button:focus-visible { outline: 3px solid var(--accent); outlin
 .welcome-banner h3 { margin: 0 0 .4rem; font-weight: 800; font-size: 1.8rem; letter-spacing: -.3px; }
 .welcome-banner p { margin: 0; opacity: .93; font-size: 1.05rem; }
 
-.tile {
   position: relative; display: flex; flex-direction: column; height: 100%; padding: 1.15rem 1.2rem 1.2rem;
   background: var(--surface); border: 1px solid rgba(0, 0, 0, .03); border-radius: var(--radius); box-shadow: var(--shadow);
   text-decoration: none; color: var(--text); transition: transform .15s, box-shadow .15s;
 }
-.tile:hover { transform: translateY(-3px); box-shadow: 0 16px 32px rgba(120, 20, 25, .15); color: var(--text); }
-.tile-icon { width: 56px; height: 56px; border-radius: 17px; display: grid; place-items: center; font-size: 1.6rem; color: #fff; margin-bottom: .9rem; box-shadow: 0 8px 16px rgba(0, 0, 0, .2); }
-.tile-arrow { position: absolute; top: 1.2rem; right: 1.3rem; color: #8d8a96; font-size: 1.15rem; }
-.tile-title { font-weight: 800; font-size: 1.18rem; line-height: 1.2; }
-.tile-count { font-weight: 800; color: var(--primary); }
-.tile-sub { color: var(--muted); font-size: .92rem; margin-top: .15rem; }
-.t-red    { background: linear-gradient(135deg, #d6212d, #8f0f16); }
-.t-purple { background: linear-gradient(135deg, #9a6bff, #6a3de0); }
-.t-blue   { background: linear-gradient(135deg, #3b8bff, #1a56c8); }
-.t-green  { background: linear-gradient(135deg, #25ad63, #117a3d); }
-.t-amber  { background: linear-gradient(135deg, #ffb02e, #e07a0b); }
-.t-teal   { background: linear-gradient(135deg, #1fc6b3, #0e8f82); }
 
 /* ===== Empty / loading states ===== */
 .empty-state { text-align: center; color: var(--muted); padding: 1.5rem 1rem; }
@@ -210,7 +197,6 @@ body.pdf-open { overflow: hidden; }
 .card-ds .d-flex > :first-child, .file-row > :first-child, .recent-list li > * { min-width: 0; }
 .btn-group, .btn-group-sm { flex-shrink: 0; }
 .id-row > span:last-child { min-width: 0; }
-.tile-title, .tile-sub { overflow-wrap: normal; }
 
 /* ===== Tablets and phones: the menu becomes a scrolling maroon pill bar under the header ===== */
 @media (max-width: 991.98px) {
@@ -246,10 +232,6 @@ body.pdf-open { overflow: hidden; }
   .welcome-banner { padding: 1.4rem 1.2rem; border-radius: 22px; }
   .welcome-banner h3 { font-size: 1.35rem; }
   .welcome-banner p { font-size: .98rem; }
-  .tile { padding: 1rem 1rem 1.05rem; border-radius: 20px; }
-  .tile-icon { width: 50px; height: 50px; font-size: 1.4rem; border-radius: 15px; margin-bottom: .7rem; }
-  .tile-title { font-size: 1.05rem; }
-  .tile-sub { font-size: .85rem; }
 }
 
 /* The profile page has no menu bar, so it needs less space under the header on phones */
@@ -282,3 +264,13 @@ body.sidebar-collapsed .app-main { margin-left: 0; padding-left: 2rem; }
   .menu-toggle { width: 38px; height: 38px; font-size: 1.35rem; border-radius: 12px; }
   .header-left { gap: .4rem; }
 }
+
+/* ===== Totals shown as small badges inside the menu ===== */
+.nav-count {
+  margin-left: auto; min-width: 1.7rem; padding: .08rem .5rem; border-radius: 999px; text-align: center;
+  background: rgba(255, 255, 255, .2); color: #fff; font-size: .74rem; font-weight: 800; line-height: 1.5;
+}
+.nav-count:empty { display: none; }
+.nav-item-link.active .nav-count { background: #fde9eb; color: var(--primary); }
+@media (max-width: 991.98px) { .nav-count { display: none; } }   /* the phone menu bar stays clean */
+.nav-item-link { white-space: nowrap; gap: .7rem; }
