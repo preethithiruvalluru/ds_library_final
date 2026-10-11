@@ -9,13 +9,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.mbu.dslibrary.chat.ChatMatcher;
 import com.mbu.dslibrary.dto.ChatRequest;
 import com.mbu.dslibrary.service.ChatService;
 
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 
-/** The chat window talks to these two endpoints. The AI key never leaves the server. */
+/** The chat window talks to these two endpoints. Everything is answered on this server from a ready-made list. */
 @RestController
 @RequestMapping("/api/chat")
 public class ChatController {
@@ -26,18 +26,24 @@ public class ChatController {
         this.chat = chat;
     }
 
-    /** Tells the chat window whether the assistant is switched on (so it can say so honestly when it is not). */
+    /** Suggested first questions for the chat window. */
     @GetMapping("/status")
     public Map<String, Object> status() {
         Map<String, Object> body = new LinkedHashMap<>();
-        body.put("enabled", chat.enabled());
-        body.put("questionsPerHour", chat.perVisitorPerHour());
-        body.put("maxMessageChars", 2000);
+        body.put("enabled", true);
+        body.put("answers", chat.answerCount());
+        body.put("starters", chat.starters());
+        body.put("maxMessageChars", 300);
         return body;
     }
 
     @PostMapping
-    public Map<String, String> ask(@Valid @RequestBody ChatRequest request, HttpServletRequest http) {
-        return Map.of("reply", chat.ask(http.getRemoteAddr(), request.messages()));
+    public Map<String, Object> ask(@Valid @RequestBody ChatRequest request) {
+        ChatMatcher.Reply reply = chat.ask(request.message());
+        Map<String, Object> body = new LinkedHashMap<>();
+        body.put("reply", reply.text());
+        body.put("matched", reply.matched());
+        body.put("suggestions", reply.suggestions());
+        return body;
     }
 }

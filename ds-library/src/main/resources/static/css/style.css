@@ -327,7 +327,7 @@ body.sidebar-collapsed .app-main { margin-left: 0; padding-left: 2rem; }
 }
 .tool-card { display: flex; flex-direction: column; }
 
-/* ===== AI study assistant: floating button and chat window (bottom-right) ===== */
+/* ===== Study bot: floating button and chat window (bottom-right) ===== */
 .chat-fab {
   position: fixed; right: 22px; bottom: 22px; z-index: 1040; height: 62px; min-width: 62px; padding: 0 1.1rem 0 1rem;
   display: inline-flex; align-items: center; justify-content: center; gap: .55rem; border: 0; border-radius: 999px;
@@ -374,7 +374,10 @@ body.sidebar-collapsed .app-main { margin-left: 0; padding-left: 2rem; }
 .chat-assistant code { background: #f6f0ef; color: #8f0f16; padding: .05rem .35rem; border-radius: 6px; font-size: .88em; }
 .chat-code { background: #1f1416; color: #f1e6e7; border-radius: 12px; padding: .7rem .8rem; margin: 0 0 .5rem; overflow-x: auto; font-size: .84rem; max-width: 100%; }
 .chat-code code { background: none; color: inherit; padding: 0; white-space: pre; font-size: inherit; }
-.chat-notice { background: #fff6e5; border-color: #f7d99b; }
+.chat-notice, .chat-nomatch { background: #fff6e5; border-color: #f7d99b; }
+.chat-suggest { display: flex; flex-direction: column; align-items: flex-start; gap: .35rem; margin-top: .6rem; }
+.chat-suggest .chat-chip { border-radius: 14px; }
+.chat-assistant em { font-style: italic; }
 .chat-error { background: #fdecee; border-color: #f4b8bf; color: #8f0f16; }
 .chat-typing { display: flex; gap: 5px; padding: .8rem 1rem; }
 .chat-typing span { width: 8px; height: 8px; border-radius: 50%; background: #c8141c; opacity: .35; animation: chat-dot 1.2s infinite ease-in-out; }

@@ -26,10 +26,7 @@ Prefer Docker? `docker compose up --build` starts the app together with its own 
 | `MONGODB_URI` | for cloud | Database address. Default `mongodb://localhost:27017/dslibrary` |
 | `PORT` | no | Default `8085` (hosts like Render set it for you) |
 | `GITHUB_TOKEN` | no | Read-only token; raises the GitHub rate limit from 60 to 5000 requests per hour |
-| `ANTHROPIC_API_KEY` | for the AI assistant | Turns on the chat assistant in the bottom-right corner. Without it the chat says it is not set up |
-| `CHAT_MODEL` | no | Which Claude model answers (default `claude-opus-5-5`; `claude-haiku-5-5` is much cheaper) |
-| `CHAT_PER_VISITOR_PER_HOUR`, `CHAT_DAILY_LIMIT` | no | Question limits per visitor per hour (default 30) and for the whole site per day (default 500) |
-| `CHAT_COLLEGE_INFO_FILE` | no | Use your own college-information file instead of the built-in one |
+| `CHAT_KNOWLEDGE_DIR` | no | A folder of your own answer files (`*.md`) for the study bot; a file with the same name as a built-in one replaces it |
 | `RUNNER_URL`, `RUNNER_TOKEN` | optional | Connect the Docker code runner (see `../code-runner/README.md`) |
 
 `.env.example` lists them. Real secrets live only in your environment, never in the code.
@@ -82,8 +79,8 @@ cd ds-library
 mvn test
 ```
 
-57 tests cover open access and the browser security headers, form validation, upload checks (PDF and image headers,
-size limits, SVG refusal), YouTube link parsing, GitHub link safety, the AI assistant's limits and prompt safety. They never touch your real database or call the AI.
+73 tests cover open access and the browser security headers, form validation, upload checks (PDF and image headers,
+size limits, SVG refusal), YouTube link parsing, GitHub link safety, the study bot's word matching, spelling tolerance and answer-file reading. They never touch your real database.
 
 ## Code execution in short
 
@@ -98,13 +95,23 @@ size limits, SVG refusal), YouTube link parsing, GitHub link safety, the AI assi
 - Your details: open **Profile**, then **Edit**. Nothing is pre-filled.
 - Your syllabus: log in and use **Modules**, then **Add Module**.
 
-## AI study assistant
+## MBU Study Bot (offline)
 
-A round **Ask AI** button in the bottom-right corner opens a chat window that helps students with subject doubts
-(Python, SQL, statistics, machine learning, lab work...) and college questions.
+A round **Ask Bot** button in the bottom-right corner opens a chat window. A student types a question in their own words
+and the bot replies from a ready-made list of answers. It is **free, works offline and needs no API key**: it uses no AI,
+it only compares the words of the question with the stored answers (it forgives small spelling mistakes and short forms like "df" or "ml").
 
-- **Switch it on:** create an API key in the Anthropic Console and set `ANTHROPIC_API_KEY` before starting the app. The key stays on the server and never reaches the browser. Without a key the chat window says the assistant is not set up (it never makes up answers).
-- **College questions:** the assistant answers them ONLY from `src/main/resources/chat/college-info.md`. Fill that file with official details (departments, exam rules, contacts, timings), then restart. Anything not written there, it says it does not know.
-- **Subject doubts:** it also sees your modules and subjects from the portal, so its help matches your syllabus.
-- **Cost control:** there is no login, so each visitor is limited to 30 questions per hour and the whole site to 500 per day (change with `CHAT_PER_VISITOR_PER_HOUR` and `CHAT_DAILY_LIMIT`). Each answer costs a small amount of API credit; a cheaper model can be chosen with `CHAT_MODEL`.
-- **Privacy:** what a student types is sent to Anthropic to get an answer. The chat window reminds students not to share passwords or personal details.
+- **What it knows:** the answer files in `src/main/resources/chat/knowledge/` (Python, data analysis, SQL, statistics and machine learning, tools, this portal, the college, small talk).
+- **If it is not sure:** it asks "did you mean...?" with clickable questions. If nothing matches it says so honestly. It never invents an answer.
+- **Add your own answers:** write an entry in any `.md` file there:
+
+  ```
+  ## When is the Data Science lab?
+  keywords: lab timing, lab schedule, practical
+  questions: what time is the DS lab | lab timetable
+
+  The DS lab is on Tuesdays, 2 pm to 5 pm in Lab 3.
+  ```
+
+  The `keywords` line matters most: list the words students will use. Restart the app to load changes.
+- **College details:** the bot only knows the college facts you write. Fill `70-college.md` with official details (departments, exam rules, contacts, timings). To keep your own files outside the project, set `CHAT_KNOWLEDGE_DIR` to a folder; a file there with the same name as a built-in one replaces it.

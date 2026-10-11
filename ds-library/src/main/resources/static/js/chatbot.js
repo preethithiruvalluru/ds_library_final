@@ -1,24 +1,22 @@
-/* AI study assistant: a round button in the bottom-right corner that opens a chat window.
-   The question goes to our own server (/api/chat), which asks Claude. The API key never reaches the browser.
+/* MBU Study Bot: a round button in the bottom-right corner that opens a chat window.
+   It works offline from a ready-made list of answers: the server compares the words of the question with the stored
+   answers (/api/chat). No AI and no API key are involved.
    Answers are shown through a small, safe formatter: all HTML is escaped first, so nothing in a reply can run as code. */
 (function () {
-  const STORAGE_KEY = "dsl-chat-v1";
-  const MAX_CHARS = 2000;
-  const MAX_SENT = 12;                       // how many recent messages are sent along for context
-  const GREETING = "Hi! I'm the MBU Study Assistant. Ask me a doubt about your subjects (Python, SQL, statistics, machine learning, lab work...) or a question about the college.";
-  const SUGGESTIONS = [
-    "Explain what a Pandas DataFrame is",
-    "What is overfitting in machine learning?",
-    "Help me understand SQL joins",
-    "What can you tell me about MBU?"
-  ];
+  const STORAGE_KEY = "dsl-chat-v2";
+  const MAX_CHARS = 300;
+  const GREETING = "Hi! I'm the MBU Study Bot. Type a doubt about your subjects (Python, SQL, statistics, machine learning, lab work...) or about this portal and the college, and I'll look for the answer.";
+  const FALLBACK_STARTERS = ["What is Python?", "What is overfitting?", "What are the types of SQL joins?", "What is MBU?"];
 
-  let history = [];       // [{role: "user"|"assistant", content}]
-  let status = null;      // {enabled: bool} once checked
+  let history = [];       // [{role: "user"|"assistant", content, suggestions?}]
+  let status = null;      // {enabled, answers, starters} once checked
   let busy = false;
 
-  try { history = JSON.parse(sessionStorage.getItem(STORAGE_KEY) || "[]").filter(m => m && (m.role === "user" || m.role === "assistant") && typeof m.content === "string"); }
-  catch (e) { history = []; }
+  try {
+    history = JSON.parse(sessionStorage.getItem(STORAGE_KEY) || "[]")
+      .filter(m => m && (m.role === "user" || m.role === "assistant") && typeof m.content === "string")
+      .map(m => ({ role: m.role, content: m.content, suggestions: Array.isArray(m.suggestions) ? m.suggestions.filter(s => typeof s === "string") : [] }));
+  } catch (e) { history = []; }
 
   /* ---------- safe formatting ---------- */
   function render(src) {
@@ -30,7 +28,7 @@
     text = UI.escape(text).replace(/`([^`\n]+)`/g, (_, code) => {
       inlines.push(`<code>${code}</code>`);
       return `\u0001${inlines.length - 1}\u0001`;
-    }).replace(/\*\*([^*\n]+)\*\*/g, "<strong>$1</strong>");
+    }).replace(/\*\*([^*\n]+)\*\*/g, "<strong>$1</strong>").replace(/(^|[\s(])\*([^*\n]+)\*(?=[\s).,!?]|$)/g, "$1<em>$2</em>");
 
     const out = [];
     let list = null, para = [];
@@ -57,21 +55,21 @@
   fab.type = "button";
   fab.className = "chat-fab";
   fab.id = "chatFab";
-  fab.setAttribute("aria-label", "Open the AI study assistant");
+  fab.setAttribute("aria-label", "Open the MBU Study Bot");
   fab.setAttribute("aria-expanded", "false");
   fab.setAttribute("aria-controls", "chatPanel");
-  fab.innerHTML = `<i class="bi bi-chat-dots-fill" aria-hidden="true"></i><span class="chat-fab-label">Ask AI</span>`;
+  fab.innerHTML = `<i class="bi bi-chat-dots-fill" aria-hidden="true"></i><span class="chat-fab-label">Ask Bot</span>`;
 
   const panel = document.createElement("section");
   panel.className = "chat-panel";
   panel.id = "chatPanel";
   panel.setAttribute("role", "dialog");
-  panel.setAttribute("aria-label", "AI study assistant");
+  panel.setAttribute("aria-label", "MBU Study Bot");
   panel.hidden = true;
   panel.innerHTML = `
     <header class="chat-head">
       <div class="chat-avatar" aria-hidden="true"><i class="bi bi-robot"></i></div>
-      <div class="chat-title"><strong>MBU Study Assistant</strong><small>Subject doubts &amp; college help</small></div>
+      <div class="chat-title"><strong>MBU Study Bot</strong><small>Subject doubts &amp; college help</small></div>
       <button type="button" class="chat-icon-btn" id="chatNew" aria-label="Start a new chat" title="New chat"><i class="bi bi-arrow-counterclockwise"></i></button>
       <button type="button" class="chat-icon-btn" id="chatClose" aria-label="Close the chat" title="Close"><i class="bi bi-x-lg"></i></button>
     </header>
@@ -82,7 +80,7 @@
       <textarea id="chatInput" rows="1" maxlength="${MAX_CHARS}" placeholder="Type your doubt here..."></textarea>
       <button type="submit" class="chat-send" id="chatSend" aria-label="Send"><i class="bi bi-send-fill"></i></button>
     </form>
-    <div class="chat-foot">AI can make mistakes, so check important facts. Never share passwords or personal details.</div>`;
+    <div class="chat-foot">Works offline from a ready-made list of answers. If it can't find one, try different words.</div>`;
   document.body.append(fab, panel);
 
   const body = panel.querySelector("#chatBody");
@@ -91,10 +89,25 @@
   const input = panel.querySelector("#chatInput");
   const sendBtn = panel.querySelector("#chatSend");
 
-  function bubble(role, content, extraClass) {
+  function chipButton(label) {
+    const b = document.createElement("button");
+    b.type = "button";
+    b.className = "chat-chip";
+    b.textContent = label;
+    b.addEventListener("click", () => send(label));
+    return b;
+  }
+
+  function bubble(role, content, extraClass, suggestions) {
     const el = document.createElement("div");
     el.className = `chat-msg chat-${role}${extraClass ? " " + extraClass : ""}`;
     if (role === "assistant") el.innerHTML = render(content); else el.textContent = content;
+    if (role === "assistant" && suggestions && suggestions.length) {
+      const box = document.createElement("div");
+      box.className = "chat-suggest";
+      suggestions.forEach(s => box.appendChild(chipButton(s)));
+      el.appendChild(box);
+    }
     body.appendChild(el);
     body.scrollTop = body.scrollHeight;
     return el;
@@ -107,25 +120,19 @@
   function drawAll() {
     body.innerHTML = "";
     bubble("assistant", GREETING);
-    history.forEach(m => bubble(m.role, m.content));
+    history.forEach((m, i) => bubble(m.role, m.content, "", i === history.length - 1 ? m.suggestions : null));
     if (status && !status.enabled) {
-      bubble("assistant", "The AI assistant is not switched on yet. The site owner needs to add an API key. You can still use the modules, notes, tools and resources.", "chat-notice");
+      bubble("assistant", "The study bot is not available right now. You can still use the modules, notes, tools and resources.", "chat-notice");
     }
     chips.innerHTML = "";
     if (!history.length && (!status || status.enabled)) {
-      SUGGESTIONS.forEach(s => {
-        const b = document.createElement("button");
-        b.type = "button";
-        b.className = "chat-chip";
-        b.textContent = s;
-        b.addEventListener("click", () => send(s));
-        chips.appendChild(b);
-      });
+      const starters = status && status.starters && status.starters.length ? status.starters : FALLBACK_STARTERS;
+      starters.slice(0, 6).forEach(s => chips.appendChild(chipButton(s)));
     }
     const off = !!status && !status.enabled;
     input.disabled = off;
     sendBtn.disabled = off || busy;
-    input.placeholder = off ? "The assistant is not available yet" : "Type your doubt here...";
+    input.placeholder = off ? "The bot is not available yet" : "Type your doubt here...";
   }
 
   async function loadStatus() {
@@ -150,32 +157,26 @@
     if (text.length > MAX_CHARS) { bubble("assistant", `That message is too long. Please keep it under ${MAX_CHARS} characters.`, "chat-error"); return; }
 
     chips.innerHTML = "";
-    history.push({ role: "user", content: text });
+    body.querySelectorAll(".chat-suggest").forEach(el => el.remove());   // old suggestions are replaced by the new reply's
+    history.push({ role: "user", content: text, suggestions: [] });
     bubble("user", text);
     input.value = "";
     autoGrow();
     setBusy(true);
-    const typing = document.createElement("div");
-    typing.className = "chat-msg chat-assistant chat-typing";
-    typing.setAttribute("aria-label", "The assistant is typing");
-    typing.innerHTML = "<span></span><span></span><span></span>";
-    body.appendChild(typing);
-    body.scrollTop = body.scrollHeight;
 
     try {
       const res = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ messages: history.slice(-MAX_SENT) })
+        body: JSON.stringify({ message: text })
       });
       let data = null;
       try { data = await res.json(); } catch (e) { /* no JSON body */ }
-      typing.remove();
       if (!res.ok) throw new Error((data && data.message) || `Something went wrong (${res.status}).`);
-      history.push({ role: "assistant", content: data.reply });
-      bubble("assistant", data.reply);
+      const suggestions = Array.isArray(data.suggestions) ? data.suggestions : [];
+      history.push({ role: "assistant", content: data.reply, suggestions });
+      bubble("assistant", data.reply, data.matched ? "" : "chat-nomatch", suggestions);
     } catch (err) {
-      typing.remove();
       history.pop();                          // the failed question is not kept, so asking again works
       const msg = err instanceof TypeError ? "I could not reach the server. Please check that the portal is running." : err.message;
       bubble("assistant", msg, "chat-error");
@@ -198,7 +199,7 @@
     panel.hidden = false;
     fab.classList.add("is-open");
     fab.setAttribute("aria-expanded", "true");
-    fab.setAttribute("aria-label", "Close the AI study assistant");
+    fab.setAttribute("aria-label", "Close the MBU Study Bot");
     if (status === null) { drawAll(); loadStatus(); } else { drawAll(); }
     setTimeout(() => { if (!input.disabled) input.focus(); }, 50);
   }
@@ -206,7 +207,7 @@
     panel.hidden = true;
     fab.classList.remove("is-open");
     fab.setAttribute("aria-expanded", "false");
-    fab.setAttribute("aria-label", "Open the AI study assistant");
+    fab.setAttribute("aria-label", "Open the MBU Study Bot");
     fab.focus();
   }
 

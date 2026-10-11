@@ -52,8 +52,7 @@ Because the `Dockerfile` is inside `ds-library`, tell the host to use **`ds-libr
 |---|---|
 | `MONGODB_URI` | the Atlas connection string from step B |
 | `GITHUB_TOKEN` | optional, a read-only token |
-| `ANTHROPIC_API_KEY` | optional: turns on the AI assistant (keep it secret; costs API credit) |
-| `CHAT_DAILY_LIMIT` | optional: the most AI questions the whole site accepts per day (default 500) |
+| `CHAT_KNOWLEDGE_DIR` | optional: folder with your own study-bot answer files (the bot itself is free and offline) |
 
 3. Deploy. When the log shows `Started DsLibraryApplication`, open the address Render gives you.
 4. Add your content.
@@ -69,7 +68,7 @@ Because the `Dockerfile` is inside `ds-library`, tell the host to use **`ds-libr
 
 - [ ] You understand that **anyone with the link can add, change and delete content** (there is no login). Share the link only with people you trust, or keep the site on your own computer.
 - [ ] The code runner is **not** connected to a public site.
-- [ ] If you turned on the AI assistant: your API key is only in the host's environment variables, `CHAT_DAILY_LIMIT` is set to something you are happy to pay for, and `college-info.md` contains only official information.
+- [ ] The study bot's `70-college.md` contains only official, correct college information.
 - [ ] The Atlas database user has a long random password; no secrets are in your GitHub repository.
 - [ ] You looked at the Profile page: everything on it (including emails) is **public**. Leave out anything you do not want strangers to read.
 - [ ] Atlas backups are on, or you run `mongodump` now and then (uploaded files live in the same database, in GridFS).
