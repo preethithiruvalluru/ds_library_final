@@ -1,4 +1,4 @@
-/* Animated page background: a drifting network of small connected nodes (a "data graph") in the MBU colours.
+/* Animated page background: a glowing network of connected nodes (a "data graph") with faint data symbols floating up in the MBU colours.
    - Sits behind everything (a fixed canvas, never blocks clicks).
    - Nodes near the mouse pointer link to it with gold lines.
    - Pauses while the tab is hidden, uses fewer nodes on small screens, and shows one still picture
@@ -14,7 +14,8 @@
 
   const CRIMSON = "179, 18, 31";
   const GOLD = "240, 160, 32";
-  let W = 0, H = 0, nodes = [], linkDist = 150, raf = 0, last = 0;
+  let W = 0, H = 0, nodes = [], glyphs = [], linkDist = 150, raf = 0, last = 0;
+  const GLYPHS = ["0", "1", "01", "10", "Σ", "μ", "σ", "β", "π", "∞", "</>", "{ }", "x²", "%", "≈", "∑"];
   const pointer = { x: -9999, y: -9999, active: false };
 
   function makeNode() {
@@ -25,6 +26,15 @@
       vx: Math.cos(angle) * speed, vy: Math.sin(angle) * speed,
       r: 1.6 + Math.random() * 2.4,
       gold: Math.random() < 0.18
+    };
+  }
+
+  function makeGlyph(anywhere) {
+    return {
+      x: Math.random() * W, y: anywhere ? Math.random() * H : H + 30,
+      vy: -(10 + Math.random() * 16), sway: Math.random() * Math.PI * 2, swaySpeed: 0.3 + Math.random() * 0.5,
+      size: 14 + Math.random() * 18, text: GLYPHS[Math.floor(Math.random() * GLYPHS.length)],
+      gold: Math.random() < 0.35, alpha: 0.10 + Math.random() * 0.14
     };
   }
 
@@ -39,11 +49,20 @@
     const wanted = Math.round(Math.min(95, Math.max(26, (W * H) / 13000)));
     while (nodes.length < wanted) nodes.push(makeNode());
     if (nodes.length > wanted) nodes.length = wanted;
+    const wantedGlyphs = W < 700 ? 8 : 16;
+    while (glyphs.length < wantedGlyphs) glyphs.push(makeGlyph(true));
+    if (glyphs.length > wantedGlyphs) glyphs.length = wantedGlyphs;
     nodes.forEach(n => { if (n.x > W) n.x = Math.random() * W; if (n.y > H) n.y = Math.random() * H; });
     if (reduceMotion) draw();
   }
 
   function step(dt) {
+    for (const g of glyphs) {
+      g.y += g.vy * dt;
+      g.sway += g.swaySpeed * dt;
+      g.x += Math.sin(g.sway) * 6 * dt;
+      if (g.y < -40) Object.assign(g, makeGlyph(false));
+    }
     for (const n of nodes) {
       n.x += n.vx * dt;
       n.y += n.vy * dt;
@@ -54,6 +73,12 @@
 
   function draw() {
     ctx.clearRect(0, 0, W, H);
+    ctx.textAlign = "center"; ctx.textBaseline = "middle";
+    for (const g of glyphs) {
+      ctx.font = `600 ${g.size.toFixed(0)}px Consolas, "Courier New", monospace`;
+      ctx.fillStyle = `rgba(${g.gold ? GOLD : CRIMSON}, ${g.alpha.toFixed(3)})`;
+      ctx.fillText(g.text, g.x, g.y);
+    }
     ctx.lineWidth = 1;
     for (let i = 0; i < nodes.length; i++) {
       const a = nodes[i];
@@ -77,7 +102,13 @@
       }
     }
     for (const n of nodes) {
-      ctx.fillStyle = `rgba(${n.gold ? GOLD : CRIMSON}, ${n.gold ? 0.75 : 0.5})`;
+      const rgb = n.gold ? GOLD : CRIMSON;
+      const halo = ctx.createRadialGradient(n.x, n.y, 0, n.x, n.y, n.r * 5);
+      halo.addColorStop(0, `rgba(${rgb}, ${n.gold ? 0.32 : 0.22})`);
+      halo.addColorStop(1, `rgba(${rgb}, 0)`);
+      ctx.fillStyle = halo;
+      ctx.beginPath(); ctx.arc(n.x, n.y, n.r * 5, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = `rgba(${rgb}, ${n.gold ? 0.85 : 0.6})`;
       ctx.beginPath(); ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2); ctx.fill();
     }
   }
