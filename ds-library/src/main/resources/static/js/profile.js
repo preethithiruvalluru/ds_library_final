@@ -16,8 +16,14 @@
          <a class="btn btn-sm btn-outline-secondary" href="/api/files/${encodeURIComponent(p.resume.fileId)}?download=true"><i class="bi bi-download"></i></a>`
       : val("");
     const skills = (p.skills || []).length
-      ? (p.skills || []).map(s => `<span class="badge text-bg-light border me-1 mb-1">${UI.escape(s)}</span>`).join("")
+      ? (p.skills || []).map(s => `<span class="id-skill">${UI.escape(s)}</span>`).join("")
       : val("");
+    const info = (icon, label, html) => `<div class="id-info"><i class="bi ${icon}"></i><div><small>${label}</small><div>${html}</div></div></div>`;
+    const social = [
+      p.email ? `<a class="id-social" href="mailto:${UI.escape(p.email)}"><i class="bi bi-envelope-fill"></i> Email</a>` : "",
+      p.githubUrl ? `<a class="id-social" href="${UI.escape(p.githubUrl)}" target="_blank" rel="noopener noreferrer"><i class="bi bi-github"></i> GitHub</a>` : "",
+      p.linkedinUrl ? `<a class="id-social" href="${UI.escape(p.linkedinUrl)}" target="_blank" rel="noopener noreferrer"><i class="bi bi-linkedin"></i> LinkedIn</a>` : ""
+    ].join("");
 
     content.innerHTML = `
       <div class="page-head" style="max-width:560px;margin-inline:auto">
@@ -27,23 +33,26 @@
       <div class="id-card">
         <div class="id-card-top">
           <img src="img/mbu-logo.png" alt="Mohan Babu University logo" class="id-logo">
-          <div><strong>${UI.escape(p.college || "Mohan Babu University")}</strong><br><small>Student ID Card</small></div>
+          <div class="id-college"><strong>${UI.escape(p.college || "Mohan Babu University")}</strong><small>Dream. Believe. Achieve.</small></div>
+          <span class="id-badge"><i class="bi bi-patch-check-fill"></i> Student ID</span>
         </div>
-        <div class="d-flex align-items-start">
-          ${photo}
-          <div class="pt-3 pe-3"><h4 class="mb-0">${p.name ? UI.escape(p.name) : `<span class="text-muted">Student name</span>`}</h4>
-            <span class="text-muted">Roll No: ${p.rollNumber ? UI.escape(p.rollNumber) : "—"}</span></div>
+        <div class="id-hero">
+          <div class="id-photo-wrap">${photo}</div>
+          <h3 class="id-name">${p.name ? UI.escape(p.name) : `<span class="text-muted">Student name</span>`}</h3>
+          <span class="id-roll"><i class="bi bi-upc-scan"></i> ${p.rollNumber ? UI.escape(p.rollNumber) : "Roll number not added"}</span>
+          ${p.department ? `<div class="id-dept">${UI.escape(p.department)}${p.section ? " · Section " + UI.escape(p.section) : ""}</div>` : ""}
         </div>
-        <div class="id-body mt-3">
-          ${row("Branch / Department", val(p.department))}
-          ${row("Section", val(p.section))}
-          ${row("Mentor", val(p.mentorName))}
-          ${row("Email", p.email ? link("mailto:" + p.email, p.email) : val(""))}
-          ${row("GitHub", link(p.githubUrl))}
-          ${row("LinkedIn", link(p.linkedinUrl))}
-          ${row("Resume", resume)}
-          <div class="id-row d-block"><span class="d-block mb-1">Skills</span><div>${skills}</div></div>
+        <div class="id-body">
+          <div class="id-grid">
+            ${info("bi-mortarboard-fill", "Branch / Department", val(p.department))}
+            ${info("bi-grid-3x3-gap-fill", "Section", val(p.section))}
+            ${info("bi-person-badge-fill", "Mentor", val(p.mentorName))}
+            ${info("bi-file-earmark-person-fill", "Resume", resume)}
+          </div>
+          ${social ? `<div class="id-socials">${social}</div>` : ""}
+          <div class="id-skills"><small>Skills</small><div>${skills}</div></div>
         </div>
+        <div class="id-foot"></div>
       </div>
       ${p.githubUrl ? `<div class="repo-section"><h5><i class="bi bi-github"></i> GitHub repositories</h5><div id="ghRepos"><span class="text-muted small">Loading from GitHub...</span></div></div>` : ""}`;
     if (p.githubUrl) loadRepos();
