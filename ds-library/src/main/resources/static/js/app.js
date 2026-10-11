@@ -34,17 +34,12 @@
     }, 150);
   }
 
-  /* The round profile button in the header shows your profile photo (a person icon until you add one). */
+  /* The round profile button in the header always shows the plain person icon (your photo is only on the ID card). */
   async function loadAvatar() {
     try {
       const p = await API.get("/api/profile");
-      if (!p.photo) return;
-      const img = document.getElementById("profileAvatar");
-      const icon = document.getElementById("profileAvatarIcon");
-      img.onload = () => { img.hidden = false; icon.hidden = true; };
-      img.src = "/api/files/" + encodeURIComponent(p.photo.fileId);
       if (p.name) document.getElementById("profileLink").title = p.name + " (my profile)";
-    } catch (e) { /* keep the person icon */ }
+    } catch (e) { /* keep the default title */ }
   }
 
   function render() {
