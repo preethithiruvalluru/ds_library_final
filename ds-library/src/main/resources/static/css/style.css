@@ -33,13 +33,42 @@ body {
   color: var(--text);
   font-family: "Plus Jakarta Sans", "Segoe UI", system-ui, -apple-system, Roboto, Arial, sans-serif;
   line-height: 1.55;
-  /* The artwork sits behind every page, fills the screen, and stays put while the page scrolls. */
+  /* Warm white base. The moving colour clouds (body::before / ::after) and the node network (js/background.js)
+     are drawn on top of it and behind the page content. */
   background-color: #fffaf9;
-  background-image: url("../img/page-bg.svg");
-  background-repeat: no-repeat;
-  background-position: center center;
-  background-size: cover;
-  background-attachment: fixed;
+}
+
+/* ===== Animated background: slowly drifting colour clouds (CSS only, no scripts) ===== */
+body::before, body::after {
+  content: ""; position: fixed; inset: -25%; z-index: -2; pointer-events: none; will-change: transform;
+}
+body::before {
+  background:
+    radial-gradient(38% 38% at 18% 22%, rgba(200, 20, 28, .20), transparent 70%),
+    radial-gradient(34% 34% at 82% 18%, rgba(240, 160, 32, .24), transparent 70%),
+    radial-gradient(40% 40% at 60% 85%, rgba(232, 112, 122, .18), transparent 70%);
+  animation: cloud-a 30s ease-in-out infinite alternate;
+}
+body::after {
+  background:
+    radial-gradient(36% 36% at 85% 70%, rgba(200, 20, 28, .14), transparent 70%),
+    radial-gradient(34% 34% at 12% 80%, rgba(240, 160, 32, .20), transparent 70%),
+    radial-gradient(30% 30% at 45% 12%, rgba(232, 112, 122, .12), transparent 70%);
+  animation: cloud-b 42s ease-in-out infinite alternate;
+}
+@keyframes cloud-a {
+  0%   { transform: translate3d(0, 0, 0) scale(1) rotate(0deg); }
+  50%  { transform: translate3d(4%, -3%, 0) scale(1.10) rotate(3deg); }
+  100% { transform: translate3d(-4%, 4%, 0) scale(1.04) rotate(-3deg); }
+}
+@keyframes cloud-b {
+  0%   { transform: translate3d(0, 0, 0) scale(1.05) rotate(0deg); }
+  50%  { transform: translate3d(-5%, 3%, 0) scale(1) rotate(-4deg); }
+  100% { transform: translate3d(4%, -4%, 0) scale(1.12) rotate(3deg); }
+}
+#bgCanvas { position: fixed; inset: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
+@media (prefers-reduced-motion: reduce) {
+  body::before, body::after { animation: none; }   /* a still picture for people who prefer no motion */
 }
 
 /* ===== Bootstrap pieces recoloured ===== */
