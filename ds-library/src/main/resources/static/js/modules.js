@@ -3,6 +3,7 @@
 Views.modules = async function (el, isCurrent) {
   let modules = [];
   let videos = {};            // moduleId -> [resource] (YouTube videos with a stored URL)
+  const openIds = new Set();   // module rows the student has opened
   const missing = new Set();  // fileIds whose stored file can not be found
 
   const fileUrl = (id) => `/api/files/${encodeURIComponent(id)}`;
@@ -30,25 +31,28 @@ Views.modules = async function (el, isCurrent) {
     </div>`;
   }
 
+  /* Each module is one row: an arrow and "Module N: Title". Click it to open the study material and videos. */
   function card(m) {
     const name = `Module ${m.moduleNumber}: ${m.name}`;
     const pdfs = [];
     if (m.syllabus) pdfs.push(pdfItem({ ...m.syllabus, title: "Syllabus" }, "Syllabus", name));
     (m.materials || []).forEach(f => pdfs.push(pdfItem(f, "Study material", name)));
     const vids = videos[m.id] || [];
-    return `<div class="col-12 col-xl-6"><div class="card-ds module-card">
-      <span class="badge bg-primary mb-1">Module ${m.moduleNumber}</span>
-      <h5 class="mb-1">${UI.escape(m.name)}</h5>
-      ${m.description ? `<p class="text-muted small mb-2">${UI.escape(m.description)}</p>` : ""}
-      <div class="section-label">PDF study material</div>
-      ${pdfs.join("") || `<div class="text-muted small">No PDF study material available yet.</div>`}
-      ${vids.length ? `<div class="section-label mt-3">YouTube videos</div>${vids.map(videoItem).join("")}` : ""}
-    </div></div>`;
+    const count = pdfs.length ? `<span class="module-count">${pdfs.length} PDF${pdfs.length === 1 ? "" : "s"}</span>` : "";
+    return `<details class="module-row" data-module="${UI.escape(m.id)}"${openIds.has(m.id) ? " open" : ""}>
+      <summary><span class="module-arrow" aria-hidden="true"></span><span class="module-name">Module ${m.moduleNumber}: ${UI.escape(m.name)}</span>${count}</summary>
+      <div class="module-body">
+        ${m.description ? `<p class="text-muted small mb-2">${UI.escape(m.description)}</p>` : ""}
+        <div class="section-label">PDF study material</div>
+        ${pdfs.join("") || `<div class="text-muted small">No PDF study material available yet.</div>`}
+        ${vids.length ? `<div class="section-label mt-3">YouTube videos</div>${vids.map(videoItem).join("")}` : ""}
+      </div>
+    </details>`;
   }
 
   function draw() {
     if (!isCurrent()) return;
-    const head = UI.pageHead("Modules", "Study material and videos, module by module.");
+    const head = UI.pageHead("Modules", "Click a module to open its study material and videos.");
     let body;
     if (!modules.length) {
       body = `<div class="card-ds">${UI.empty("bi-collection", "No modules available yet.", true)}</div>`;
@@ -56,10 +60,15 @@ Views.modules = async function (el, isCurrent) {
       const bySubject = {};
       modules.forEach(m => (bySubject[m.subject] = bySubject[m.subject] || []).push(m));
       body = Object.entries(bySubject).map(([subject, list]) =>
-        `<h4 class="subject-title">${UI.escape(subject)}</h4><div class="row g-3 mb-4">${list.map(card).join("")}</div>`).join("");
+        `<h4 class="subject-title">${UI.escape(subject)}</h4><div class="module-list mb-4">${list.map(card).join("")}</div>`).join("");
     }
     el.innerHTML = head + body;
   }
+
+  el.addEventListener("toggle", (e) => {          // remember which rows are open, so a redraw keeps them open
+    const d = e.target;
+    if (d && d.classList && d.classList.contains("module-row")) { d.open ? openIds.add(d.dataset.module) : openIds.delete(d.dataset.module); }
+  }, true);
 
   /* One quick request asks which stored PDFs are gone; they then show "Unavailable". The page does not wait for it. */
   async function checkFiles() {
