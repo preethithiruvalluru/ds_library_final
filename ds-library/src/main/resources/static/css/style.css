@@ -38,27 +38,27 @@ body {
   background-color: #fffaf9;
 }
 
-/* ===== Animated background: a soft aurora of drifting colour, a faint dot grid, then the node network (js/background.js) ===== */
+/* ===== Animated background: a soft light-blue aurora of drifting colour, a faint dot grid, then the node network (js/background.js) ===== */
 body {
-  background: linear-gradient(135deg, #fff7f3 0%, #ffeef0 38%, #fff3e0 70%, #fff9f2 100%) fixed;
+  background: linear-gradient(135deg, #f2f9ff 0%, #e6f3ff 38%, #eaf8fd 70%, #f5fbff 100%) fixed;
 }
 body::before, body::after {
   content: ""; position: fixed; inset: -25%; z-index: -2; pointer-events: none; will-change: transform;
 }
 body::before {
   background:
-    radial-gradient(34% 34% at 16% 20%, rgba(214, 33, 45, .30), transparent 70%),
-    radial-gradient(30% 30% at 84% 16%, rgba(255, 176, 46, .38), transparent 70%),
-    radial-gradient(38% 38% at 62% 88%, rgba(240, 110, 130, .28), transparent 70%),
-    radial-gradient(24% 24% at 40% 50%, rgba(255, 214, 150, .30), transparent 70%);
+    radial-gradient(34% 34% at 16% 20%, rgba(96, 182, 255, .34), transparent 70%),
+    radial-gradient(30% 30% at 84% 16%, rgba(140, 220, 255, .40), transparent 70%),
+    radial-gradient(38% 38% at 62% 88%, rgba(110, 170, 255, .30), transparent 70%),
+    radial-gradient(24% 24% at 40% 50%, rgba(190, 235, 255, .40), transparent 70%);
   animation: cloud-a 26s ease-in-out infinite alternate;
 }
 body::after {
   background:
-    radial-gradient(32% 32% at 88% 72%, rgba(190, 20, 40, .22), transparent 70%),
-    radial-gradient(30% 30% at 10% 82%, rgba(255, 170, 40, .30), transparent 70%),
-    radial-gradient(26% 26% at 48% 8%, rgba(235, 100, 125, .20), transparent 70%),
-    radial-gradient(22% 22% at 72% 45%, rgba(255, 200, 120, .22), transparent 70%);
+    radial-gradient(32% 32% at 88% 72%, rgba(80, 160, 245, .26), transparent 70%),
+    radial-gradient(30% 30% at 10% 82%, rgba(130, 215, 250, .34), transparent 70%),
+    radial-gradient(26% 26% at 48% 8%, rgba(120, 185, 255, .24), transparent 70%),
+    radial-gradient(22% 22% at 72% 45%, rgba(175, 230, 255, .30), transparent 70%);
   animation: cloud-b 38s ease-in-out infinite alternate;
 }
 @keyframes cloud-a {

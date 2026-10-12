@@ -12,8 +12,8 @@
   const ctx = canvas.getContext("2d");
   if (!ctx) return;
 
-  const CRIMSON = "179, 18, 31";
-  const GOLD = "240, 160, 32";
+  const CRIMSON = "46, 134, 222";   // sky blue (node and line colour)
+  const GOLD = "90, 200, 250";      // lighter cyan accent
   let W = 0, H = 0, nodes = [], glyphs = [], linkDist = 150, raf = 0, last = 0;
   const GLYPHS = ["0", "1", "01", "10", "Σ", "μ", "σ", "β", "π", "∞", "</>", "{ }", "x²", "%", "≈", "∑"];
   const pointer = { x: -9999, y: -9999, active: false };
