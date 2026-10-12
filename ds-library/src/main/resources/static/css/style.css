@@ -115,7 +115,7 @@ a:focus-visible, button:focus-visible { outline: 3px solid var(--accent); outlin
 }
 .header-left { display: flex; align-items: center; gap: .6rem; }
 .header-right { display: flex; justify-content: flex-end; }
-.brand-logo { height: 52px; width: auto; max-width: 130px; object-fit: contain; }
+.brand-logo { height: 48px; width: 48px; object-fit: contain; flex: none; border-radius: 12px; }
 .site-title { margin: 0; text-align: center; min-width: 0; font-size: 1.5rem; font-weight: 800; line-height: 1.15; color: var(--primary-dark); letter-spacing: -.2px; }
 .site-title small { display: block; margin-top: .25rem; font-size: .72rem; font-weight: 600; color: var(--muted); letter-spacing: .3em; text-transform: uppercase; }
 
@@ -217,7 +217,7 @@ body.pdf-open { overflow: hidden; }
     repeating-linear-gradient(135deg, rgba(255, 255, 255, .05) 0 2px, transparent 2px 14px),
     linear-gradient(135deg, #cf1722, #7a0c13);
 }
-.id-logo { height: 46px; width: auto; background: #fff; border-radius: 12px; padding: 3px 7px; box-shadow: 0 4px 10px rgba(0, 0, 0, .2); }
+.id-logo { height: 46px; width: 46px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0, 0, 0, .25); }
 .id-college { flex: 1; min-width: 0; line-height: 1.25; }
 .id-college strong { display: block; font-weight: 800; }
 .id-college small { opacity: .85; font-weight: 500; letter-spacing: .04em; }
@@ -259,7 +259,7 @@ body.pdf-open { overflow: hidden; }
 @media (max-width: 991.98px) {
   :root { --header-h: 72px; }
   .app-header { grid-template-columns: auto minmax(0, 1fr) auto; gap: .5rem; padding: 0 .85rem; }
-  .brand-logo { height: 42px; max-width: 100px; }
+  .brand-logo { height: 40px; width: 40px; }
   .site-title { font-size: 1.12rem; padding: 0 .25rem; }
   .site-title small { font-size: .6rem; letter-spacing: .22em; }
   .header-right { flex-wrap: nowrap; }
@@ -280,7 +280,7 @@ body.pdf-open { overflow: hidden; }
 @media (max-width: 575.98px) {
   :root { --header-h: 66px; }
   .app-header { padding: 0 .55rem; }
-  .brand-logo { height: 36px; max-width: 78px; }
+  .brand-logo { height: 34px; width: 34px; }
   .site-title { font-size: .86rem; line-height: 1.12; }
   .site-title small { font-size: .5rem; letter-spacing: .16em; margin-top: .15rem; }
   .page-head h2 { font-size: 1.45rem; }

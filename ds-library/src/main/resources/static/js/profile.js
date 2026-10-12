@@ -32,7 +32,7 @@
       </div>
       <div class="id-card">
         <div class="id-card-top">
-          <img src="img/mbu-logo.png" alt="Mohan Babu University logo" class="id-logo">
+          <img src="img/ds-logo.svg" alt="Data Science Digital Library logo" class="id-logo">
           <div class="id-college"><strong>${UI.escape(p.college || "Mohan Babu University")}</strong><small>Dream. Believe. Achieve.</small></div>
           <span class="id-badge"><i class="bi bi-patch-check-fill"></i> Student ID</span>
         </div>

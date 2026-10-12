@@ -91,7 +91,7 @@ size limits, SVG refusal), YouTube link parsing, GitHub link safety, the study b
 
 ## Replace the placeholders
 
-- College logo: `src/main/resources/static/img/mbu-logo.png` was cut from a screenshot, so it is small. Replace it with the official high-resolution logo (a PNG, keeping the same file name) for a sharper result.
+- Logo: `src/main/resources/static/img/ds-logo.svg` is the Data Science logo shown in the header and on the ID card. Replace the file (keeping the name) to change it.
 - Your details: open **Profile**, then **Edit**. Nothing is pre-filled.
 - Your syllabus: log in and use **Modules**, then **Add Module**.
 
