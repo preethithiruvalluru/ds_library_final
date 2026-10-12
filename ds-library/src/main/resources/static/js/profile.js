@@ -14,11 +14,7 @@
 
     /* ---- left: resume ---- */
     const resumeBlock = p.resume
-      ? `<div class="resume-actions">
-           <button type="button" class="btn btn-sm btn-primary" data-resume><i class="bi bi-book"></i> Open as book</button>
-           <a class="btn btn-sm btn-outline-primary" href="/api/files/${encodeURIComponent(p.resume.fileId)}?download=true"><i class="bi bi-download"></i> Download Resume</a>
-         </div>
-         <div class="resume-pages" id="resumePages" aria-label="Resume"><div class="text-muted small p-3">Loading resume...</div></div>`
+      ? `<div class="resume-pages" id="resumePages" aria-label="Resume"><div class="text-muted small p-3">Loading resume...</div></div>`
       : `<div class="resume-empty"><i class="bi bi-file-earmark-person"></i><p>No resume uploaded yet.</p><small>Use <strong>Edit</strong> to upload your resume (PDF).</small></div>`;
     const skills = (p.skills || []).map(s => `<span class="id-skill">${UI.escape(s)}</span>`).join("");
     const contacts = [
@@ -94,7 +90,7 @@
         await page.render({ canvasContext: canvas.getContext("2d"), viewport }).promise;
       }
     } catch (err) {
-      if (box) box.innerHTML = `<div class="text-muted small p-3"><i class="bi bi-info-circle"></i> The resume could not be shown here. Use <strong>Download Resume</strong>. (${UI.escape(err.message)})</div>`;
+      if (box) box.innerHTML = `<div class="text-muted small p-3"><i class="bi bi-info-circle"></i> The resume could not be shown here. Please try again later. (${UI.escape(err.message)})</div>`;
     }
   }
 
@@ -159,7 +155,6 @@
 
   content.addEventListener("click", (e) => {
     if (e.target.closest("#editProfile")) edit();
-    else if (e.target.closest("[data-resume]") && p && p.resume) PdfViewer.open(p.resume.fileId, "My Resume");   // page-flip book reader
   });
 
   async function init() {
