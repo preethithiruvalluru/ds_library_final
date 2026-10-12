@@ -1,5 +1,5 @@
 /* =====================================================================
-   Light blue look: sky and navy blues, cyan accent, white rounded cards.
+   Professional look: clean white surfaces, a calm blue, thin borders, small corner radius, no animation.
    Change the colours in :root only. Everything below uses these variables.
    ===================================================================== */
 :root {
@@ -33,47 +33,7 @@ body {
   color: var(--text);
   font-family: "Plus Jakarta Sans", "Segoe UI", system-ui, -apple-system, Roboto, Arial, sans-serif;
   line-height: 1.55;
-  /* Warm white base. The moving colour clouds (body::before / ::after) and the node network (js/background.js)
-     are drawn on top of it and behind the page content. */
   background-color: #f5faff;
-}
-
-/* ===== Animated background: a soft light-blue aurora of drifting colour, a faint dot grid, then the node network (js/background.js) ===== */
-body {
-  background: linear-gradient(135deg, #f2f9ff 0%, #e6f3ff 38%, #eaf8fd 70%, #f5fbff 100%) fixed;
-}
-body::before, body::after {
-  content: ""; position: fixed; inset: -25%; z-index: -2; pointer-events: none; will-change: transform;
-}
-body::before {
-  background:
-    radial-gradient(34% 34% at 16% 20%, rgba(96, 182, 255, .34), transparent 70%),
-    radial-gradient(30% 30% at 84% 16%, rgba(140, 220, 255, .40), transparent 70%),
-    radial-gradient(38% 38% at 62% 88%, rgba(110, 170, 255, .30), transparent 70%),
-    radial-gradient(24% 24% at 40% 50%, rgba(190, 235, 255, .40), transparent 70%);
-  animation: cloud-a 26s ease-in-out infinite alternate;
-}
-body::after {
-  background:
-    radial-gradient(32% 32% at 88% 72%, rgba(80, 160, 245, .26), transparent 70%),
-    radial-gradient(30% 30% at 10% 82%, rgba(130, 215, 250, .34), transparent 70%),
-    radial-gradient(26% 26% at 48% 8%, rgba(120, 185, 255, .24), transparent 70%),
-    radial-gradient(22% 22% at 72% 45%, rgba(175, 230, 255, .30), transparent 70%);
-  animation: cloud-b 38s ease-in-out infinite alternate;
-}
-@keyframes cloud-a {
-  0%   { transform: translate3d(0, 0, 0) scale(1) rotate(0deg); }
-  50%  { transform: translate3d(5%, -4%, 0) scale(1.14) rotate(4deg); }
-  100% { transform: translate3d(-5%, 5%, 0) scale(1.05) rotate(-4deg); }
-}
-@keyframes cloud-b {
-  0%   { transform: translate3d(0, 0, 0) scale(1.05) rotate(0deg); }
-  50%  { transform: translate3d(-6%, 4%, 0) scale(1) rotate(-5deg); }
-  100% { transform: translate3d(5%, -5%, 0) scale(1.14) rotate(4deg); }
-}
-#bgCanvas { position: fixed; -webkit-mask-image: none; inset: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
-@media (prefers-reduced-motion: reduce) {
-  body::before, body::after { animation: none; }   /* a still picture for people who prefer no motion */
 }
 
 /* ===== Bootstrap pieces recoloured ===== */
@@ -157,10 +117,6 @@ a:focus-visible, button:focus-visible { outline: 3px solid var(--accent); outlin
 .welcome-banner h3 { margin: 0 0 .4rem; font-weight: 800; font-size: 1.8rem; letter-spacing: -.3px; }
 .welcome-banner p { margin: 0; opacity: .93; font-size: 1.05rem; }
 
-  position: relative; display: flex; flex-direction: column; height: 100%; padding: 1.15rem 1.2rem 1.2rem;
-  background: var(--surface); border: 1px solid rgba(0, 0, 0, .03); border-radius: var(--radius); box-shadow: var(--shadow);
-  text-decoration: none; color: var(--text); transition: transform .15s, box-shadow .15s;
-}
 
 /* ===== Empty / loading states ===== */
 .empty-state { text-align: center; color: var(--muted); padding: 1.5rem 1rem; }
@@ -461,3 +417,115 @@ body.sidebar-collapsed .app-main { margin-left: 0; padding-left: 2rem; }
 .idc-field small { display: block; color: var(--muted); font-size: .7rem; text-transform: uppercase; letter-spacing: .06em; font-weight: 700; }
 .idc-field span { font-weight: 700; overflow-wrap: anywhere; }
 @media (max-width: 440px) { .idc-grid { grid-template-columns: 1fr; } }
+
+
+/* =====================================================================
+   PROFESSIONAL THEME: flat, quiet and clean (loaded last, so it refines everything above)
+   ===================================================================== */
+:root {
+  --primary: #1d6bb5; --primary-dark: #17558f; --primary-deep: #0f2a47;
+  --accent: #38a5e8;
+  --bg: #f4f6f9; --surface: #fff; --text: #1e2a3a; --muted: #5f6f82; --border: #e3e8ef;
+  --radius: 10px; --header-h: 64px;
+  --shadow: 0 1px 2px rgba(16, 40, 70, .06), 0 2px 8px rgba(16, 40, 70, .04);
+  --bs-primary: #1d6bb5; --bs-primary-rgb: 29, 107, 181; --bs-link-color: #1d6bb5; --bs-link-color-rgb: 29, 107, 181;
+}
+body { background: #f4f6f9; font-family: "Inter", "Segoe UI", system-ui, -apple-system, Roboto, Arial, sans-serif; line-height: 1.55; font-size: .97rem; }
+h1, h2, h3, h4, h5 { letter-spacing: 0; }
+
+/* buttons and forms */
+.btn { --bs-btn-border-radius: 8px; font-weight: 600; box-shadow: none; }
+.btn-primary { --bs-btn-bg: #1d6bb5; --bs-btn-border-color: #1d6bb5; --bs-btn-hover-bg: #17558f; --bs-btn-hover-border-color: #17558f; --bs-btn-active-bg: #124676; --bs-btn-active-border-color: #124676; --bs-btn-disabled-bg: #1d6bb5; --bs-btn-disabled-border-color: #1d6bb5; }
+.btn-outline-primary { --bs-btn-color: #1d6bb5; --bs-btn-border-color: #1d6bb5; --bs-btn-hover-bg: #1d6bb5; --bs-btn-hover-border-color: #1d6bb5; --bs-btn-active-bg: #17558f; --bs-btn-active-border-color: #17558f; --bs-btn-disabled-color: #1d6bb5; --bs-btn-disabled-border-color: #1d6bb5; }
+.form-control, .form-select { border-radius: 8px; border-color: #cfd8e3; }
+.form-control:focus, .form-select:focus { border-color: #1d6bb5; box-shadow: 0 0 0 .2rem rgba(29, 107, 181, .15); }
+.modal-content { border: 1px solid var(--border); border-radius: 12px; box-shadow: 0 16px 40px rgba(16, 40, 70, .2); }
+.modal-header .modal-title { font-weight: 700; color: var(--primary-deep); }
+.badge.bg-primary { background-color: #1d6bb5 !important; border-radius: 6px; font-weight: 600; }
+
+/* header: plain white bar with a thin line */
+.app-header { background: #fff; backdrop-filter: none; box-shadow: none; border-bottom: 1px solid var(--border); padding: 0 1.25rem; }
+.app-header::after { display: none; }
+.brand-logo { height: 40px; width: 40px; border-radius: 9px; }
+.site-title { font-size: 1.2rem; font-weight: 700; color: var(--primary-deep); letter-spacing: 0; }
+.site-title small { font-size: .66rem; font-weight: 600; letter-spacing: .16em; color: var(--muted); margin-top: .15rem; }
+.menu-toggle { width: 40px; height: 40px; border-radius: 8px; background: #fff; border: 1px solid var(--border); color: #3b4a5e; font-size: 1.35rem; }
+.menu-toggle:hover { background: #f0f4f9; }
+.profile-avatar { width: 40px; height: 40px; font-size: 1.35rem; background: #eef3f9; color: #4a5b70; border: 1px solid #cfd8e3; box-shadow: none; }
+.profile-avatar:hover { transform: none; background: #e3ebf5; color: var(--primary-dark); box-shadow: none; }
+
+/* menu: white panel, quiet links, clear active state */
+.app-sidebar { background: #fff; border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow); padding: .6rem; }
+.nav-item-link { border-radius: 8px; color: #3b4a5e; font-weight: 500; padding: .62rem .85rem; margin-bottom: .15rem; }
+.nav-item-link i { color: #7a8a9e; font-size: 1.05rem; }
+.nav-item-link:hover { background: #f0f4f9; color: var(--primary-deep); }
+.nav-item-link.active { background: #e8f1fb; color: var(--primary); box-shadow: inset 3px 0 0 var(--primary); font-weight: 600; }
+.nav-item-link.active i { color: var(--primary); }
+.nav-count { background: #eef2f7; color: #5f6f82; font-weight: 600; }
+.nav-item-link.active .nav-count { background: #d4e6f8; color: var(--primary-dark); }
+
+/* page headings and cards */
+.page-head { background: transparent; backdrop-filter: none; border-radius: 0; padding: 0 0 .85rem; border-bottom: 1px solid var(--border); margin-bottom: 1.25rem; }
+.page-head h2 { font-size: 1.5rem; font-weight: 700; color: var(--primary-deep); letter-spacing: 0; }
+.card-ds { border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); }
+.card-ds h5 { font-weight: 700; color: var(--primary-deep); }
+.subject-title { display: block; background: transparent; box-shadow: none; border-radius: 0; padding: 0 0 .4rem; border-bottom: 2px solid #d5e0ec; font-size: 1.05rem; font-weight: 700; color: var(--primary-deep); }
+.section-label { color: #6b7b8f; letter-spacing: .08em; }
+.stat-icon { border-radius: 8px; background: #e8f1fb; }
+.welcome-banner { border-radius: 12px; background: linear-gradient(120deg, #123a63 0%, #1d6bb5 100%); box-shadow: none; padding: 1.5rem 1.6rem; }
+.welcome-banner h3 { font-weight: 700; font-size: 1.55rem; letter-spacing: 0; }
+.welcome-banner p { font-size: 1rem; opacity: .9; }
+
+/* modules: PDF and video rows */
+.pdf-item, .video-item { border-radius: 8px; background: #f7f9fc; border: 1px solid var(--border); }
+.pdf-icon, .video-icon { border-radius: 8px; background: #1d6bb5; }
+.video-icon { background: #d62d20; }
+
+/* profile: resume and ID card */
+.resume-heading { font-weight: 700; color: var(--primary-deep); }
+.resume-file { border-radius: 8px; background: #f7f9fc; border-color: var(--border); }
+.resume-icon { border-radius: 8px; background: #1d6bb5; }
+.id-card { border-radius: 12px; box-shadow: var(--shadow); border: 1px solid var(--border); }
+.id-card-top { background: linear-gradient(120deg, #123a63, #1d6bb5); padding-bottom: 4rem; }
+.id-logo { border-radius: 8px; box-shadow: none; }
+.id-badge { border-radius: 6px; }
+.id-photo-wrap { background: #fff; padding: 4px; box-shadow: 0 2px 8px rgba(16, 40, 70, .2); }
+.id-name { font-weight: 700; color: var(--primary-deep); }
+.id-roll { border-radius: 6px; background: #e8f1fb; color: var(--primary-dark); }
+.idc-field, .id-info { border-radius: 8px; background: #f7f9fc; border-color: var(--border); }
+.id-info > i { border-radius: 8px; background: #1d6bb5; }
+.id-skill { border-radius: 6px; background: #eef3f9; color: #35506d; border: 1px solid #d5e0ec; font-weight: 500; }
+.id-social { border-radius: 8px; border: 1px solid #cfd8e3; color: var(--primary-dark); font-weight: 600; }
+.id-social:hover { background: #f0f4f9; transform: none; }
+.id-foot { height: 4px; background: #1d6bb5; }
+
+/* study bot: calm, no pulsing */
+.chat-fab { height: 52px; min-width: 52px; border-radius: 12px; background: #1d6bb5; box-shadow: 0 4px 14px rgba(16, 40, 70, .25); font-weight: 600; font-size: .95rem; }
+.chat-fab:hover { transform: none; background: #17558f; box-shadow: 0 6px 18px rgba(16, 40, 70, .3); }
+.chat-fab::after { display: none; }
+.chat-panel { border-radius: 12px; box-shadow: 0 12px 36px rgba(16, 40, 70, .25); border: 1px solid var(--border); animation: none; }
+.chat-head { background: #123a63; }
+.chat-avatar { border-radius: 8px; }
+.chat-icon-btn { border-radius: 8px; }
+.chat-msg { border-radius: 10px; }
+.chat-user { background: #1d6bb5; border-bottom-right-radius: 3px; }
+.chat-assistant { border-bottom-left-radius: 3px; box-shadow: none; }
+.chat-send { background: #1d6bb5; border-radius: 8px; width: 40px; height: 40px; }
+.chat-form textarea { border-radius: 8px; }
+.chat-chip { border-radius: 8px; border-color: #cfd8e3; color: var(--primary-dark); font-weight: 500; }
+.chat-chip:hover { background: #eef3f9; }
+.chat-suggest .chat-chip { border-radius: 8px; }
+.chat-typing span { animation: none; opacity: .5; }
+
+@media (max-width: 991.98px) {
+  :root { --header-h: 60px; }
+  .app-sidebar { background: #fff; border-radius: 10px; box-shadow: var(--shadow); }
+  .nav-item-link { border-radius: 8px; }
+  .nav-item-link.active { box-shadow: none; background: #e8f1fb; }
+  .site-title { font-size: 1.02rem; }
+}
+@media (max-width: 575.98px) {
+  :root { --header-h: 58px; }
+  .site-title { font-size: .84rem; }
+  .welcome-banner { border-radius: 10px; }
+}
