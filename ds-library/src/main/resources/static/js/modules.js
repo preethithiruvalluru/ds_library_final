@@ -18,7 +18,7 @@ Views.modules = async function (el, isCurrent) {
         <div class="pdf-meta">${UI.escape(moduleName)}${mb ? " · " + mb : ""}</div>
       </div>
       ${ok
-        ? `<a class="btn btn-sm btn-primary pdf-view" href="${fileUrl(file.fileId)}" target="_blank" rel="noopener noreferrer"><i class="bi bi-eye"></i> View PDF</a>`
+        ? `<button type="button" class="btn btn-sm btn-primary pdf-view" data-open="${UI.escape(file.fileId)}" data-title="${UI.escape(file.title || label)}"><i class="bi bi-book"></i> View PDF</button>`
         : `<span class="badge text-bg-light border pdf-view" title="The file could not be found">Unavailable</span>`}
     </div>`;
   }
@@ -64,6 +64,11 @@ Views.modules = async function (el, isCurrent) {
     }
     el.innerHTML = head + body;
   }
+
+  el.addEventListener("click", (e) => {
+    const b = e.target.closest("[data-open]");
+    if (b) PdfViewer.open(b.dataset.open, b.dataset.title);       // page-flip book reader
+  });
 
   el.addEventListener("toggle", (e) => {          // remember which rows are open, so a redraw keeps them open
     const d = e.target;

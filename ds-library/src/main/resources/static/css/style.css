@@ -588,3 +588,7 @@ body.sidebar-collapsed .app-footer { margin-left: 0; }
 .module-count { flex: none; font-size: .78rem; font-weight: 500; color: #6f2fd6; background: var(--lavender); border-radius: 999px; padding: .15rem .65rem; }
 .module-body { padding: 0 1.3rem 1.2rem 2.6rem; border-top: 1px solid var(--border); padding-top: 1rem; }
 @media (max-width: 575.98px) { .module-row summary { padding: .95rem 1rem; } .module-name { font-size: 1rem; } .module-body { padding-left: 1rem; padding-right: 1rem; } }
+
+/* page-flip reader colours to match the portal */
+.pdf-viewer { background: #1b1033; }
+.pdf-bar { background: #2b1458; }
