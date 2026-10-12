@@ -592,3 +592,8 @@ body.sidebar-collapsed .app-footer { margin-left: 0; }
 /* page-flip reader colours to match the portal */
 .pdf-viewer { background: #1b1033; }
 .pdf-bar { background: #2b1458; }
+
+/* ===== Profile: the resume is shown as full pages beside the ID card ===== */
+.resume-pages { margin-top: .75rem; background: #eee9f7; border-radius: 8px; padding: .6rem; display: flex; flex-direction: column; gap: .6rem; }
+.resume-page { display: block; width: 100%; height: auto; background: #fff; box-shadow: 0 1px 4px rgba(43, 20, 88, .25); }
+.profile-links .id-skills { margin-top: 0; }

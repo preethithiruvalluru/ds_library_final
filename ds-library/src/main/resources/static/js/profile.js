@@ -13,16 +13,12 @@
       : `<div class="id-photo id-photo-empty" role="img" aria-label="No profile photo"><i class="bi bi-person-fill"></i></div>`;
 
     /* ---- left: resume ---- */
-    const mb = p.resume && p.resume.size ? ` · ${(p.resume.size / 1048576).toFixed(1)} MB` : "";
     const resumeBlock = p.resume
-      ? `<div class="resume-file">
-           <div class="resume-icon" aria-hidden="true"><i class="bi bi-file-earmark-pdf-fill"></i></div>
-           <div class="resume-info"><strong>${UI.escape(p.resume.filename || "Resume.pdf")}</strong><small>PDF${mb}</small></div>
+      ? `<div class="resume-actions">
+           <button type="button" class="btn btn-sm btn-primary" data-resume><i class="bi bi-book"></i> Open as book</button>
+           <a class="btn btn-sm btn-outline-primary" href="/api/files/${encodeURIComponent(p.resume.fileId)}?download=true"><i class="bi bi-download"></i> Download Resume</a>
          </div>
-         <div class="resume-actions">
-           <button type="button" class="btn btn-primary" data-resume><i class="bi bi-book"></i> View Resume</button>
-           <a class="btn btn-outline-primary" href="/api/files/${encodeURIComponent(p.resume.fileId)}?download=true"><i class="bi bi-download"></i> Download Resume</a>
-         </div>`
+         <div class="resume-pages" id="resumePages" aria-label="Resume"><div class="text-muted small p-3">Loading resume...</div></div>`
       : `<div class="resume-empty"><i class="bi bi-file-earmark-person"></i><p>No resume uploaded yet.</p><small>Use <strong>Edit</strong> to upload your resume (PDF).</small></div>`;
     const skills = (p.skills || []).map(s => `<span class="id-skill">${UI.escape(s)}</span>`).join("");
     const contacts = [
@@ -32,6 +28,7 @@
     ].join("");
     const extra = (skills ? `<div class="id-skills"><small>Skills</small><div>${skills}</div></div>` : "")
       + (contacts ? `<div class="id-socials">${contacts}</div>` : "");
+    const aboutCard = extra ? `<div class="card-ds mt-3 profile-links">${extra}</div>` : "";
 
     /* ---- right: ID card (only fields that have a value) ---- */
     const field = (label, v) => v ? `<div class="idc-field"><small>${label}</small><span>${UI.escape(v)}</span></div>` : "";
@@ -50,7 +47,6 @@
           <div class="card-ds resume-card">
             <h4 id="resumeHead" class="resume-heading"><i class="bi bi-file-earmark-person-fill"></i> My Resume</h4>
             ${resumeBlock}
-            ${extra}
           </div>
         </section>
         <section class="profile-col-id" aria-label="Student ID card">
@@ -69,23 +65,36 @@
             </div>
             <div class="id-foot"></div>
           </div>
+          ${aboutCard}
         </section>
-      </div>
-      ${p.githubUrl ? `<div class="repo-section"><h5><i class="bi bi-github"></i> GitHub repositories</h5><div id="ghRepos"><span class="text-muted small">Loading from GitHub...</span></div></div>` : ""}`;
-    if (p.githubUrl) loadRepos();
+      </div>`;
+    if (p.resume) renderResume(p.resume.fileId);
   }
 
-  /* Public repositories of the GitHub account in the profile, fetched through our server. */
-  async function loadRepos() {
-    const box = document.getElementById("ghRepos");
+  /* Draws every page of the resume PDF straight into the page (PDF.js), sized to the column. */
+  async function renderResume(fileId) {
+    const box = document.getElementById("resumePages");
     try {
-      const r = await API.get("/api/github/profile-repos");
-      if (!document.getElementById("ghRepos")) return;
-      box.innerHTML = r.repositories.length
-        ? r.repositories.map(UI.repoCard).join("")
-        : `<span class="text-muted small">${UI.escape(r.username)} has no public repositories yet.</span>`;
+      await PdfViewer._loadLibs();
+      const doc = await window.pdfjsLib.getDocument({ url: `/api/files/${encodeURIComponent(fileId)}` }).promise;
+      if (!document.getElementById("resumePages")) return;
+      box.innerHTML = "";
+      const width = box.clientWidth || 600;
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      for (let n = 1; n <= Math.min(doc.numPages, 10); n++) {
+        const page = await doc.getPage(n);
+        const base = page.getViewport({ scale: 1 });
+        const viewport = page.getViewport({ scale: (width / base.width) * dpr });
+        const canvas = document.createElement("canvas");
+        canvas.className = "resume-page";
+        canvas.width = viewport.width;
+        canvas.height = viewport.height;
+        canvas.style.width = "100%";
+        box.appendChild(canvas);
+        await page.render({ canvasContext: canvas.getContext("2d"), viewport }).promise;
+      }
     } catch (err) {
-      if (box) box.innerHTML = `<span class="text-muted small"><i class="bi bi-info-circle"></i> Repositories are not available: ${UI.escape(err.message)}</span>`;
+      if (box) box.innerHTML = `<div class="text-muted small p-3"><i class="bi bi-info-circle"></i> The resume could not be shown here. Use <strong>Download Resume</strong>. (${UI.escape(err.message)})</div>`;
     }
   }
 
