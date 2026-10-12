@@ -20,6 +20,15 @@ public class ProfileRequest {
     @Size(max = 20, message = "Section is too long (max 20)")
     private String section;
 
+    @Size(max = 100, message = "Program is too long (max 100)")
+    private String program;
+
+    @Size(max = 30, message = "Academic year is too long (max 30)")
+    private String academicYear;
+
+    @Size(max = 30, message = "Semester is too long (max 30)")
+    private String semester;
+
     @Size(max = 150, message = "College name is too long (max 150)")
     private String college;
 
@@ -50,6 +59,12 @@ public class ProfileRequest {
     public void setSection(String section) { this.section = section; }
     public String getCollege() { return college; }
     public void setCollege(String college) { this.college = college; }
+    public String getProgram() { return program; }
+    public void setProgram(String program) { this.program = program; }
+    public String getAcademicYear() { return academicYear; }
+    public void setAcademicYear(String academicYear) { this.academicYear = academicYear; }
+    public String getSemester() { return semester; }
+    public void setSemester(String semester) { this.semester = semester; }
     public String getMentorName() { return mentorName; }
     public void setMentorName(String mentorName) { this.mentorName = mentorName; }
     public String getEmail() { return email; }

@@ -11,48 +11,65 @@
     const photo = p.photo
       ? `<img class="id-photo" src="/api/files/${encodeURIComponent(p.photo.fileId)}" alt="Profile photo of ${UI.escape(p.name || "student")}">`
       : `<div class="id-photo id-photo-empty" role="img" aria-label="No profile photo"><i class="bi bi-person-fill"></i></div>`;
-    const resume = p.resume
-      ? `<button class="btn btn-sm btn-primary" data-resume><i class="bi bi-book"></i> View</button>
-         <a class="btn btn-sm btn-outline-secondary" href="/api/files/${encodeURIComponent(p.resume.fileId)}?download=true"><i class="bi bi-download"></i></a>`
-      : val("");
-    const skills = (p.skills || []).length
-      ? (p.skills || []).map(s => `<span class="id-skill">${UI.escape(s)}</span>`).join("")
-      : val("");
-    const info = (icon, label, html) => `<div class="id-info"><i class="bi ${icon}"></i><div><small>${label}</small><div>${html}</div></div></div>`;
-    const social = [
-      p.email ? `<a class="id-social" href="mailto:${UI.escape(p.email)}"><i class="bi bi-envelope-fill"></i> Email</a>` : "",
+
+    /* ---- left: resume ---- */
+    const mb = p.resume && p.resume.size ? ` · ${(p.resume.size / 1048576).toFixed(1)} MB` : "";
+    const resumeBlock = p.resume
+      ? `<div class="resume-file">
+           <div class="resume-icon" aria-hidden="true"><i class="bi bi-file-earmark-pdf-fill"></i></div>
+           <div class="resume-info"><strong>${UI.escape(p.resume.filename || "Resume.pdf")}</strong><small>PDF${mb}</small></div>
+         </div>
+         <div class="resume-actions">
+           <a class="btn btn-primary" href="/api/files/${encodeURIComponent(p.resume.fileId)}" target="_blank" rel="noopener noreferrer"><i class="bi bi-eye"></i> View Resume</a>
+           <a class="btn btn-outline-primary" href="/api/files/${encodeURIComponent(p.resume.fileId)}?download=true"><i class="bi bi-download"></i> Download Resume</a>
+         </div>`
+      : `<div class="resume-empty"><i class="bi bi-file-earmark-person"></i><p>No resume uploaded yet.</p><small>Use <strong>Edit</strong> to upload your resume (PDF).</small></div>`;
+    const skills = (p.skills || []).map(s => `<span class="id-skill">${UI.escape(s)}</span>`).join("");
+    const contacts = [
+      p.email ? `<a class="id-social" href="mailto:${UI.escape(p.email)}"><i class="bi bi-envelope-fill"></i> ${UI.escape(p.email)}</a>` : "",
       p.githubUrl ? `<a class="id-social" href="${UI.escape(p.githubUrl)}" target="_blank" rel="noopener noreferrer"><i class="bi bi-github"></i> GitHub</a>` : "",
       p.linkedinUrl ? `<a class="id-social" href="${UI.escape(p.linkedinUrl)}" target="_blank" rel="noopener noreferrer"><i class="bi bi-linkedin"></i> LinkedIn</a>` : ""
     ].join("");
+    const extra = (skills ? `<div class="id-skills"><small>Skills</small><div>${skills}</div></div>` : "")
+      + (contacts ? `<div class="id-socials">${contacts}</div>` : "");
+
+    /* ---- right: ID card (only fields that have a value) ---- */
+    const field = (label, v) => v ? `<div class="idc-field"><small>${label}</small><span>${UI.escape(v)}</span></div>` : "";
+    const fields = [
+      field("Department", p.department), field("Program", p.program), field("Academic year", p.academicYear),
+      field("Semester", p.semester), field("Section", p.section)
+    ].join("");
 
     content.innerHTML = `
-      <div class="page-head" style="max-width:560px;margin-inline:auto">
-        <div><h2>Student Profile</h2><p>${p.name ? "Your student ID card." : "Nothing added yet. Click Edit to fill it in."}</p></div>
+      <div class="page-head profile-wide">
+        <div><h2>My Profile</h2><p>${p.name ? "Your resume and student ID card." : "Nothing added yet. Click Edit to fill it in."}</p></div>
         <button class="btn btn-primary" id="editProfile"><i class="bi bi-pencil"></i> Edit</button>
       </div>
-      <div class="id-card">
-        <div class="id-card-top">
-          <img src="img/ds-logo.svg" alt="Data Science Digital Library logo" class="id-logo">
-          <div class="id-college"><strong>${UI.escape(p.college || "Mohan Babu University")}</strong><small>Dream. Believe. Achieve.</small></div>
-          <span class="id-badge"><i class="bi bi-patch-check-fill"></i> Student ID</span>
-        </div>
-        <div class="id-hero">
-          <div class="id-photo-wrap">${photo}</div>
-          <h3 class="id-name">${p.name ? UI.escape(p.name) : `<span class="text-muted">Student name</span>`}</h3>
-          <span class="id-roll"><i class="bi bi-upc-scan"></i> ${p.rollNumber ? UI.escape(p.rollNumber) : "Roll number not added"}</span>
-          ${p.department ? `<div class="id-dept">${UI.escape(p.department)}${p.section ? " · Section " + UI.escape(p.section) : ""}</div>` : ""}
-        </div>
-        <div class="id-body">
-          <div class="id-grid">
-            ${info("bi-mortarboard-fill", "Branch / Department", val(p.department))}
-            ${info("bi-grid-3x3-gap-fill", "Section", val(p.section))}
-            ${info("bi-person-badge-fill", "Mentor", val(p.mentorName))}
-            ${info("bi-file-earmark-person-fill", "Resume", resume)}
+      <div class="profile-cols">
+        <section class="profile-col-resume" aria-labelledby="resumeHead">
+          <div class="card-ds resume-card">
+            <h4 id="resumeHead" class="resume-heading"><i class="bi bi-file-earmark-person-fill"></i> My Resume</h4>
+            ${resumeBlock}
+            ${extra}
           </div>
-          ${social ? `<div class="id-socials">${social}</div>` : ""}
-          <div class="id-skills"><small>Skills</small><div>${skills}</div></div>
-        </div>
-        <div class="id-foot"></div>
+        </section>
+        <section class="profile-col-id" aria-label="Student ID card">
+          <div class="id-card">
+            <div class="id-card-top">
+              <img src="img/ds-logo.svg" alt="Data Science Digital Library logo" class="id-logo">
+              <div class="id-college"><strong>${UI.escape(p.college || "Data Science Digital Library")}</strong><small>Student ID Card</small></div>
+            </div>
+            <div class="id-hero">
+              <div class="id-photo-wrap">${photo}</div>
+              <h3 class="id-name">${p.name ? UI.escape(p.name) : `<span class="text-muted">Student name</span>`}</h3>
+              ${p.rollNumber ? `<span class="id-roll"><i class="bi bi-upc-scan"></i> ${UI.escape(p.rollNumber)}</span>` : ""}
+            </div>
+            <div class="id-body">
+              ${fields ? `<div class="idc-grid">${fields}</div>` : `<p class="text-muted small text-center mb-0">No details added yet.</p>`}
+            </div>
+            <div class="id-foot"></div>
+          </div>
+        </section>
       </div>
       ${p.githubUrl ? `<div class="repo-section"><h5><i class="bi bi-github"></i> GitHub repositories</h5><div id="ghRepos"><span class="text-muted small">Loading from GitHub...</span></div></div>` : ""}`;
     if (p.githubUrl) loadRepos();
@@ -84,6 +101,9 @@
           ${text("rollNumber", "Student ID / Roll number", p.rollNumber, 'maxlength="40"')}
           ${text("department", "Branch / Department", p.department, 'maxlength="100"')}
           ${text("section", "Section", p.section, 'maxlength="20"')}
+          ${text("program", "Course / Program", p.program, 'maxlength="100" placeholder="e.g. B.Tech"')}
+          ${text("academicYear", "Academic year", p.academicYear, 'maxlength="30" placeholder="e.g. 2nd year"')}
+          ${text("semester", "Current semester", p.semester, 'maxlength="30" placeholder="e.g. 4"')}
           <div class="col-12"><label class="form-label" for="p_college">College name</label>
             <input class="form-control" id="p_college" name="college" maxlength="150" value="${UI.escape(p.college)}"></div>
           ${text("mentorName", "Faculty / mentor name", p.mentorName, 'maxlength="100"')}
@@ -106,7 +126,7 @@
         if (photo && photo.size > 5 * 1048576) throw new Error("Photo is larger than 5 MB.");
         if (resume && resume.size > 25 * 1048576) throw new Error("Resume is larger than 25 MB.");
         const data = {};
-        ["name", "rollNumber", "department", "section", "college", "mentorName", "email", "githubUrl", "linkedinUrl"]
+        ["name", "rollNumber", "department", "section", "program", "academicYear", "semester", "college", "mentorName", "email", "githubUrl", "linkedinUrl"]
           .forEach(k => { data[k] = f[k].value; });
         data.skills = f.skills.value.split(",").map(s => s.trim()).filter(Boolean);
         await API.put("/api/profile", data);
@@ -130,7 +150,6 @@
 
   content.addEventListener("click", (e) => {
     if (e.target.closest("#editProfile")) edit();
-    else if (e.target.closest("[data-resume]")) PdfViewer.open(p.resume.fileId, "Resume");
   });
 
   async function init() {

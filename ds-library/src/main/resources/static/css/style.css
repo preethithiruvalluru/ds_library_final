@@ -208,7 +208,7 @@ body.pdf-open { overflow: hidden; }
 
 /* ===== Profile page ===== */
 .profile-main { margin-left: 0; }
-.id-card { max-width: 560px; margin: 0 auto; background: var(--surface); border-radius: 28px; overflow: hidden; box-shadow: 0 22px 48px rgba(120, 20, 25, .20), 0 2px 0 rgba(255, 255, 255, .8) inset; border: 1px solid rgba(179, 18, 31, .10); }
+.id-card { margin: 0 auto; background: var(--surface); border-radius: 28px; overflow: hidden; box-shadow: 0 22px 48px rgba(120, 20, 25, .20), 0 2px 0 rgba(255, 255, 255, .8) inset; border: 1px solid rgba(179, 18, 31, .10); }
 .id-card-top {
   color: #fff; padding: 1.1rem 1.25rem 4.2rem; display: flex; align-items: center; gap: .85rem; position: relative;
   background:
@@ -246,7 +246,7 @@ body.pdf-open { overflow: hidden; }
 /* ===== GitHub repository cards ===== */
 .repo-card { border: 1px solid var(--border); border-radius: 16px; padding: .8rem 1rem; margin-bottom: .6rem; background: var(--surface); }
 .repo-card a { text-decoration: none; word-break: break-all; }
-.repo-section { max-width: 560px; margin: 1.5rem auto 0; }
+.repo-section { max-width: 1120px; margin: 1.5rem auto 0; }
 .repo-section h5 { font-size: 1rem; font-weight: 800; margin-bottom: .75rem; }
 
 /* ===== Long words, URLs and file names must wrap instead of stretching the page ===== */
@@ -430,3 +430,34 @@ body.sidebar-collapsed .app-main { margin-left: 0; padding-left: 2rem; }
   .chat-fab-label { display: none; }
   .chat-panel { right: 8px; left: 8px; bottom: 80px; width: auto; max-width: none; height: min(72vh, 560px); border-radius: 20px; }
 }
+
+/* ===== Modules (student view): PDF and video rows ===== */
+.pdf-item, .video-item { display: flex; align-items: center; gap: .75rem; padding: .6rem .7rem; margin-top: .45rem; border-radius: 14px; background: #fbf5f4; border: 1px solid #f3e4e2; }
+.pdf-icon, .video-icon { flex: none; width: 40px; height: 40px; border-radius: 12px; display: grid; place-items: center; font-size: 1.3rem; color: #fff; background: linear-gradient(135deg, #d6212d, #8f0f16); }
+.video-icon { background: linear-gradient(135deg, #ff3b30, #b3000b); }
+.pdf-info { flex: 1; min-width: 0; line-height: 1.3; }
+.pdf-title { font-weight: 700; overflow-wrap: anywhere; }
+.pdf-meta { font-size: .8rem; color: var(--muted); }
+.pdf-view { flex: none; white-space: nowrap; }
+.pdf-item.is-missing { opacity: .7; }
+@media (max-width: 480px) { .pdf-item, .video-item { flex-wrap: wrap; } .pdf-view { margin-left: 52px; } }
+
+/* ===== Profile page: resume (left, about 60%) and ID card (right, about 40%) ===== */
+.profile-wide { max-width: 1120px; margin-inline: auto; }
+.profile-cols { max-width: 1120px; margin: 0 auto; display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); gap: 1.25rem; align-items: start; }
+@media (max-width: 991.98px) { .profile-cols { grid-template-columns: minmax(0, 1fr); } }
+.resume-heading { font-weight: 800; margin-bottom: 1rem; display: flex; align-items: center; gap: .5rem; color: var(--primary-dark); }
+.resume-file { display: flex; align-items: center; gap: .85rem; padding: .9rem 1rem; border-radius: 16px; background: #fbf5f4; border: 1px solid #f3e4e2; }
+.resume-icon { flex: none; width: 52px; height: 52px; border-radius: 14px; display: grid; place-items: center; font-size: 1.7rem; color: #fff; background: linear-gradient(135deg, #d6212d, #8f0f16); }
+.resume-info { min-width: 0; line-height: 1.3; }
+.resume-info strong { display: block; overflow-wrap: anywhere; }
+.resume-info small { color: var(--muted); }
+.resume-actions { display: flex; flex-wrap: wrap; gap: .6rem; margin-top: .9rem; }
+.resume-empty { text-align: center; padding: 2rem 1rem; color: var(--muted); }
+.resume-empty i { font-size: 3rem; color: #d9c5c7; }
+.resume-empty p { font-weight: 700; margin: .4rem 0 .2rem; color: var(--text); }
+.idc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .65rem; }
+.idc-field { padding: .6rem .8rem; border-radius: 14px; background: #fbf5f4; border: 1px solid #f3e4e2; min-width: 0; }
+.idc-field small { display: block; color: var(--muted); font-size: .7rem; text-transform: uppercase; letter-spacing: .06em; font-weight: 700; }
+.idc-field span { font-weight: 700; overflow-wrap: anywhere; }
+@media (max-width: 440px) { .idc-grid { grid-template-columns: 1fr; } }

@@ -33,9 +33,8 @@ const Sections = {
   },
 
   modules() {
-    return UI.pageHead("Modules", "Syllabus and study material, module by module.",
-        `<button class="btn btn-primary" disabled><i class="bi bi-plus-lg"></i> Add Module</button>`)
-      + `<div class="card-ds">${UI.empty("bi-collection", "No modules yet. Add your first module to get started.", true)}</div>`;
+    return UI.pageHead("Modules", "Syllabus and study material, module by module.")
+      + `<div class="card-ds">${UI.empty("bi-collection", "No modules available yet.", true)}</div>`;
   },
 
   notes() {

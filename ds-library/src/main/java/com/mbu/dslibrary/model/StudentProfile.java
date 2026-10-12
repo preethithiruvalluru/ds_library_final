@@ -20,6 +20,9 @@ public class StudentProfile {
     private String rollNumber = "";
     private String department = "";
     private String section = "";
+    private String program = "";
+    private String academicYear = "";
+    private String semester = "";
     private String college = "";
     private String mentorName = "";
     private String email = "";
@@ -43,6 +46,12 @@ public class StudentProfile {
     public void setDepartment(String department) { this.department = department; }
     public String getSection() { return section; }
     public void setSection(String section) { this.section = section; }
+    public String getProgram() { return program; }
+    public void setProgram(String program) { this.program = program; }
+    public String getAcademicYear() { return academicYear; }
+    public void setAcademicYear(String academicYear) { this.academicYear = academicYear; }
+    public String getSemester() { return semester; }
+    public void setSemester(String semester) { this.semester = semester; }
     public String getCollege() { return college; }
     public void setCollege(String college) { this.college = college; }
     public String getMentorName() { return mentorName; }

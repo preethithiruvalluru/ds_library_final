@@ -32,6 +32,9 @@ public class ProfileService {
         p.setRollNumber(clean(req.getRollNumber()));
         p.setDepartment(clean(req.getDepartment()));
         p.setSection(clean(req.getSection()));
+        p.setProgram(clean(req.getProgram()));
+        p.setAcademicYear(clean(req.getAcademicYear()));
+        p.setSemester(clean(req.getSemester()));
         p.setCollege(clean(req.getCollege()));
         p.setMentorName(clean(req.getMentorName()));
         p.setEmail(clean(req.getEmail()));
