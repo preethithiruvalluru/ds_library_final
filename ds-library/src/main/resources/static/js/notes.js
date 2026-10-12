@@ -9,8 +9,7 @@ Views.notes = async function (el, isCurrent) {
     list.map(([v, t]) => `<option value="${UI.escape(v)}" ${v === selected ? "selected" : ""}>${UI.escape(t)}</option>`).join("");
 
   function shell() {
-    el.innerHTML = UI.pageHead("Running Notes", "Write, search and organise your class notes.",
-        `<button class="btn btn-primary" id="addNote"><i class="bi bi-plus-lg"></i> New Note</button>`) + `
+    el.innerHTML = UI.pageHead("Running Notes", "Search and read your class notes.") + `
       <div class="row g-2 mb-3">
         <div class="col-lg-5"><input class="form-control" id="fq" type="search" placeholder="Search title, content or tags..." aria-label="Search notes" value="${UI.escape(filters.q)}"></div>
         <div class="col-6 col-lg-3"><select class="form-select" id="fmod" aria-label="Filter by module">${opts(modules.map(m => [m.id, `Module ${m.moduleNumber}: ${m.name}`]), filters.moduleId, "All modules")}</select></div>
@@ -26,17 +25,13 @@ Views.notes = async function (el, isCurrent) {
     if (!box) return;
     if (!notes.length) {
       const filtered = Object.values(filters).some(Boolean);
-      box.innerHTML = `<div class="card-ds">${UI.empty("bi-journal-text", filtered ? "No notes match your search or filters." : "No notes yet. Click “New Note” to write your first one.", true)}</div>`;
+      box.innerHTML = `<div class="card-ds">${UI.empty("bi-journal-text", filtered ? "No notes match your search or filters." : "No notes yet. Notes will appear here.", true)}</div>`;
       return;
     }
     box.innerHTML = `<div class="row g-3">${notes.map(n => `
       <div class="col-md-6 col-xl-4"><div class="card-ds note-card">
         <div class="d-flex justify-content-between align-items-start gap-2">
-          <h5 class="mb-1 note-title" role="button" tabindex="0" data-view="${n.id}">${UI.escape(n.title)}</h5>
-          <div class="btn-group btn-group-sm">
-            <button class="btn btn-outline-primary" data-edit="${n.id}" aria-label="Edit note"><i class="bi bi-pencil"></i></button>
-            <button class="btn btn-outline-danger" data-del="${n.id}" aria-label="Delete note"><i class="bi bi-trash"></i></button>
-          </div></div>
+          <h5 class="mb-1 note-title" role="button" tabindex="0" data-view="${n.id}">${UI.escape(n.title)}</h5></div>
         <div class="small text-muted mb-2">${[n.subject, moduleName(n.moduleId)].filter(Boolean).map(UI.escape).join(" · ") || "No subject"}</div>
         <p class="note-preview">${UI.escape(n.content)}</p>
         <div class="mb-2">${(n.tags || []).map(t => `<span class="badge text-bg-light border me-1">#${UI.escape(t)}</span>`).join("")}</div>

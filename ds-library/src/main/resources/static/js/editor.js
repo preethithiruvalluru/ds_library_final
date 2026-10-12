@@ -137,7 +137,7 @@
     const runMode = (k) => LANGS[k].runs === "browser" ? "browser" : (serverReady[k] ? "server" : null);
     const drafts = {};   // unsaved text per language, so switching language does not lose your work
 
-    el.innerHTML = UI.pageHead("Code Editor", "Write and save code. JavaScript and Python run in your browser.") + `
+    el.innerHTML = UI.pageHead("Code Editor", "Write and run code. JavaScript and Python run in your browser.") + `
       <div class="card-ds">
         <div class="alert alert-info py-2 small" id="runNote"></div>
         <div class="d-flex flex-wrap gap-2 mb-3 align-items-center">
@@ -145,7 +145,6 @@
           <select class="form-select w-auto" id="lang">${Object.entries(LANGS).map(([k, v]) => `<option value="${k}">${v.label}</option>`).join("")}</select>
           <button class="btn btn-success" id="runBtn"><i class="bi bi-play-fill"></i> Run</button>
           <button class="btn btn-outline-secondary" id="stopBtn" disabled><i class="bi bi-stop-fill"></i> Stop</button>
-          <button class="btn btn-outline-primary" id="saveBtn"><i class="bi bi-save"></i> Save</button>
           <button class="btn btn-outline-primary" id="loadBtn"><i class="bi bi-folder2-open"></i> Load</button>
           <button class="btn btn-outline-danger" id="clearBtn"><i class="bi bi-eraser"></i> Clear</button>
           <span class="text-muted small ms-auto" id="current"></span>
@@ -333,7 +332,6 @@
               <div class="list-group-item d-flex justify-content-between align-items-center gap-2">
                 <button class="btn btn-link text-start p-0 flex-grow-1" data-load="${s.id}">
                   <strong>${UI.escape(s.title)}</strong><br><small class="text-muted">${UI.escape((LANGS[s.language] || {}).label || s.language)} · ${new Date(s.updatedAt).toLocaleString()}</small></button>
-                <button class="btn btn-sm btn-outline-danger" data-del="${s.id}" aria-label="Delete ${UI.escape(s.title)}"><i class="bi bi-trash"></i></button>
               </div>`).join("")}</div>`
           : UI.empty("bi-folder2-open", "No saved code yet.");
       };
@@ -375,7 +373,6 @@
     $("lang").addEventListener("change", (e) => { currentId = null; state.title = ""; setLanguage(e.target.value); });
     $("runBtn").addEventListener("click", run);
     $("stopBtn").addEventListener("click", () => { Runner.stop(); showError("Stopped by you."); setRunning(false); });
-    $("saveBtn").addEventListener("click", saveDialog);
     $("loadBtn").addEventListener("click", loadDialog);
     $("clearBtn").addEventListener("click", () => {
       if (editor.getValue().trim() && !confirm("Clear the editor? Unsaved code will be lost.")) return;

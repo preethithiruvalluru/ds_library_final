@@ -19,8 +19,7 @@ Views.tools = async function (el, isCurrent) {
   };
 
   function shell(allCats) {
-    el.innerHTML = UI.pageHead("Tools", "A directory of useful Data Science tools.",
-        `<button class="btn btn-primary" id="addTool"><i class="bi bi-plus-lg"></i> Add Tool</button>`) + `
+    el.innerHTML = UI.pageHead("Tools", "A directory of useful Data Science tools.") + `
       <div class="row g-2 mb-3">
         <div class="col-md-8"><input class="form-control" id="fq" type="search" placeholder="Search tools..." aria-label="Search tools" value="${UI.escape(filters.q)}"></div>
         <div class="col-md-4"><select class="form-select" id="fcat" aria-label="Filter by category"><option value="">All categories</option>
@@ -35,7 +34,7 @@ Views.tools = async function (el, isCurrent) {
     if (!box) return;
     if (!tools.length) {
       const filtered = filters.q || filters.category;
-      box.innerHTML = `<div class="card-ds">${UI.empty("bi-tools", filtered ? "No tools match your search." : "No tools yet. Click “Add Tool” to add one.", true)}</div>`;
+      box.innerHTML = `<div class="card-ds">${UI.empty("bi-tools", filtered ? "No tools match your search." : "No tools available yet.", true)}</div>`;
       return;
     }
     const groups = {};
@@ -50,11 +49,7 @@ Views.tools = async function (el, isCurrent) {
         <div class="col-sm-6 col-xl-4"><div class="card-ds tool-card">
           <div class="d-flex align-items-center gap-3 mb-2">
             <div class="stat-icon"><i class="bi ${UI.escape(t.icon || CATEGORY_ICON[cat] || "bi-tools")}"></i></div>
-            <h5 class="mb-0 flex-grow-1">${UI.escape(t.name)}</h5>
-            <div class="btn-group btn-group-sm">
-              <button class="btn btn-outline-primary" data-edit="${t.id}" aria-label="Edit ${UI.escape(t.name)}"><i class="bi bi-pencil"></i></button>
-              <button class="btn btn-outline-danger" data-del="${t.id}" aria-label="Delete ${UI.escape(t.name)}"><i class="bi bi-trash"></i></button>
-            </div></div>
+            <h5 class="mb-0 flex-grow-1">${UI.escape(t.name)}</h5></div>
           <p class="text-muted small mb-3">${UI.escape(t.description) || "No description."}</p>
           <div class="d-flex flex-wrap gap-2 mt-auto">
             <a class="btn btn-sm btn-outline-primary" href="${UI.escape(t.officialUrl)}" target="_blank" rel="noopener noreferrer">

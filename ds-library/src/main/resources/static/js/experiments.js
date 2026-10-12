@@ -30,8 +30,7 @@ Views.experiments = async function (el, isCurrent) {
   }
 
   function shell() {
-    el.innerHTML = UI.pageHead("Lab Experiments", "Aim, code, output and result for every experiment.",
-        `<button class="btn btn-primary" id="addExp"><i class="bi bi-plus-lg"></i> Add Experiment</button>`) + `
+    el.innerHTML = UI.pageHead("Lab Experiments", "Aim, code, output and result for every experiment.") + `
       <div class="row g-2 mb-3">
         <div class="col-lg-6"><input class="form-control" id="fq" type="search" placeholder="Search number, title, aim or code..." aria-label="Search experiments" value="${UI.escape(filters.q)}"></div>
         <div class="col-6 col-lg-3"><select class="form-select" id="fmod" aria-label="Filter by module">${opts(modules.map(m => [m.id, `Module ${m.moduleNumber}: ${m.name}`]), filters.moduleId, "All modules")}</select></div>
@@ -46,7 +45,7 @@ Views.experiments = async function (el, isCurrent) {
     if (!box) return;
     if (!items.length) {
       const filtered = Object.values(filters).some(Boolean);
-      box.innerHTML = `<div class="card-ds">${UI.empty("bi-clipboard-data", filtered ? "No experiments match your search or filters." : "No experiments yet. Click “Add Experiment” to record your first one.", true)}</div>`;
+      box.innerHTML = `<div class="card-ds">${UI.empty("bi-clipboard-data", filtered ? "No experiments match your search or filters." : "Experiments will appear here.", true)}</div>`;
       return;
     }
     box.innerHTML = `<div class="row g-3">${items.map(x => `
@@ -54,11 +53,7 @@ Views.experiments = async function (el, isCurrent) {
         <div class="d-flex justify-content-between align-items-start gap-2">
           <div><span class="badge bg-primary mb-1">Exp ${UI.escape(x.experimentNumber)}</span>
             <span class="badge text-bg-light border mb-1">${UI.escape(LANGS[x.language] || x.language)}</span>
-            <h5 class="mb-1 note-title" role="button" tabindex="0" data-view="${x.id}">${UI.escape(x.title)}</h5></div>
-          <div class="btn-group btn-group-sm">
-            <button class="btn btn-outline-primary" data-edit="${x.id}" aria-label="Edit experiment"><i class="bi bi-pencil"></i></button>
-            <button class="btn btn-outline-danger" data-del="${x.id}" aria-label="Delete experiment"><i class="bi bi-trash"></i></button>
-          </div></div>
+            <h5 class="mb-1 note-title" role="button" tabindex="0" data-view="${x.id}">${UI.escape(x.title)}</h5></div></div>
         <div class="small text-muted mb-2">${UI.escape(moduleName(x.moduleId)) || "No module"}</div>
         <p class="note-preview">${UI.escape(x.aim) || "<span class='text-muted'>No aim written.</span>"}</p>
         <div class="d-flex flex-wrap gap-2 mt-auto">

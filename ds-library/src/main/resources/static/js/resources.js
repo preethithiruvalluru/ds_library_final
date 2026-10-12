@@ -13,8 +13,7 @@ Views.resources = async function (el, isCurrent) {
     list.map(([v, t]) => `<option value="${UI.escape(v)}" ${v === selected ? "selected" : ""}>${UI.escape(t)}</option>`).join("");
 
   function shell() {
-    el.innerHTML = UI.pageHead("Resources", "PDFs, links, documentation, tutorials and videos.",
-        `<button class="btn btn-primary" id="addRes"><i class="bi bi-plus-lg"></i> Add Resource</button>`) + `
+    el.innerHTML = UI.pageHead("Resources", "PDFs, links, documentation, tutorials and videos.") + `
       <div class="row g-2 mb-3">
         <div class="col-lg-4"><input class="form-control" id="fq" type="search" placeholder="Search title, description or tags..." aria-label="Search resources" value="${UI.escape(filters.q)}"></div>
         <div class="col-6 col-lg-2"><select class="form-select" id="ftype" aria-label="Filter by type">${opts(Object.entries(TYPES).map(([k, v]) => [k, v[0]]), filters.type, "All types")}</select></div>
@@ -45,18 +44,14 @@ Views.resources = async function (el, isCurrent) {
     if (!box) return;
     if (!items.length) {
       const filtered = Object.values(filters).some(Boolean);
-      box.innerHTML = `<div class="card-ds">${UI.empty("bi-link-45deg", filtered ? "No resources match your search or filters." : "No resources yet. Click “Add Resource” to add your first one.", true)}</div>`;
+      box.innerHTML = `<div class="card-ds">${UI.empty("bi-link-45deg", filtered ? "No resources match your search or filters." : "Resources will appear here.", true)}</div>`;
       return;
     }
     box.innerHTML = `<div class="row g-3">${items.map(r => `
       <div class="col-md-6 col-xl-4"><div class="card-ds note-card">
         <div class="d-flex justify-content-between align-items-start gap-2">
           <div><span class="badge text-bg-light border mb-1"><i class="bi ${(TYPES[r.type] || TYPES.LINK)[1]}"></i> ${(TYPES[r.type] || TYPES.LINK)[0]}</span>
-            <h5 class="mb-1">${UI.escape(r.title)}</h5></div>
-          <div class="btn-group btn-group-sm">
-            <button class="btn btn-outline-primary" data-edit="${r.id}" aria-label="Edit resource"><i class="bi bi-pencil"></i></button>
-            <button class="btn btn-outline-danger" data-del="${r.id}" aria-label="Delete resource"><i class="bi bi-trash"></i></button>
-          </div></div>
+            <h5 class="mb-1">${UI.escape(r.title)}</h5></div></div>
         <div class="small text-muted mb-2">${[r.subject, moduleName(r.moduleId)].filter(Boolean).map(UI.escape).join(" · ") || "No subject"}</div>
         <p class="note-preview">${UI.escape(r.description)}</p>
         <div class="mb-2">${(r.tags || []).map(t => `<span class="badge text-bg-light border me-1">#${UI.escape(t)}</span>`).join("")}</div>
