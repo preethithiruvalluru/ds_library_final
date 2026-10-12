@@ -20,7 +20,7 @@
            <div class="resume-info"><strong>${UI.escape(p.resume.filename || "Resume.pdf")}</strong><small>PDF${mb}</small></div>
          </div>
          <div class="resume-actions">
-           <a class="btn btn-primary" href="/api/files/${encodeURIComponent(p.resume.fileId)}" target="_blank" rel="noopener noreferrer"><i class="bi bi-eye"></i> View Resume</a>
+           <button type="button" class="btn btn-primary" data-resume><i class="bi bi-book"></i> View Resume</button>
            <a class="btn btn-outline-primary" href="/api/files/${encodeURIComponent(p.resume.fileId)}?download=true"><i class="bi bi-download"></i> Download Resume</a>
          </div>`
       : `<div class="resume-empty"><i class="bi bi-file-earmark-person"></i><p>No resume uploaded yet.</p><small>Use <strong>Edit</strong> to upload your resume (PDF).</small></div>`;
@@ -150,6 +150,7 @@
 
   content.addEventListener("click", (e) => {
     if (e.target.closest("#editProfile")) edit();
+    else if (e.target.closest("[data-resume]") && p && p.resume) PdfViewer.open(p.resume.fileId, "My Resume");   // page-flip book reader
   });
 
   async function init() {
