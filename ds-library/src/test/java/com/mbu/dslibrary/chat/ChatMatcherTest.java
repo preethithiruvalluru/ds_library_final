@@ -208,7 +208,7 @@ class ChatMatcherTest {
 
     @Test
     void collegeQuestionsAreAnsweredHonestlyNeverInvented() {
-        expect("tell me about mbu", "What is MBU");
+        expect("tell me about the college", "Tell me about the college");
         for (String q : List.of("what are the hostel fees", "when are the exams", "how to apply for admission",
                 "college phone number", "what is the placement percentage", "how is cgpa calculated", "library timings")) {
             ChatMatcher.Reply r = bot.answer(q);
@@ -232,7 +232,7 @@ class ChatMatcherTest {
         expect("help", "Help");
         ChatMatcher.Reply who = bot.answer("who are you");
         assertTrue(who.matched());
-        assertTrue(who.text().contains("MBU Study Bot"));
+        assertTrue(who.text().contains("Study Bot"));
         assertTrue(bot.answer("what can you do").text().contains("You can ask me about"));
         assertTrue(bot.answer("   ").text().contains("You can ask me about"));
     }

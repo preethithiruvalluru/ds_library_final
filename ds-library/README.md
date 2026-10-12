@@ -95,7 +95,7 @@ size limits, SVG refusal), YouTube link parsing, GitHub link safety, the study b
 - Your details: open **Profile**, then **Edit**. Nothing is pre-filled.
 - Your syllabus: log in and use **Modules**, then **Add Module**.
 
-## MBU Study Bot (offline)
+## Study Bot (offline)
 
 A round **Ask Bot** button in the bottom-right corner opens a chat window. A student types a question in their own words
 and the bot replies from a ready-made list of answers. It is **free, works offline and needs no API key**: it uses no AI,

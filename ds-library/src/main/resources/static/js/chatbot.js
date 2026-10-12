@@ -1,12 +1,12 @@
-/* MBU Study Bot: a round button in the bottom-right corner that opens a chat window.
+/* Study Bot: a round button in the bottom-right corner that opens a chat window.
    It works offline from a ready-made list of answers: the server compares the words of the question with the stored
    answers (/api/chat). No AI and no API key are involved.
    Answers are shown through a small, safe formatter: all HTML is escaped first, so nothing in a reply can run as code. */
 (function () {
   const STORAGE_KEY = "dsl-chat-v2";
   const MAX_CHARS = 300;
-  const GREETING = "Hi! I'm the MBU Study Bot. Type a doubt about your subjects (Python, SQL, statistics, machine learning, lab work...) or about this portal and the college, and I'll look for the answer.";
-  const FALLBACK_STARTERS = ["What is Python?", "What is overfitting?", "What are the types of SQL joins?", "What is MBU?"];
+  const GREETING = "Hi! I'm the Study Bot. Type a doubt about your subjects (Python, SQL, statistics, machine learning, lab work...) or about this portal and the college, and I'll look for the answer.";
+  const FALLBACK_STARTERS = ["What is Python?", "What is overfitting?", "What are the types of SQL joins?", "What is Pandas?"];
 
   let history = [];       // [{role: "user"|"assistant", content, suggestions?}]
   let status = null;      // {enabled, answers, starters} once checked
@@ -55,7 +55,7 @@
   fab.type = "button";
   fab.className = "chat-fab";
   fab.id = "chatFab";
-  fab.setAttribute("aria-label", "Open the MBU Study Bot");
+  fab.setAttribute("aria-label", "Open the Study Bot");
   fab.setAttribute("aria-expanded", "false");
   fab.setAttribute("aria-controls", "chatPanel");
   fab.innerHTML = `<i class="bi bi-chat-dots-fill" aria-hidden="true"></i><span class="chat-fab-label">Ask Bot</span>`;
@@ -64,12 +64,12 @@
   panel.className = "chat-panel";
   panel.id = "chatPanel";
   panel.setAttribute("role", "dialog");
-  panel.setAttribute("aria-label", "MBU Study Bot");
+  panel.setAttribute("aria-label", "Study Bot");
   panel.hidden = true;
   panel.innerHTML = `
     <header class="chat-head">
       <div class="chat-avatar" aria-hidden="true"><i class="bi bi-robot"></i></div>
-      <div class="chat-title"><strong>MBU Study Bot</strong><small>Subject doubts &amp; college help</small></div>
+      <div class="chat-title"><strong>Study Bot</strong><small>Subject doubts &amp; college help</small></div>
       <button type="button" class="chat-icon-btn" id="chatNew" aria-label="Start a new chat" title="New chat"><i class="bi bi-arrow-counterclockwise"></i></button>
       <button type="button" class="chat-icon-btn" id="chatClose" aria-label="Close the chat" title="Close"><i class="bi bi-x-lg"></i></button>
     </header>
@@ -199,7 +199,7 @@
     panel.hidden = false;
     fab.classList.add("is-open");
     fab.setAttribute("aria-expanded", "true");
-    fab.setAttribute("aria-label", "Close the MBU Study Bot");
+    fab.setAttribute("aria-label", "Close the Study Bot");
     if (status === null) { drawAll(); loadStatus(); } else { drawAll(); }
     setTimeout(() => { if (!input.disabled) input.focus(); }, 50);
   }
@@ -207,7 +207,7 @@
     panel.hidden = true;
     fab.classList.remove("is-open");
     fab.setAttribute("aria-expanded", "false");
-    fab.setAttribute("aria-label", "Open the MBU Study Bot");
+    fab.setAttribute("aria-label", "Open the Study Bot");
     fab.focus();
   }
 

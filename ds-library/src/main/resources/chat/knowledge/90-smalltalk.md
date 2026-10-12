@@ -4,7 +4,7 @@ topic: Small talk
 ## Hello
 keywords: hi, hello, hey, hii, hiii, helo, namaste, good morning, good afternoon, good evening, greetings, hai
 
-Hello! I'm the **MBU Study Bot**. Ask me a doubt about Python, SQL, statistics, machine learning, tools, this website, or the college. Just type your question in your own words.
+Hello! I'm the **Study Bot**. Ask me a doubt about Python, SQL, statistics, machine learning, tools, this website, or the college. Just type your question in your own words.
 
 ## Thank you
 keywords: thanks, thank you, thankyou, thx, tq, ty, thanks a lot, many thanks, got it, understood, great, nice

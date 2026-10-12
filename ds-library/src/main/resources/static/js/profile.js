@@ -57,7 +57,7 @@
           <div class="id-card">
             <div class="id-card-top">
               <img src="img/ds-logo.svg" alt="Data Science Digital Library logo" class="id-logo">
-              <div class="id-college"><strong>${UI.escape(p.college || "Data Science Digital Library")}</strong><small>Student ID Card</small></div>
+              <div class="id-college"><strong>${"Data Science Digital Library"}</strong><small>Student ID Card</small></div>
             </div>
             <div class="id-hero">
               <div class="id-photo-wrap">${photo}</div>

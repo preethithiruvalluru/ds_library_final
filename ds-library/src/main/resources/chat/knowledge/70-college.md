@@ -15,14 +15,14 @@ topic: College
   Any question that is not covered by a real entry gets the honest "I don't have that information" answer below.
 -->
 
-## What is MBU (Mohan Babu University)?
-keywords: mbu, mohan babu university, mohan babu, university, our university, our college, about college, about university, about mbu
-questions: tell me about mbu | what is mbu | about the university | about our college
+## Tell me about the college
+keywords: college, university, our university, our college, about college, about university, my college
+questions: tell me about the college | about the university | about our college | what is my college
 starter: yes
 
-**Mohan Babu University (MBU)** is your university. Its logo carries the motto **"Dream. Believe. Achieve."**
+This portal is a study helper for Data Science students: modules and PDF study material, running notes, lab experiments, tools, resources and a code editor.
 
-This portal is a study helper for Data Science students. For official information about the university (courses, admissions, rules, contacts), please use the university's official website or office; I only have a few facts in my list.
+For official information about the college (courses, admissions, rules, contacts), please use the college's official website or office; I only have a few facts in my list.
 
 ## Where can I find college details like fees, admissions, hostel, exams, timetable or contacts?
 keywords: admission, admissions, fee, fees, hostel, transport, bus, exam, exams, examination, results, result, timetable, time table, calendar, holiday, holidays, placement, placements, scholarship, scholarships, library, canteen, mess, contact, phone, telephone, email, address, location, principal, hod, dean, registrar, faculty, professor, department, attendance, backlog, supplementary, revaluation, id card, bonafide, certificate, transcript, campus, sports, club, clubs, events, fest, semester, cgpa, sgpa, grade, grading, credits, regulation, regulations, rules, office
@@ -33,7 +33,7 @@ I'm sorry, **I don't have official college details of that kind yet** (fees, adm
 
 Please check:
 
-- the **official MBU website** and notice boards,
+- the **official college website** and notice boards,
 - your **department office**, class teacher or mentor,
 - the **university office** for admissions, fees and certificates.
 

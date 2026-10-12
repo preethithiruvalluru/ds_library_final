@@ -33,7 +33,7 @@ public final class ChatMatcher {
     private static final int MAX_SUGGESTIONS = 3;
 
     private static final String HELP =
-            "Hi! I'm the **MBU Study Bot**. I answer from a ready-made list, so I work offline and need no internet.\n\n"
+            "Hi! I'm the **Study Bot**. I answer from a ready-made list, so I work offline and need no internet.\n\n"
             + "You can ask me about:\n"
             + "- **Python** (lists, functions, errors, files...)\n"
             + "- **NumPy, Pandas and charts**\n"
