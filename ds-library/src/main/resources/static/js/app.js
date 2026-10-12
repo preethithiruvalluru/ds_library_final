@@ -63,7 +63,7 @@
     window.scrollTo(0, 0);
   }
 
-  window.addEventListener("hashchange", () => { render(); refreshCounts(); });
+  window.addEventListener("hashchange", render);
   window.addEventListener("data-changed", refreshCounts);
   window.addEventListener("DOMContentLoaded", () => { render(); refreshCounts(); loadAvatar(); });
 })();

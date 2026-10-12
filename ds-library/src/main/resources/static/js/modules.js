@@ -61,14 +61,16 @@ Views.modules = async function (el, isCurrent) {
     el.innerHTML = head + body;
   }
 
-  /* Ask the server whether each stored PDF is really there, so a broken file shows "Unavailable" instead of an error page. */
+  /* One quick request asks which stored PDFs are gone; they then show "Unavailable". The page does not wait for it. */
   async function checkFiles() {
     const ids = [];
     modules.forEach(m => { if (m.syllabus) ids.push(m.syllabus.fileId); (m.materials || []).forEach(f => ids.push(f.fileId)); });
-    await Promise.all(ids.map(async id => {
-      try { const r = await fetch(fileUrl(id), { method: "HEAD" }); if (!r.ok) missing.add(id); }
-      catch (e) { /* network trouble: leave the link usable */ }
-    }));
+    if (!ids.length) return false;
+    try {
+      const gone = await API.get("/api/files/missing?ids=" + ids.map(encodeURIComponent).join(","));
+      gone.forEach(id => missing.add(id));
+      return gone.length > 0;
+    } catch (e) { return false; }   // network trouble: leave the links usable
   }
 
   async function loadVideos() {
@@ -81,9 +83,9 @@ Views.modules = async function (el, isCurrent) {
 
   el.innerHTML = UI.loading();
   try {
-    modules = await API.get("/api/modules");
-    await Promise.all([checkFiles(), loadVideos()]);
-    draw();
+    [modules] = await Promise.all([API.get("/api/modules"), loadVideos()]);
+    draw();                                     // show everything straight away
+    if (await checkFiles()) draw();             // then mark any PDF whose file has gone missing
   } catch (err) {
     if (isCurrent()) el.innerHTML = `<div class="alert alert-danger">${UI.escape(err.message)}</div>`;
   }

@@ -1,5 +1,8 @@
 package com.mbu.dslibrary.controller;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.data.mongodb.gridfs.GridFsResource;
 import org.springframework.http.ContentDisposition;
@@ -19,6 +22,14 @@ public class FileController {
 
     public FileController(FileStorageService files) {
         this.files = files;
+    }
+
+    /** Which of these file ids are not stored any more? One quick call instead of opening every file. */
+    @GetMapping("/missing")
+    public List<String> missing(@RequestParam String ids) {
+        return Arrays.stream(ids.split(","))
+                .map(String::trim).filter(s -> !s.isEmpty()).limit(200)
+                .filter(id -> !files.exists(id)).toList();
     }
 
     @GetMapping("/{id}")

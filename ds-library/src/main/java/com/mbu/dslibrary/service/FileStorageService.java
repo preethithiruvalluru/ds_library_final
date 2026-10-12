@@ -94,6 +94,11 @@ public class FileStorageService {
         return gridFs.getResource(f);
     }
 
+    /** Cheap check (reads only the file's record, never its content). */
+    public boolean exists(String fileId) {
+        return find(fileId) != null;
+    }
+
     public void delete(String fileId) {
         if (fileId == null || !ObjectId.isValid(fileId)) return;
         gridFs.delete(Query.query(Criteria.where("_id").is(new ObjectId(fileId))));
