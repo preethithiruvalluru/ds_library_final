@@ -1,12 +1,12 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Data Science logo">
   <defs>
     <linearGradient id="dsg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#d6212d"/>
-      <stop offset="1" stop-color="#7a0c13"/>
+      <stop offset="0" stop-color="#4aa3f0"/>
+      <stop offset="1" stop-color="#124f8c"/>
     </linearGradient>
     <linearGradient id="dsy" x1="0" y1="1" x2="0" y2="0">
-      <stop offset="0" stop-color="#f0a020"/>
-      <stop offset="1" stop-color="#ffd37a"/>
+      <stop offset="0" stop-color="#7fe0ff"/>
+      <stop offset="1" stop-color="#d6f6ff"/>
     </linearGradient>
   </defs>
   <rect width="64" height="64" rx="16" fill="url(#dsg)"/>
@@ -17,7 +17,7 @@
   <g stroke="#fff" stroke-width="1.6" stroke-linecap="round" opacity=".9">
     <path d="M23 20.5 32 25.5 41 20.5M23 20.5V31M41 20.5V31M32 25.5V34M23 31 32 34 41 31"/>
   </g>
-  <g fill="#ffc24d">
+  <g fill="#aeeaff">
     <circle cx="23" cy="20.5" r="2.6"/><circle cx="41" cy="20.5" r="2.6"/>
     <circle cx="32" cy="25.5" r="2.9"/>
     <circle cx="23" cy="31" r="2.6"/><circle cx="41" cy="31" r="2.6"/>
