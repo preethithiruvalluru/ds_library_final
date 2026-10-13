@@ -35,6 +35,8 @@ public class ProfileService {
         p.setProgram(clean(req.getProgram()));
         p.setAcademicYear(clean(req.getAcademicYear()));
         p.setSemester(clean(req.getSemester()));
+        p.setAdmissionYear(clean(req.getAdmissionYear()));
+        p.setValidTill(clean(req.getValidTill()));
         p.setCollege(clean(req.getCollege()));
         p.setMentorName(clean(req.getMentorName()));
         p.setEmail(clean(req.getEmail()));

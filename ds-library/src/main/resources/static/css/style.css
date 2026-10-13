@@ -602,3 +602,27 @@ body.sidebar-collapsed .app-footer { margin-left: 0; }
 .hero-flow span { margin: 0 .35rem; }
 .hero h3 { font-size: 2.5rem; }
 @media (max-width: 767.98px) { .hero h3 { font-size: 1.9rem; } }
+
+/* ===== Student ID card (modelled on the printed card: yellow top, photo, red name, labelled rows, red footer) ===== */
+.sid { position: relative; width: 100%; max-width: 360px; margin: 0 auto; background: #fff; border-radius: 22px; overflow: hidden; box-shadow: 0 6px 22px rgba(43, 20, 88, .22); border: 1px solid #e6e2ec; color: #222; }
+.sid-top { position: relative; display: flex; align-items: center; gap: .7rem; padding: 1rem 1.1rem 1.7rem; background: linear-gradient(135deg, #f6b81c 0%, #f9d04a 100%); border-bottom-right-radius: 70px; margin-right: 34px; min-height: 92px; }
+.sid-top::after { content: ""; position: absolute; top: 0; left: 100%; width: 34px; height: 100%; background: #fff; }
+.sid::before { content: ""; position: absolute; top: 0; right: 0; width: 120px; height: 44px; background: #d9331f; clip-path: polygon(30% 0, 100% 0, 100% 100%, 0 100%); z-index: 0; }
+.sid-top { z-index: 1; }
+.sid-logo { width: 44px; height: 44px; border-radius: 10px; box-shadow: 0 2px 6px rgba(0, 0, 0, .25); flex: none; }
+.sid-brand { display: flex; flex-direction: column; line-height: 1.05; }
+.sid-brand strong { font-size: 1.5rem; font-weight: 800; letter-spacing: .02em; color: #c82a1c; }
+.sid-brand span { font-size: .62rem; font-weight: 700; letter-spacing: .3em; color: #b0281b; }
+.sid-photo { margin: -.2rem auto 0; width: 62%; aspect-ratio: 4 / 4.6; border-radius: 6px; overflow: hidden; background: #eee9f3; box-shadow: 0 1px 6px rgba(0, 0, 0, .18); position: relative; z-index: 1; }
+.sid-img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.sid-img-empty { display: grid; place-items: center; font-size: 4rem; color: #b9aeb0; }
+.sid-name { text-align: center; margin: .85rem 1rem .5rem; padding-bottom: .5rem; font-weight: 700; font-size: 1.05rem; letter-spacing: .06em; color: #c0392b; border-bottom: 1px solid #ece7e6; overflow-wrap: anywhere; }
+.sid-rows { margin: 0; padding: .3rem 1.4rem .9rem; }
+.sid-rows > div { display: grid; grid-template-columns: 9.5rem 1fr; gap: .4rem; padding: .28rem 0; font-size: .95rem; }
+.sid-rows dt { font-weight: 600; color: #333; }
+.sid-rows dt::after { content: ""; }
+.sid-rows dd { margin: 0; font-weight: 700; color: #000; position: relative; padding-left: .8rem; overflow-wrap: anywhere; }
+.sid-rows dd::before { content: ":"; position: absolute; left: 0; font-weight: 600; }
+.sid-valid { position: absolute; right: 6px; top: 46%; writing-mode: vertical-rl; font-size: .6rem; font-weight: 700; letter-spacing: .08em; color: #333; }
+.sid-foot { margin-top: .4rem; padding: .55rem 1rem; text-align: center; background: #d9331f; color: #fff; font-size: .72rem; font-weight: 600; letter-spacing: .38em; }
+@media (max-width: 400px) { .sid-rows > div { grid-template-columns: 7.6rem 1fr; font-size: .88rem; } .sid-foot { letter-spacing: .22em; } }

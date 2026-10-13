@@ -23,6 +23,8 @@ public class StudentProfile {
     private String program = "";
     private String academicYear = "";
     private String semester = "";
+    private String admissionYear = "";
+    private String validTill = "";
     private String college = "";
     private String mentorName = "";
     private String email = "";
@@ -52,6 +54,10 @@ public class StudentProfile {
     public void setAcademicYear(String academicYear) { this.academicYear = academicYear; }
     public String getSemester() { return semester; }
     public void setSemester(String semester) { this.semester = semester; }
+    public String getAdmissionYear() { return admissionYear; }
+    public void setAdmissionYear(String admissionYear) { this.admissionYear = admissionYear; }
+    public String getValidTill() { return validTill; }
+    public void setValidTill(String validTill) { this.validTill = validTill; }
     public String getCollege() { return college; }
     public void setCollege(String college) { this.college = college; }
     public String getMentorName() { return mentorName; }

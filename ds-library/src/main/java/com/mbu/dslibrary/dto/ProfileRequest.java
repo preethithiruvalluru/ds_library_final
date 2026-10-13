@@ -29,6 +29,12 @@ public class ProfileRequest {
     @Size(max = 30, message = "Semester is too long (max 30)")
     private String semester;
 
+    @Size(max = 30, message = "Year of admission is too long (max 30)")
+    private String admissionYear;
+
+    @Size(max = 30, message = "Valid till is too long (max 30)")
+    private String validTill;
+
     @Size(max = 150, message = "College name is too long (max 150)")
     private String college;
 
@@ -65,6 +71,10 @@ public class ProfileRequest {
     public void setAcademicYear(String academicYear) { this.academicYear = academicYear; }
     public String getSemester() { return semester; }
     public void setSemester(String semester) { this.semester = semester; }
+    public String getAdmissionYear() { return admissionYear; }
+    public void setAdmissionYear(String admissionYear) { this.admissionYear = admissionYear; }
+    public String getValidTill() { return validTill; }
+    public void setValidTill(String validTill) { this.validTill = validTill; }
     public String getMentorName() { return mentorName; }
     public void setMentorName(String mentorName) { this.mentorName = mentorName; }
     public String getEmail() { return email; }

@@ -9,8 +9,8 @@
 
   function draw() {
     const photo = p.photo
-      ? `<img class="id-photo" src="/api/files/${encodeURIComponent(p.photo.fileId)}" alt="Profile photo of ${UI.escape(p.name || "student")}">`
-      : `<div class="id-photo id-photo-empty" role="img" aria-label="No profile photo"><i class="bi bi-person-fill"></i></div>`;
+      ? `<img class="sid-img" src="/api/files/${encodeURIComponent(p.photo.fileId)}" alt="Profile photo of ${UI.escape(p.name || "student")}">`
+      : `<div class="sid-img sid-img-empty" role="img" aria-label="No profile photo"><i class="bi bi-person-fill"></i></div>`;
 
     /* ---- left: resume ---- */
     const resumeBlock = p.resume
@@ -27,10 +27,9 @@
     const aboutCard = extra ? `<div class="card-ds mt-3 profile-links">${extra}</div>` : "";
 
     /* ---- right: ID card (only fields that have a value) ---- */
-    const field = (label, v) => v ? `<div class="idc-field"><small>${label}</small><span>${UI.escape(v)}</span></div>` : "";
-    const fields = [
-      field("Department", p.department), field("Program", p.program), field("Academic year", p.academicYear),
-      field("Semester", p.semester), field("Section", p.section)
+    const idRow = (label, v) => v ? `<div><dt>${label}</dt><dd>${UI.escape(v)}</dd></div>` : "";
+    const idRows = [
+      idRow("Registration No.", p.rollNumber), idRow("Course", p.program), idRow("Year of Admission", p.admissionYear), idRow("Mentor", p.mentorName)
     ].join("");
 
     content.innerHTML = `
@@ -46,20 +45,16 @@
           </div>
         </section>
         <section class="profile-col-id" aria-label="Student ID card">
-          <div class="id-card">
-            <div class="id-card-top">
-              <img src="img/ds-logo.svg" alt="Data Science Digital Library logo" class="id-logo">
-              <div class="id-college"><strong>${"Data Science Digital Library"}</strong><small>Student ID Card</small></div>
+          <div class="sid" aria-label="Student ID card">
+            <div class="sid-top">
+              <img src="img/ds-logo.svg" alt="Data Science Digital Library logo" class="sid-logo">
+              <div class="sid-brand"><strong>DATA SCIENCE</strong><span>DIGITAL LIBRARY</span></div>
             </div>
-            <div class="id-hero">
-              <div class="id-photo-wrap">${photo}</div>
-              <h3 class="id-name">${p.name ? UI.escape(p.name) : `<span class="text-muted">Student name</span>`}</h3>
-              ${p.rollNumber ? `<span class="id-roll"><i class="bi bi-upc-scan"></i> ${UI.escape(p.rollNumber)}</span>` : ""}
-            </div>
-            <div class="id-body">
-              ${fields ? `<div class="idc-grid">${fields}</div>` : `<p class="text-muted small text-center mb-0">No details added yet.</p>`}
-            </div>
-            <div class="id-foot"></div>
+            <div class="sid-photo">${photo}</div>
+            <div class="sid-name">${p.name ? UI.escape(p.name.toUpperCase()) : "STUDENT NAME"}</div>
+            <dl class="sid-rows">${idRows}</dl>
+            ${p.validTill ? `<div class="sid-valid" title="Valid till">Valid till ${UI.escape(p.validTill)}</div>` : ""}
+            <div class="sid-foot">DREAM. BELIEVE. ACHIEVE.</div>
           </div>
           ${aboutCard}
         </section>
@@ -108,6 +103,8 @@
           ${text("section", "Section", p.section, 'maxlength="20"')}
           ${text("program", "Course / Program", p.program, 'maxlength="100" placeholder="e.g. B.Tech"')}
           ${text("academicYear", "Academic year", p.academicYear, 'maxlength="30" placeholder="e.g. 2nd year"')}
+          ${text("admissionYear", "Year of admission", p.admissionYear, 'maxlength="30" placeholder="e.g. 2024-2025"')}
+          ${text("validTill", "ID valid till", p.validTill, 'maxlength="30" placeholder="e.g. 30-06-2028"')}
           ${text("semester", "Current semester", p.semester, 'maxlength="30" placeholder="e.g. 4"')}
           <div class="col-12"><label class="form-label" for="p_college">College name</label>
             <input class="form-control" id="p_college" name="college" maxlength="150" value="${UI.escape(p.college)}"></div>
@@ -131,7 +128,7 @@
         if (photo && photo.size > 5 * 1048576) throw new Error("Photo is larger than 5 MB.");
         if (resume && resume.size > 25 * 1048576) throw new Error("Resume is larger than 25 MB.");
         const data = {};
-        ["name", "rollNumber", "department", "section", "program", "academicYear", "semester", "college", "mentorName", "email", "githubUrl", "linkedinUrl"]
+        ["name", "rollNumber", "department", "section", "program", "academicYear", "semester", "admissionYear", "validTill", "college", "mentorName", "email", "githubUrl", "linkedinUrl"]
           .forEach(k => { data[k] = f[k].value; });
         data.skills = f.skills.value.split(",").map(s => s.trim()).filter(Boolean);
         await API.put("/api/profile", data);
