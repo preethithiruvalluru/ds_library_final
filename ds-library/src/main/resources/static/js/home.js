@@ -1,16 +1,12 @@
-/* Home: just the welcome banner (it greets you by name once the profile is filled in).
+/* Home: just the welcome banner (no personal name is shown here).
    Section links and the totals live in the menu (see app.js), not on this page. */
 Views.home = async function (el, isCurrent) {
-  el.innerHTML = UI.loading();
-  const profile = await API.get("/api/profile").catch(() => null);
-  if (!isCurrent()) return;
-
-  const who = profile && profile.name ? `Welcome, ${UI.escape(profile.name)}` : "Welcome to the Data Science Digital Library";
   el.innerHTML = `
     <section class="hero" aria-label="Welcome">
       <div>
-        <h3>${who}</h3>
-        <p>Study material, running notes, lab experiments, tools and a code editor for your Data Science course, all in one place.</p>
+        <h3>Turning Data into Intelligence</h3>
+        <p>Discover meaningful patterns, generate powerful insights, and make data-driven decisions with confidence.</p>
+        <p class="hero-flow">Explore Data <span aria-hidden="true">&rarr;</span> Discover Insights <span aria-hidden="true">&rarr;</span> Drive Innovation</p>
         <a class="btn" href="#modules">Browse Modules</a>
       </div>
       <svg class="hero-art" viewBox="0 0 320 220" role="img" aria-label="Data analytics illustration">

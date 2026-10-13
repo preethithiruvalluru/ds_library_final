@@ -597,3 +597,8 @@ body.sidebar-collapsed .app-footer { margin-left: 0; }
 .resume-pages { margin-top: .75rem; background: #eee9f7; border-radius: 8px; padding: .6rem; display: flex; flex-direction: column; gap: .6rem; }
 .resume-page { display: block; width: 100%; height: auto; background: #fff; box-shadow: 0 1px 4px rgba(43, 20, 88, .25); }
 .profile-links .id-skills { margin-top: 0; }
+
+.hero-flow { font-size: .98rem; letter-spacing: .01em; color: rgba(255, 255, 255, .78); margin: 0 0 1.4rem; }
+.hero-flow span { margin: 0 .35rem; }
+.hero h3 { font-size: 2.5rem; }
+@media (max-width: 767.98px) { .hero h3 { font-size: 1.9rem; } }

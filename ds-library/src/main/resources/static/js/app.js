@@ -34,14 +34,6 @@
     }, 150);
   }
 
-  /* The round profile button in the header always shows the plain person icon (your photo is only on the ID card). */
-  async function loadAvatar() {
-    try {
-      const p = await API.get("/api/profile");
-      if (p.name) document.getElementById("profileLink").title = p.name + " (my profile)";
-    } catch (e) { /* keep the default title */ }
-  }
-
   function render() {
     PdfViewer.close();
     const route = (location.hash || "#home").slice(1);
@@ -65,5 +57,5 @@
 
   window.addEventListener("hashchange", render);
   window.addEventListener("data-changed", refreshCounts);
-  window.addEventListener("DOMContentLoaded", () => { render(); refreshCounts(); loadAvatar(); });
+  window.addEventListener("DOMContentLoaded", () => { render(); refreshCounts(); });
 })();
