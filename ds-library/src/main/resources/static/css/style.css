@@ -611,8 +611,8 @@ body.sidebar-collapsed .app-footer { margin-left: 0; }
 .sid-top { z-index: 1; }
 .sid-logo { width: 44px; height: 44px; border-radius: 10px; box-shadow: 0 2px 6px rgba(0, 0, 0, .25); flex: none; }
 .sid-brand { display: flex; flex-direction: column; line-height: 1.05; }
-.sid-brand strong { font-size: 1.5rem; font-weight: 800; letter-spacing: .02em; color: #c82a1c; }
-.sid-brand span { font-size: .62rem; font-weight: 700; letter-spacing: .3em; color: #b0281b; }
+.sid-brand strong { font-size: 1.8rem; font-weight: 800; letter-spacing: .02em; color: #c82a1c; }
+.sid-brand span { font-size: .62rem; font-weight: 700; letter-spacing: .18em; color: #b0281b; }
 .sid-photo { margin: -.2rem auto 0; width: 62%; aspect-ratio: 4 / 4.6; border-radius: 6px; overflow: hidden; background: #eee9f3; box-shadow: 0 1px 6px rgba(0, 0, 0, .18); position: relative; z-index: 1; }
 .sid-img { display: block; width: 100%; height: 100%; object-fit: cover; }
 .sid-img-empty { display: grid; place-items: center; font-size: 4rem; color: #b9aeb0; }
