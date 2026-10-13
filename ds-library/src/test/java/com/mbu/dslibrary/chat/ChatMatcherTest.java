@@ -193,11 +193,11 @@ class ChatMatcherTest {
     @Test
     void websiteQuestions() {
         expect("how to open the menu", "open or close the menu");
-        expect("how to add a module", "add or edit a module");
+        expect("how to add a module", "add, edit or delete");
         expect("where is the syllabus", "syllabus");
         expect("why is the run button disabled for java", "Code Editor");
         expect("is there a login", "log in");
-        expect("how to change my profile photo", "update my profile");
+        expect("how to change my profile photo", "profile, resume and ID card");
         expect("are you chatgpt", "chat bot work");
         expect("what can this website do", "What can I do on this website");
         expect("where are the youtube playlists", "YouTube playlists");

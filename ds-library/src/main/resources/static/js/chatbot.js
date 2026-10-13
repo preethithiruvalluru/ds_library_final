@@ -5,7 +5,7 @@
 (function () {
   const STORAGE_KEY = "dsl-chat-v2";
   const MAX_CHARS = 300;
-  const GREETING = "Hi! I'm the Study Bot. Type a doubt about your subjects (Python, SQL, statistics, machine learning, lab work...) or about this portal and the college, and I'll look for the answer.";
+  const GREETING = "Hi! I'm the Study Bot. Type a doubt about your subjects (Python, SQL, statistics, machine learning, lab work...) or about anything on this website (modules, PDFs, lab experiments, tools, resources), and I'll look for the answer.";
   const FALLBACK_STARTERS = ["What is Python?", "What is overfitting?", "What are the types of SQL joins?", "What is Pandas?"];
 
   let history = [];       // [{role: "user"|"assistant", content, suggestions?}]
@@ -28,7 +28,8 @@
     text = UI.escape(text).replace(/`([^`\n]+)`/g, (_, code) => {
       inlines.push(`<code>${code}</code>`);
       return `\u0001${inlines.length - 1}\u0001`;
-    }).replace(/\*\*([^*\n]+)\*\*/g, "<strong>$1</strong>").replace(/(^|[\s(])\*([^*\n]+)\*(?=[\s).,!?]|$)/g, "$1<em>$2</em>");
+    }).replace(/(https?:\/\/[^\s<)]+)/g, '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>')
+      .replace(/\*\*([^*\n]+)\*\*/g, "<strong>$1</strong>").replace(/(^|[\s(])\*([^*\n]+)\*(?=[\s).,!?]|$)/g, "$1<em>$2</em>");
 
     const out = [];
     let list = null, para = [];
@@ -69,7 +70,7 @@
   panel.innerHTML = `
     <header class="chat-head">
       <div class="chat-avatar" aria-hidden="true"><i class="bi bi-robot"></i></div>
-      <div class="chat-title"><strong>Study Bot</strong><small>Subject doubts &amp; college help</small></div>
+      <div class="chat-title"><strong>Study Bot</strong><small>Subjects &amp; this website</small></div>
       <button type="button" class="chat-icon-btn" id="chatNew" aria-label="Start a new chat" title="New chat"><i class="bi bi-arrow-counterclockwise"></i></button>
       <button type="button" class="chat-icon-btn" id="chatClose" aria-label="Close the chat" title="Close"><i class="bi bi-x-lg"></i></button>
     </header>

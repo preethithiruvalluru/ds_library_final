@@ -40,6 +40,7 @@ public final class ChatMatcher {
             + "- **SQL and databases** (joins, keys, MongoDB...)\n"
             + "- **Statistics and machine learning** (overfitting, regression, accuracy...)\n"
             + "- **Tools** (Git, GitHub, Jupyter, Colab, Anaconda)\n"
+            + "- **This website's content**: modules and PDFs, lab experiments (try *experiment 4a*), tools and resources (free and paid courses, YouTube, W3Schools)\n"
             + "- **This website** and the **college**\n\n"
             + "Just type your question in your own words.";
     private static final String NOT_SURE = "I'm not completely sure what you mean. Did you mean one of these?";

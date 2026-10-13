@@ -56,6 +56,8 @@ public final class TextNormalizer {
                 .replace("==", " equal ").replace("!=", " notequal ")
                 .replaceAll("\\bp[- ]values?\\b", "pvalue").replaceAll("\\bz[- ]scores?\\b", "zscore")
                 .replaceAll("\\bt[- ]tests?\\b", "ttest")
+                .replaceAll("\\b(?:program|experiment|exp|lab|practical)s?\\s*(?:no\\.?|number|#)?\\s*[-:]?\\s*(\\d+[a-z]?)(?:-(ii|i)\\b)?", " exp$1$2 ")
+                .replaceAll("\\b(?:module|unit)s?\\s*[-:]?\\s*(\\d+)\\b", " module$1 ")
                 .replaceAll("['’]s\\b", "")          // what's -> what, python's -> python
                 .replaceAll("['’]", "");              // don't -> dont
         Matcher m = WORD.matcher(s);

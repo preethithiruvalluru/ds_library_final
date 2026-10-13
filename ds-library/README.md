@@ -101,7 +101,7 @@ A round **Ask Bot** button in the bottom-right corner opens a chat window. A stu
 and the bot replies from a ready-made list of answers. It is **free, works offline and needs no API key**: it uses no AI,
 it only compares the words of the question with the stored answers (it forgives small spelling mistakes and short forms like "df" or "ml").
 
-- **What it knows:** the answer files in `src/main/resources/chat/knowledge/` (Python, data analysis, SQL, statistics and machine learning, tools, this portal, the college, small talk).
+- **What it knows:** the answer files in `src/main/resources/chat/knowledge/` (Python, data analysis, SQL, statistics and machine learning, tools, this portal, the college, small talk) **and everything on the website itself**: the modules and their PDFs, every lab experiment (aim, syntax, code, output, result), the tools, the resources (free and paid courses, W3Schools, YouTube) and the notes. The website part is read from the database automatically (refreshed about once a minute), so anything you add is known to the bot without editing any file. Try *"experiment 4b"*, *"what is in module 1"* or *"free courses"*.
 - **If it is not sure:** it asks "did you mean...?" with clickable questions. If nothing matches it says so honestly. It never invents an answer.
 - **Add your own answers:** write an entry in any `.md` file there:
 
