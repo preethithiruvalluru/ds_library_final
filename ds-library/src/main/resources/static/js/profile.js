@@ -47,8 +47,7 @@
         <section class="profile-col-id" aria-label="Student ID card">
           <div class="sid" aria-label="Student ID card">
             <div class="sid-top">
-              <img src="img/ds-logo.svg" alt="Data Science Digital Library logo" class="sid-logo">
-              <div class="sid-brand"><strong>MBU</strong><span>MOHAN BABU UNIVERSITY</span></div>
+              <img src="img/mbu-logo.png" alt="Mohan Babu University logo" class="sid-logo">
             </div>
             <div class="sid-photo">${photo}</div>
             <div class="sid-name">${p.name ? UI.escape(p.name.toUpperCase()) : "STUDENT NAME"}</div>

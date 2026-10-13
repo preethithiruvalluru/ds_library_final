@@ -91,7 +91,7 @@ size limits, SVG refusal), YouTube link parsing, GitHub link safety, the study b
 
 ## Replace the placeholders
 
-- Logo: `src/main/resources/static/img/ds-logo.svg` is the Data Science logo shown in the header and on the ID card. Replace the file (keeping the name) to change it.
+- Logos: `src/main/resources/static/img/ds-logo.svg` is the Data Science logo in the site header. The ID card uses `img/mbu-logo.png` (the university logo, small because it was cut from a screenshot; replace it with a sharper PNG of the same name). Replace the file (keeping the name) to change it.
 - Your details: open **Profile**, then **Edit**. Nothing is pre-filled.
 - Your syllabus: log in and use **Modules**, then **Add Module**.
 
