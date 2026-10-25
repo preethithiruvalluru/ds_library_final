@@ -44,6 +44,23 @@ Because the `Dockerfile` is inside `ds-library`, tell the host to use **`ds-libr
    `mongodb+srv://USER:PASSWORD@cluster0.xxxxx.mongodb.net/dslibrary?retryWrites=true&w=majority`
    (add `/dslibrary` before the `?` so your data goes into a database called `dslibrary`).
 
+### You do not need Docker on your own computer
+Render builds the `Dockerfile` itself, in the cloud, after you push to GitHub. Your computer only needs Git. (Docker Desktop is only
+for running the Docker Compose option in section 2.)
+
+### Moving your local content online (no Docker, no database tools)
+The new online database starts empty (except for the tools list, which the portal creates itself). To copy your profile, modules with
+their PDFs, resources, lab experiments and notes from the portal running on your computer, run this once after the first deploy:
+
+```powershell
+cd ds-library
+node tools/copy-data.js https://YOUR-APP.onrender.com --preview
+node tools/copy-data.js https://YOUR-APP.onrender.com
+```
+
+The first command only shows what would be copied. The second copies it. It refuses to run when the online portal already has
+modules (so nothing is duplicated). It needs Node 18+ and your local portal running at http://localhost:8085.
+
 ### Step C: create the web service (Render)
 1. New **Web Service**, connect your GitHub repository, choose **Docker** as the runtime. It finds the `Dockerfile` by itself.
 2. Add these **environment variables** (never put them in the code):
